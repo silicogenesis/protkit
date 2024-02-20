@@ -213,3 +213,31 @@ such infrastructure.
     We are working on providing cloud-based access to computational infrastructure
     to the community.
 ---
+
+## Installation
+
+### Installation from PyPI
+
+`protkit` requires Python 3.6 or higher.  It can be installed using `pip`:
+
+```bash
+pip install protkit
+```
+
+A number of dependencies will be installed automatically, such as `numpy`, `freesasa`, `requests` and others.
+
+### Cloning the Repository
+
+You can also clone the repository and install it from source:
+
+```bash
+git clone https://github.com/silicogenesis/protkit.git
+```
+
+You can install the project requirements using `pip`:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
