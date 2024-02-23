@@ -1,4 +1,4 @@
-# Code of Conduct
+# Protkit Code of Conduct
 
 As contributors and maintainers of the Protkit project, we are committed to fostering a welcoming and inclusive community. We pledge to respect all individuals regardless of age, ethnicity, nationality, race, religion, sexual orientation, gender identity, physical or mental ability, or any other characteristic.
 
