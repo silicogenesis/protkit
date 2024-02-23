@@ -1,0 +1,2559 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>protkit.structure.residue API documentation</title>
+<meta name="description" content="Implements class `Residue` to represent a residue in a protein." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>protkit.structure.residue</code></h1>
+</header>
+<section id="section-intro">
+<p>Implements class <code><a title="protkit.structure.residue.Residue" href="#protkit.structure.residue.Residue">Residue</a></code> to represent a residue in a protein.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+# Authors:  Fred Senekal (FS)
+# Contact:  fred@silicogenesis.com
+# License:  GPLv3
+
+&#34;&#34;&#34;
+Implements class `Residue` to represent a residue in a protein.
+&#34;&#34;&#34;
+
+from __future__ import annotations
+from typing import Dict, List, Set, TYPE_CHECKING, Optional, Any, Iterator
+from copy import deepcopy
+
+from protkit.structure.atom import Atom
+
+if TYPE_CHECKING:
+    from protkit.structure.chain import Chain
+
+
+class Residue:
+    HEAVY_ATOMS = {
+        &#34;ALA&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;},
+        &#34;ARG&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;NE&#34;, &#34;CZ&#34;, &#34;NH1&#34;, &#34;NH2&#34;},
+        &#34;ASN&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;OD1&#34;, &#34;ND2&#34;},
+        &#34;ASP&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;OD1&#34;, &#34;OD2&#34;},
+        &#34;CYS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;SG&#34;},
+        &#34;GLU&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;OE1&#34;, &#34;OE2&#34;},
+        &#34;GLN&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;OE1&#34;, &#34;NE2&#34;},
+        &#34;GLY&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;},
+        &#34;HIS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;ND1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;NE2&#34;},
+        &#34;ILE&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG1&#34;, &#34;CG2&#34;, &#34;CD1&#34;},
+        &#34;LEU&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;},
+        &#34;LYS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;CE&#34;, &#34;NZ&#34;},
+        &#34;MET&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;SD&#34;, &#34;CE&#34;},
+        &#34;PHE&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;CE2&#34;, &#34;CZ&#34;},
+        &#34;PRO&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;},
+        &#34;SER&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;OG&#34;},
+        &#34;THR&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;OG1&#34;, &#34;CG2&#34;},
+        &#34;TRP&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;NE1&#34;, &#34;CE2&#34;, &#34;CE3&#34;, &#34;CZ2&#34;, &#34;CZ3&#34;, &#34;CH2&#34;},
+        &#34;TYR&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;CE2&#34;, &#34;CZ&#34;, &#34;OH&#34;},
+        &#34;VAL&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG1&#34;, &#34;CG2&#34;}
+    }
+
+    HYDROGEN_ATOMS = {
+        &#34;ALA&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB1&#34;, &#34;HB2&#34;, &#34;HB3&#34;},
+        &#34;ARG&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;, &#34;HE&#34;, &#34;HH11&#34;, &#34;HH12&#34;, &#34;HH21&#34;, &#34;HH22&#34;},
+        &#34;ASN&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD21&#34;, &#34;HD22&#34;},
+        &#34;ASP&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD2&#34;},
+        &#34;CYS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;},
+        &#34;GLU&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE2&#34;},
+        &#34;GLN&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE21&#34;, &#34;HE22&#34;},
+        &#34;GLY&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HA2&#34;, &#34;HA3&#34;},
+        &#34;HIS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;},
+        &#34;ILE&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG12&#34;, &#34;HG13&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;, &#34;HD11&#34;, &#34;HD12&#34;, &#34;HD13&#34;},
+        &#34;LEU&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;, &#34;HD11&#34;, &#34;HD12&#34;, &#34;HD13&#34;, &#34;HD21&#34;, &#34;HD22&#34;, &#34;HD23&#34;},
+        &#34;LYS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;, &#34;HE2&#34;, &#34;HE3&#34;, &#34;HZ1&#34;, &#34;HZ2&#34;, &#34;HZ3&#34;},
+        &#34;MET&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HE3&#34;},
+        &#34;PHE&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HZ&#34;},
+        &#34;PRO&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;},
+        &#34;SER&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;},
+        &#34;THR&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG1&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;},
+        &#34;TRP&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HE1&#34;, &#34;HE3&#34;, &#34;HZ2&#34;, &#34;HZ3&#34;, &#34;HH2&#34;},
+        &#34;TYR&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HH&#34;},
+        &#34;VAL&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG11&#34;, &#34;HG12&#34;, &#34;HG13&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;}
+    }
+
+    SHORT_CODE = {
+        &#34;ALA&#34;: &#34;A&#34;,
+        &#34;CYS&#34;: &#34;C&#34;,
+        &#34;ASP&#34;: &#34;D&#34;,
+        &#34;GLU&#34;: &#34;E&#34;,
+        &#34;PHE&#34;: &#34;F&#34;,
+        &#34;GLY&#34;: &#34;G&#34;,
+        &#34;HIS&#34;: &#34;H&#34;,
+        &#34;ILE&#34;: &#34;I&#34;,
+        &#34;LYS&#34;: &#34;K&#34;,
+        &#34;LEU&#34;: &#34;L&#34;,
+        &#34;MET&#34;: &#34;M&#34;,
+        &#34;ASN&#34;: &#34;N&#34;,
+        &#34;PRO&#34;: &#34;P&#34;,
+        &#34;GLN&#34;: &#34;Q&#34;,
+        &#34;ARG&#34;: &#34;R&#34;,
+        &#34;SER&#34;: &#34;S&#34;,
+        &#34;THR&#34;: &#34;T&#34;,
+        &#34;VAL&#34;: &#34;V&#34;,
+        &#34;TRP&#34;: &#34;W&#34;,
+        &#34;TYR&#34;: &#34;Y&#34;
+    }
+
+    # ------------------------------------------------------------
+    # Constructor
+    # ------------------------------------------------------------
+    def __init__(self,
+                 # Core
+                 residue_type: str,
+
+                 # PDB properties
+                 sequence_no: Optional[int] = None,
+                 insertion_code: Optional[str] = None,
+
+                 # Optional
+                 chain: Optional[Chain] = None):
+        &#34;&#34;&#34;
+        Constructor for the Residue class.
+
+        Args:
+            residue_type (str): The residue type.
+            sequence_no (Optional[int]): The residue&#39;s sequence number.
+            insertion_code (Optional[str]): The residue&#39;s insertion code.
+            chain (Optional[Chain]): The residue&#39;s chain.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+
+        self._residue_type: str = residue_type
+        if sequence_no is not None:
+            self._sequence_no = sequence_no
+        if insertion_code is not None:
+            self._insertion_code = insertion_code
+
+        self._atoms: Dict[str, Atom] = {}
+        self._chain: Chain = chain
+
+    def copy(self):
+        &#34;&#34;&#34;
+        Returns a deep copy of the residue, excluding the chain.
+
+        Returns:
+            Residue: A deep copy of the residue, excluding the chain.
+        &#34;&#34;&#34;
+        chain = self._chain
+        self._chain = None
+        residue = deepcopy(self)
+        self._chain = chain
+        return residue
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s core properties.
+    # - id (property)
+    # - residue_type (property)
+    # - residue_type (setter)
+    # - residue_code (property)
+    # - sequence_code (property)
+    # - sequence_no (property)
+    # - sequence_no (setter)
+    # - insertion_code (property)
+    # - insertion_code (setter)
+    # - is_disordered (property)
+    # - is_hetero (property)
+    # - short_code (property)
+    # ------------------------------------------------------------
+
+    @property
+    def id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s ID, which is the chain ID + sequence number.
+
+        Returns:
+            str: The residue&#39;s ID.
+        &#34;&#34;&#34;
+        if self._chain is None:
+            return self.residue_code
+        else:
+            return self._chain.id + &#34;:&#34; + self.residue_code
+
+    @property
+    def residue_type(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue type.
+
+        Returns:
+            str: The residue type.
+        &#34;&#34;&#34;
+        return self._residue_type
+
+    @residue_type.setter
+    def residue_type(self, residue_type: str):
+        &#34;&#34;&#34;
+        Sets the residue type.
+
+        Args:
+            residue_type (str): The residue type.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._residue_type = residue_type
+
+    @property
+    def residue_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s residue code.
+
+        Returns:
+            str: The residue&#39;s residue code.
+        &#34;&#34;&#34;
+        return str(self._residue_type) + self.sequence_code
+
+    @property
+    def sequence_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s sequence code.
+
+        Returns:
+            str: The residue&#39;s sequence code.
+        &#34;&#34;&#34;
+        return str(self._sequence_no) + self._insertion_code
+
+    @property
+    def sequence_no(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s sequence number.
+
+        Returns:
+            int: The residue&#39;s sequence number.
+        &#34;&#34;&#34;
+        return self._sequence_no
+
+    @sequence_no.setter
+    def sequence_no(self, sequence_no: int) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s sequence number.
+
+        Args:
+            sequence_no (int): The residue&#39;s sequence number.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._sequence_no = sequence_no
+
+    @property
+    def insertion_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s insertion code.
+
+        Returns:
+            str: The residue&#39;s insertion code.
+        &#34;&#34;&#34;
+        return self._insertion_code
+
+    @insertion_code.setter
+    def insertion_code(self, insertion_code: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s insertion code.
+
+        Args:
+            insertion_code (str): The residue&#39;s insertion code.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._insertion_code = insertion_code
+
+    @property
+    def is_disordered(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue is a disordered residue.
+
+        Returns:
+            bool: True if the residue is a disordered residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            if atom.is_disordered:
+                return True
+        return False
+
+    @property
+    def is_hetero(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue is a hetero residue.
+
+        Returns:
+            bool: True if the residue is a hetero residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            if atom.is_hetero:
+                return True
+        return False
+
+    @property
+    def short_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s short code.
+
+        Returns:
+            str: The residue&#39;s short code.
+
+        Raises:
+            Exception: If the residue type is not found in Residue.SHORT_CODE.
+        &#34;&#34;&#34;
+        if self._residue_type not in Residue.SHORT_CODE:
+            raise Exception(&#34;Residue type {self._residue_type} not found in Residue.SHORT_CODE.&#34;)
+
+        return Residue.SHORT_CODE[self._residue_type]
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s chain.
+    # - chain (property)
+    # - chain (setter)
+    # ------------------------------------------------------------
+
+    @property
+    def chain(self) -&gt; Chain:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s chain.
+
+        Returns:
+            Chain: The residue&#39;s chain.
+        &#34;&#34;&#34;
+        return self._chain
+
+    @chain.setter
+    def chain(self, chain: Chain) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s chain.
+
+        Args:
+            chain (Chain): The residue&#39;s chain.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._chain = chain
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s atoms.
+    # Create
+    # - add_atom
+    # Read
+    # - atoms (property, iterator)
+    # - num_atoms (property)
+    # - num_heavy_atoms (property)
+    # - num_hydrogen_atoms (property)
+    # - num_disordered_atoms (property)
+    # - num_hetero_atoms (property)
+    # - get_atom
+    # - filter_atoms (iterator)
+    # - heavy_atom_types
+    # - missing_heavy_atom_types
+    # - extra_heavy_atom_types
+    # - hydrogen_atom_types
+    # - missing_hydrogen_atom_types
+    # - extra_hydrogen_atom_types
+    # Update
+    # - fix_disordered_atoms
+    # Delete
+    # - remove_atoms
+    # - remove_hydrogen_atoms
+    # - keep_atoms
+    # - keep_backbone_atoms
+    # ------------------------------------------------------------
+
+    def add_atom(self, atom_id: str, atom: Atom) -&gt; Atom:
+        &#34;&#34;&#34;
+        Adds an atom to the residue.
+
+        Args:
+            atom_id (str): The atom&#39;s ID.
+            atom (Atom): The atom.
+
+        Returns:
+            Atom: The atom.
+        &#34;&#34;&#34;
+        if atom_id in self._atoms:
+            current_atom = self._atoms[atom_id]
+            if current_atom.is_disordered and atom.is_disordered:
+                current_atom.merge_disordered_atom(atom)
+                return current_atom
+            else:
+                raise Exception(&#34;Atom ID {atom_id} already exists in residue.&#34;)
+        else:
+            self._atoms[atom_id] = atom
+            atom.residue = self
+            return atom
+
+    @property
+    def atoms(self) -&gt; Iterator[Atom]:
+        &#34;&#34;&#34;
+        Returns an iterator of the residue&#39;s atoms.
+
+        Yields:
+            Atom: The next atom in the residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            yield atom
+
+    @property
+    def num_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of atoms in the residue.
+
+        Returns:
+            int: The number of atoms in the residue.
+        &#34;&#34;&#34;
+        return len(self._atoms)
+
+    @property
+    def num_heavy_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of heavy atoms in the residue.
+
+        Returns:
+            int: The number of heavy atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.element != &#34;H&#34;:
+                count += 1
+        return count
+
+    @property
+    def num_hydrogen_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of hydrogen atoms in the residue.
+
+        Returns:
+            int: The number of hydrogen atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.element == &#34;H&#34;:
+                count += 1
+        return count
+
+    @property
+    def num_disordered_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of disordered atoms in the residue.
+
+        Returns:
+            int: The number of disordered atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.is_disordered:
+                count += 1
+        return count
+
+    @property
+    def num_hetero_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of hetero atoms in the residue.
+
+        Returns:
+            int: The number of hetero atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.is_hetero:
+                count += 1
+        return count
+
+    def get_atom(self, atom_type: str) -&gt; Optional[Atom]:
+        &#34;&#34;&#34;
+        Returns the atom with the specified atom type.
+
+        Args:
+            atom_type (str): The atom type.
+
+        Returns:
+            Atom: The atom with the specified atom type.
+        &#34;&#34;&#34;
+        if atom_type in self._atoms:
+            return self._atoms[atom_type]
+        else:
+            return None
+
+    def filter_atoms(self, atom_criteria: Optional[List] = None) -&gt; Iterator[Atom]:
+        &#34;&#34;&#34;
+        Returns an iterator of atoms that match the specified criteria.
+
+        Args:
+            atom_criteria (Optional[List]): The criteria for selecting atoms.
+
+        Yields:
+            Atom: The next atom that matches the criteria.
+        &#34;&#34;&#34;
+        if atom_criteria is None:
+            atom_criteria = []
+        for atom in self._atoms.values():
+            match = True
+            for key, value in atom_criteria:
+                if type(value) is list:
+                    if atom.get_attribute(key) not in value:
+                        match = False
+                        break
+                elif atom.get_attribute(key) != value:
+                    match = False
+                    break
+            if match:
+                yield atom
+
+    def heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of heavy atom types.
+
+        Returns:
+            Set[str]: A set of heavy atom types.
+        &#34;&#34;&#34;
+        atom_types = set()
+        for atom in self._atoms.values():
+            if atom.element != &#34;H&#34;:
+                atom_types.add(atom.atom_type)
+        return atom_types
+
+    def missing_heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of missing heavy atom types.
+
+        Returns:
+            Set[str]: A set of missing heavy atom types.
+        &#34;&#34;&#34;
+        heavy_atom_types = self.heavy_atom_types()
+        return Residue.HEAVY_ATOMS[self._residue_type] - heavy_atom_types
+
+    def extra_heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of extra heavy atom types.
+
+        Returns:
+            Set[str]: A set of extra heavy atom types.
+        &#34;&#34;&#34;
+        heavy_atom_types = self.heavy_atom_types()
+        return heavy_atom_types - Residue.HEAVY_ATOMS[self._residue_type]
+
+    def hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of hydrogen atom types.
+        &#34;&#34;&#34;
+        atom_types = set()
+        for atom in self._atoms.values():
+            if atom.element == &#34;H&#34;:
+                atom_types.add(atom.atom_type)
+        return atom_types
+
+    def missing_hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of missing hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of missing hydrogen atom types.
+        &#34;&#34;&#34;
+        hydrogen_atom_types = self.hydrogen_atom_types()
+        return Residue.HYDROGEN_ATOMS[self._residue_type] - hydrogen_atom_types
+
+    def extra_hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of extra hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of extra hydrogen atom types.
+        &#34;&#34;&#34;
+        hydrogen_atom_types = self.hydrogen_atom_types()
+        return hydrogen_atom_types - Residue.HYDROGEN_ATOMS[self._residue_type]
+
+    def fix_disordered_atoms(self):
+        &#34;&#34;&#34;
+        Fixes disordered atoms by keeping the atom with the
+        highest occupancy.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            atom.fix_disordered_atom()
+
+    def remove_atoms(self, atom_types: List[str]):
+        &#34;&#34;&#34;
+        Removes the specified atoms from the residue.
+
+        Args:
+            atom_types (List[str]): The atom types to remove.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if atom_types is None:
+            atom_types = []
+        for atom_type in atom_types:
+            if atom_type in self._atoms:
+                del self._atoms[atom_type]
+
+    def remove_hydrogen_atoms(self):
+        &#34;&#34;&#34;
+        Removes hydrogen atoms from the residue.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        keys = list(self._atoms.keys())
+        for key in keys:
+            if self._atoms[key].element == &#34;H&#34;:
+                del self._atoms[key]
+
+        # The implementation below fails because the dictionary
+        # changes size during iteration.
+        # for atom in self._atoms.values():
+        #     if atom.element == &#34;H&#34;:
+        #         del self._atoms[atom.atom_type]
+
+    def keep_atoms(self, atom_types: List[str]) -&gt; None:
+        &#34;&#34;&#34;
+        Removes all atoms except the specified atoms from the residue.
+
+        Args:
+            atom_types (List[str]): The atom types to keep.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if atom_types is None:
+            atom_types = []
+        atoms = {}
+        for atom_type in atom_types:
+            if atom_type in self._atoms:
+                atoms[atom_type] = self._atoms[atom_type]
+        self._atoms = atoms
+
+    def keep_backbone_atoms(self) -&gt; None:
+        &#34;&#34;&#34;
+        Removes all atoms except the backbone atoms from the residue.
+        The backbone atoms are N, CA, C, and O.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self.keep_atoms([&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;])
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s attributes.
+    # - has_attribute
+    # - get_attribute
+    # - set_attribute
+    # - delete_attribute
+    # - sum_attribute
+    # ------------------------------------------------------------
+
+    def has_attribute(self, key: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue has the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            bool: True if the residue has the specified attribute.
+        &#34;&#34;&#34;
+        return hasattr(self, &#34;_&#34; + key)
+
+    def get_attribute(self, key: str) -&gt; Any:
+        &#34;&#34;&#34;
+        Returns the value of the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            Any: The value of the specified attribute.
+
+        Raises:
+            AttributeError: If the attribute does not exist.
+        &#34;&#34;&#34;
+        return getattr(self, &#34;_&#34; + key)
+
+    def set_attribute(self, key: str, value: Any) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the value of the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+            value (Any): The value of the attribute.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if value is not None:
+            setattr(self, &#34;_&#34; + key, value)
+
+    def delete_attribute(self, key: str) -&gt; None:
+        &#34;&#34;&#34;
+        Deletes the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if self.has_attribute(key):
+            delattr(self, &#34;_&#34; + key)
+
+    def sum_attribute(self, key: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sums the values of the specified attribute.
+        &#34;&#34;&#34;
+        atrribute_sum = 0.0
+        for atom in self._atoms.values():
+            atrribute_sum += atom.get_attribute(key)
+        self.set_attribute(key, atrribute_sum)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="protkit.structure.residue.Residue"><code class="flex name class">
+<span>class <span class="ident">Residue</span></span>
+<span>(</span><span>residue_type: str, sequence_no: Optional[int] = None, insertion_code: Optional[str] = None, chain: Optional[Chain] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructor for the Residue class.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>residue_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>The residue type.</dd>
+<dt><strong><code>sequence_no</code></strong> :&ensp;<code>Optional[int]</code></dt>
+<dd>The residue's sequence number.</dd>
+<dt><strong><code>insertion_code</code></strong> :&ensp;<code>Optional[str]</code></dt>
+<dd>The residue's insertion code.</dd>
+<dt><strong><code>chain</code></strong> :&ensp;<code>Optional[Chain]</code></dt>
+<dd>The residue's chain.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Residue:
+    HEAVY_ATOMS = {
+        &#34;ALA&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;},
+        &#34;ARG&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;NE&#34;, &#34;CZ&#34;, &#34;NH1&#34;, &#34;NH2&#34;},
+        &#34;ASN&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;OD1&#34;, &#34;ND2&#34;},
+        &#34;ASP&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;OD1&#34;, &#34;OD2&#34;},
+        &#34;CYS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;SG&#34;},
+        &#34;GLU&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;OE1&#34;, &#34;OE2&#34;},
+        &#34;GLN&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;OE1&#34;, &#34;NE2&#34;},
+        &#34;GLY&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;},
+        &#34;HIS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;ND1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;NE2&#34;},
+        &#34;ILE&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG1&#34;, &#34;CG2&#34;, &#34;CD1&#34;},
+        &#34;LEU&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;},
+        &#34;LYS&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;, &#34;CE&#34;, &#34;NZ&#34;},
+        &#34;MET&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;SD&#34;, &#34;CE&#34;},
+        &#34;PHE&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;CE2&#34;, &#34;CZ&#34;},
+        &#34;PRO&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD&#34;},
+        &#34;SER&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;OG&#34;},
+        &#34;THR&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;OG1&#34;, &#34;CG2&#34;},
+        &#34;TRP&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;NE1&#34;, &#34;CE2&#34;, &#34;CE3&#34;, &#34;CZ2&#34;, &#34;CZ3&#34;, &#34;CH2&#34;},
+        &#34;TYR&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG&#34;, &#34;CD1&#34;, &#34;CD2&#34;, &#34;CE1&#34;, &#34;CE2&#34;, &#34;CZ&#34;, &#34;OH&#34;},
+        &#34;VAL&#34;: {&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;, &#34;CB&#34;, &#34;CG1&#34;, &#34;CG2&#34;}
+    }
+
+    HYDROGEN_ATOMS = {
+        &#34;ALA&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB1&#34;, &#34;HB2&#34;, &#34;HB3&#34;},
+        &#34;ARG&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;, &#34;HE&#34;, &#34;HH11&#34;, &#34;HH12&#34;, &#34;HH21&#34;, &#34;HH22&#34;},
+        &#34;ASN&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD21&#34;, &#34;HD22&#34;},
+        &#34;ASP&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD2&#34;},
+        &#34;CYS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;},
+        &#34;GLU&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE2&#34;},
+        &#34;GLN&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE21&#34;, &#34;HE22&#34;},
+        &#34;GLY&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HA2&#34;, &#34;HA3&#34;},
+        &#34;HIS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;},
+        &#34;ILE&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG12&#34;, &#34;HG13&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;, &#34;HD11&#34;, &#34;HD12&#34;, &#34;HD13&#34;},
+        &#34;LEU&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;, &#34;HD11&#34;, &#34;HD12&#34;, &#34;HD13&#34;, &#34;HD21&#34;, &#34;HD22&#34;, &#34;HD23&#34;},
+        &#34;LYS&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;, &#34;HE2&#34;, &#34;HE3&#34;, &#34;HZ1&#34;, &#34;HZ2&#34;, &#34;HZ3&#34;},
+        &#34;MET&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HE3&#34;},
+        &#34;PHE&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HZ&#34;},
+        &#34;PRO&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG2&#34;, &#34;HG3&#34;, &#34;HD2&#34;, &#34;HD3&#34;},
+        &#34;SER&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HG&#34;},
+        &#34;THR&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG1&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;},
+        &#34;TRP&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HE1&#34;, &#34;HE3&#34;, &#34;HZ2&#34;, &#34;HZ3&#34;, &#34;HH2&#34;},
+        &#34;TYR&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB2&#34;, &#34;HB3&#34;, &#34;HD1&#34;, &#34;HD2&#34;, &#34;HE1&#34;, &#34;HE2&#34;, &#34;HH&#34;},
+        &#34;VAL&#34;: {&#34;H&#34;, &#34;HA&#34;, &#34;HB&#34;, &#34;HG11&#34;, &#34;HG12&#34;, &#34;HG13&#34;, &#34;HG21&#34;, &#34;HG22&#34;, &#34;HG23&#34;}
+    }
+
+    SHORT_CODE = {
+        &#34;ALA&#34;: &#34;A&#34;,
+        &#34;CYS&#34;: &#34;C&#34;,
+        &#34;ASP&#34;: &#34;D&#34;,
+        &#34;GLU&#34;: &#34;E&#34;,
+        &#34;PHE&#34;: &#34;F&#34;,
+        &#34;GLY&#34;: &#34;G&#34;,
+        &#34;HIS&#34;: &#34;H&#34;,
+        &#34;ILE&#34;: &#34;I&#34;,
+        &#34;LYS&#34;: &#34;K&#34;,
+        &#34;LEU&#34;: &#34;L&#34;,
+        &#34;MET&#34;: &#34;M&#34;,
+        &#34;ASN&#34;: &#34;N&#34;,
+        &#34;PRO&#34;: &#34;P&#34;,
+        &#34;GLN&#34;: &#34;Q&#34;,
+        &#34;ARG&#34;: &#34;R&#34;,
+        &#34;SER&#34;: &#34;S&#34;,
+        &#34;THR&#34;: &#34;T&#34;,
+        &#34;VAL&#34;: &#34;V&#34;,
+        &#34;TRP&#34;: &#34;W&#34;,
+        &#34;TYR&#34;: &#34;Y&#34;
+    }
+
+    # ------------------------------------------------------------
+    # Constructor
+    # ------------------------------------------------------------
+    def __init__(self,
+                 # Core
+                 residue_type: str,
+
+                 # PDB properties
+                 sequence_no: Optional[int] = None,
+                 insertion_code: Optional[str] = None,
+
+                 # Optional
+                 chain: Optional[Chain] = None):
+        &#34;&#34;&#34;
+        Constructor for the Residue class.
+
+        Args:
+            residue_type (str): The residue type.
+            sequence_no (Optional[int]): The residue&#39;s sequence number.
+            insertion_code (Optional[str]): The residue&#39;s insertion code.
+            chain (Optional[Chain]): The residue&#39;s chain.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+
+        self._residue_type: str = residue_type
+        if sequence_no is not None:
+            self._sequence_no = sequence_no
+        if insertion_code is not None:
+            self._insertion_code = insertion_code
+
+        self._atoms: Dict[str, Atom] = {}
+        self._chain: Chain = chain
+
+    def copy(self):
+        &#34;&#34;&#34;
+        Returns a deep copy of the residue, excluding the chain.
+
+        Returns:
+            Residue: A deep copy of the residue, excluding the chain.
+        &#34;&#34;&#34;
+        chain = self._chain
+        self._chain = None
+        residue = deepcopy(self)
+        self._chain = chain
+        return residue
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s core properties.
+    # - id (property)
+    # - residue_type (property)
+    # - residue_type (setter)
+    # - residue_code (property)
+    # - sequence_code (property)
+    # - sequence_no (property)
+    # - sequence_no (setter)
+    # - insertion_code (property)
+    # - insertion_code (setter)
+    # - is_disordered (property)
+    # - is_hetero (property)
+    # - short_code (property)
+    # ------------------------------------------------------------
+
+    @property
+    def id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s ID, which is the chain ID + sequence number.
+
+        Returns:
+            str: The residue&#39;s ID.
+        &#34;&#34;&#34;
+        if self._chain is None:
+            return self.residue_code
+        else:
+            return self._chain.id + &#34;:&#34; + self.residue_code
+
+    @property
+    def residue_type(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue type.
+
+        Returns:
+            str: The residue type.
+        &#34;&#34;&#34;
+        return self._residue_type
+
+    @residue_type.setter
+    def residue_type(self, residue_type: str):
+        &#34;&#34;&#34;
+        Sets the residue type.
+
+        Args:
+            residue_type (str): The residue type.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._residue_type = residue_type
+
+    @property
+    def residue_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s residue code.
+
+        Returns:
+            str: The residue&#39;s residue code.
+        &#34;&#34;&#34;
+        return str(self._residue_type) + self.sequence_code
+
+    @property
+    def sequence_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s sequence code.
+
+        Returns:
+            str: The residue&#39;s sequence code.
+        &#34;&#34;&#34;
+        return str(self._sequence_no) + self._insertion_code
+
+    @property
+    def sequence_no(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s sequence number.
+
+        Returns:
+            int: The residue&#39;s sequence number.
+        &#34;&#34;&#34;
+        return self._sequence_no
+
+    @sequence_no.setter
+    def sequence_no(self, sequence_no: int) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s sequence number.
+
+        Args:
+            sequence_no (int): The residue&#39;s sequence number.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._sequence_no = sequence_no
+
+    @property
+    def insertion_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s insertion code.
+
+        Returns:
+            str: The residue&#39;s insertion code.
+        &#34;&#34;&#34;
+        return self._insertion_code
+
+    @insertion_code.setter
+    def insertion_code(self, insertion_code: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s insertion code.
+
+        Args:
+            insertion_code (str): The residue&#39;s insertion code.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._insertion_code = insertion_code
+
+    @property
+    def is_disordered(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue is a disordered residue.
+
+        Returns:
+            bool: True if the residue is a disordered residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            if atom.is_disordered:
+                return True
+        return False
+
+    @property
+    def is_hetero(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue is a hetero residue.
+
+        Returns:
+            bool: True if the residue is a hetero residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            if atom.is_hetero:
+                return True
+        return False
+
+    @property
+    def short_code(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s short code.
+
+        Returns:
+            str: The residue&#39;s short code.
+
+        Raises:
+            Exception: If the residue type is not found in Residue.SHORT_CODE.
+        &#34;&#34;&#34;
+        if self._residue_type not in Residue.SHORT_CODE:
+            raise Exception(&#34;Residue type {self._residue_type} not found in Residue.SHORT_CODE.&#34;)
+
+        return Residue.SHORT_CODE[self._residue_type]
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s chain.
+    # - chain (property)
+    # - chain (setter)
+    # ------------------------------------------------------------
+
+    @property
+    def chain(self) -&gt; Chain:
+        &#34;&#34;&#34;
+        Returns the residue&#39;s chain.
+
+        Returns:
+            Chain: The residue&#39;s chain.
+        &#34;&#34;&#34;
+        return self._chain
+
+    @chain.setter
+    def chain(self, chain: Chain) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the residue&#39;s chain.
+
+        Args:
+            chain (Chain): The residue&#39;s chain.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self._chain = chain
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s atoms.
+    # Create
+    # - add_atom
+    # Read
+    # - atoms (property, iterator)
+    # - num_atoms (property)
+    # - num_heavy_atoms (property)
+    # - num_hydrogen_atoms (property)
+    # - num_disordered_atoms (property)
+    # - num_hetero_atoms (property)
+    # - get_atom
+    # - filter_atoms (iterator)
+    # - heavy_atom_types
+    # - missing_heavy_atom_types
+    # - extra_heavy_atom_types
+    # - hydrogen_atom_types
+    # - missing_hydrogen_atom_types
+    # - extra_hydrogen_atom_types
+    # Update
+    # - fix_disordered_atoms
+    # Delete
+    # - remove_atoms
+    # - remove_hydrogen_atoms
+    # - keep_atoms
+    # - keep_backbone_atoms
+    # ------------------------------------------------------------
+
+    def add_atom(self, atom_id: str, atom: Atom) -&gt; Atom:
+        &#34;&#34;&#34;
+        Adds an atom to the residue.
+
+        Args:
+            atom_id (str): The atom&#39;s ID.
+            atom (Atom): The atom.
+
+        Returns:
+            Atom: The atom.
+        &#34;&#34;&#34;
+        if atom_id in self._atoms:
+            current_atom = self._atoms[atom_id]
+            if current_atom.is_disordered and atom.is_disordered:
+                current_atom.merge_disordered_atom(atom)
+                return current_atom
+            else:
+                raise Exception(&#34;Atom ID {atom_id} already exists in residue.&#34;)
+        else:
+            self._atoms[atom_id] = atom
+            atom.residue = self
+            return atom
+
+    @property
+    def atoms(self) -&gt; Iterator[Atom]:
+        &#34;&#34;&#34;
+        Returns an iterator of the residue&#39;s atoms.
+
+        Yields:
+            Atom: The next atom in the residue.
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            yield atom
+
+    @property
+    def num_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of atoms in the residue.
+
+        Returns:
+            int: The number of atoms in the residue.
+        &#34;&#34;&#34;
+        return len(self._atoms)
+
+    @property
+    def num_heavy_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of heavy atoms in the residue.
+
+        Returns:
+            int: The number of heavy atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.element != &#34;H&#34;:
+                count += 1
+        return count
+
+    @property
+    def num_hydrogen_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of hydrogen atoms in the residue.
+
+        Returns:
+            int: The number of hydrogen atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.element == &#34;H&#34;:
+                count += 1
+        return count
+
+    @property
+    def num_disordered_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of disordered atoms in the residue.
+
+        Returns:
+            int: The number of disordered atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.is_disordered:
+                count += 1
+        return count
+
+    @property
+    def num_hetero_atoms(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns the number of hetero atoms in the residue.
+
+        Returns:
+            int: The number of hetero atoms in the residue.
+        &#34;&#34;&#34;
+        count = 0
+        for atom in self._atoms.values():
+            if atom.is_hetero:
+                count += 1
+        return count
+
+    def get_atom(self, atom_type: str) -&gt; Optional[Atom]:
+        &#34;&#34;&#34;
+        Returns the atom with the specified atom type.
+
+        Args:
+            atom_type (str): The atom type.
+
+        Returns:
+            Atom: The atom with the specified atom type.
+        &#34;&#34;&#34;
+        if atom_type in self._atoms:
+            return self._atoms[atom_type]
+        else:
+            return None
+
+    def filter_atoms(self, atom_criteria: Optional[List] = None) -&gt; Iterator[Atom]:
+        &#34;&#34;&#34;
+        Returns an iterator of atoms that match the specified criteria.
+
+        Args:
+            atom_criteria (Optional[List]): The criteria for selecting atoms.
+
+        Yields:
+            Atom: The next atom that matches the criteria.
+        &#34;&#34;&#34;
+        if atom_criteria is None:
+            atom_criteria = []
+        for atom in self._atoms.values():
+            match = True
+            for key, value in atom_criteria:
+                if type(value) is list:
+                    if atom.get_attribute(key) not in value:
+                        match = False
+                        break
+                elif atom.get_attribute(key) != value:
+                    match = False
+                    break
+            if match:
+                yield atom
+
+    def heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of heavy atom types.
+
+        Returns:
+            Set[str]: A set of heavy atom types.
+        &#34;&#34;&#34;
+        atom_types = set()
+        for atom in self._atoms.values():
+            if atom.element != &#34;H&#34;:
+                atom_types.add(atom.atom_type)
+        return atom_types
+
+    def missing_heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of missing heavy atom types.
+
+        Returns:
+            Set[str]: A set of missing heavy atom types.
+        &#34;&#34;&#34;
+        heavy_atom_types = self.heavy_atom_types()
+        return Residue.HEAVY_ATOMS[self._residue_type] - heavy_atom_types
+
+    def extra_heavy_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of extra heavy atom types.
+
+        Returns:
+            Set[str]: A set of extra heavy atom types.
+        &#34;&#34;&#34;
+        heavy_atom_types = self.heavy_atom_types()
+        return heavy_atom_types - Residue.HEAVY_ATOMS[self._residue_type]
+
+    def hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of hydrogen atom types.
+        &#34;&#34;&#34;
+        atom_types = set()
+        for atom in self._atoms.values():
+            if atom.element == &#34;H&#34;:
+                atom_types.add(atom.atom_type)
+        return atom_types
+
+    def missing_hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of missing hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of missing hydrogen atom types.
+        &#34;&#34;&#34;
+        hydrogen_atom_types = self.hydrogen_atom_types()
+        return Residue.HYDROGEN_ATOMS[self._residue_type] - hydrogen_atom_types
+
+    def extra_hydrogen_atom_types(self) -&gt; Set[str]:
+        &#34;&#34;&#34;
+        Returns a set of extra hydrogen atom types.
+
+        Returns:
+            Set[str]: A set of extra hydrogen atom types.
+        &#34;&#34;&#34;
+        hydrogen_atom_types = self.hydrogen_atom_types()
+        return hydrogen_atom_types - Residue.HYDROGEN_ATOMS[self._residue_type]
+
+    def fix_disordered_atoms(self):
+        &#34;&#34;&#34;
+        Fixes disordered atoms by keeping the atom with the
+        highest occupancy.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        for atom in self._atoms.values():
+            atom.fix_disordered_atom()
+
+    def remove_atoms(self, atom_types: List[str]):
+        &#34;&#34;&#34;
+        Removes the specified atoms from the residue.
+
+        Args:
+            atom_types (List[str]): The atom types to remove.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if atom_types is None:
+            atom_types = []
+        for atom_type in atom_types:
+            if atom_type in self._atoms:
+                del self._atoms[atom_type]
+
+    def remove_hydrogen_atoms(self):
+        &#34;&#34;&#34;
+        Removes hydrogen atoms from the residue.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        keys = list(self._atoms.keys())
+        for key in keys:
+            if self._atoms[key].element == &#34;H&#34;:
+                del self._atoms[key]
+
+        # The implementation below fails because the dictionary
+        # changes size during iteration.
+        # for atom in self._atoms.values():
+        #     if atom.element == &#34;H&#34;:
+        #         del self._atoms[atom.atom_type]
+
+    def keep_atoms(self, atom_types: List[str]) -&gt; None:
+        &#34;&#34;&#34;
+        Removes all atoms except the specified atoms from the residue.
+
+        Args:
+            atom_types (List[str]): The atom types to keep.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if atom_types is None:
+            atom_types = []
+        atoms = {}
+        for atom_type in atom_types:
+            if atom_type in self._atoms:
+                atoms[atom_type] = self._atoms[atom_type]
+        self._atoms = atoms
+
+    def keep_backbone_atoms(self) -&gt; None:
+        &#34;&#34;&#34;
+        Removes all atoms except the backbone atoms from the residue.
+        The backbone atoms are N, CA, C, and O.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        self.keep_atoms([&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;])
+
+    # ------------------------------------------------------------
+    # Methods for managing the residue&#39;s attributes.
+    # - has_attribute
+    # - get_attribute
+    # - set_attribute
+    # - delete_attribute
+    # - sum_attribute
+    # ------------------------------------------------------------
+
+    def has_attribute(self, key: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns True if the residue has the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            bool: True if the residue has the specified attribute.
+        &#34;&#34;&#34;
+        return hasattr(self, &#34;_&#34; + key)
+
+    def get_attribute(self, key: str) -&gt; Any:
+        &#34;&#34;&#34;
+        Returns the value of the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            Any: The value of the specified attribute.
+
+        Raises:
+            AttributeError: If the attribute does not exist.
+        &#34;&#34;&#34;
+        return getattr(self, &#34;_&#34; + key)
+
+    def set_attribute(self, key: str, value: Any) -&gt; None:
+        &#34;&#34;&#34;
+        Sets the value of the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+            value (Any): The value of the attribute.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if value is not None:
+            setattr(self, &#34;_&#34; + key, value)
+
+    def delete_attribute(self, key: str) -&gt; None:
+        &#34;&#34;&#34;
+        Deletes the specified attribute.
+
+        Args:
+            key (str): The name of the attribute.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        if self.has_attribute(key):
+            delattr(self, &#34;_&#34; + key)
+
+    def sum_attribute(self, key: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sums the values of the specified attribute.
+        &#34;&#34;&#34;
+        atrribute_sum = 0.0
+        for atom in self._atoms.values():
+            atrribute_sum += atom.get_attribute(key)
+        self.set_attribute(key, atrribute_sum)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="protkit.structure.residue.Residue.HEAVY_ATOMS"><code class="name">var <span class="ident">HEAVY_ATOMS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="protkit.structure.residue.Residue.HYDROGEN_ATOMS"><code class="name">var <span class="ident">HYDROGEN_ATOMS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="protkit.structure.residue.Residue.SHORT_CODE"><code class="name">var <span class="ident">SHORT_CODE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="protkit.structure.residue.Residue.atoms"><code class="name">var <span class="ident">atoms</span> : Iterator[<a title="protkit.structure.atom.Atom" href="atom.html#protkit.structure.atom.Atom">Atom</a>]</code></dt>
+<dd>
+<div class="desc"><p>Returns an iterator of the residue's atoms.</p>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Atom</code></dt>
+<dd>The next atom in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def atoms(self) -&gt; Iterator[Atom]:
+    &#34;&#34;&#34;
+    Returns an iterator of the residue&#39;s atoms.
+
+    Yields:
+        Atom: The next atom in the residue.
+    &#34;&#34;&#34;
+    for atom in self._atoms.values():
+        yield atom</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.chain"><code class="name">var <span class="ident">chain</span> : Chain</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's chain.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Chain</code></dt>
+<dd>The residue's chain.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def chain(self) -&gt; Chain:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s chain.
+
+    Returns:
+        Chain: The residue&#39;s chain.
+    &#34;&#34;&#34;
+    return self._chain</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's ID, which is the chain ID + sequence number.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue's ID.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s ID, which is the chain ID + sequence number.
+
+    Returns:
+        str: The residue&#39;s ID.
+    &#34;&#34;&#34;
+    if self._chain is None:
+        return self.residue_code
+    else:
+        return self._chain.id + &#34;:&#34; + self.residue_code</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.insertion_code"><code class="name">var <span class="ident">insertion_code</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's insertion code.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue's insertion code.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def insertion_code(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s insertion code.
+
+    Returns:
+        str: The residue&#39;s insertion code.
+    &#34;&#34;&#34;
+    return self._insertion_code</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.is_disordered"><code class="name">var <span class="ident">is_disordered</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Returns True if the residue is a disordered residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the residue is a disordered residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def is_disordered(self) -&gt; bool:
+    &#34;&#34;&#34;
+    Returns True if the residue is a disordered residue.
+
+    Returns:
+        bool: True if the residue is a disordered residue.
+    &#34;&#34;&#34;
+    for atom in self._atoms.values():
+        if atom.is_disordered:
+            return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.is_hetero"><code class="name">var <span class="ident">is_hetero</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Returns True if the residue is a hetero residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the residue is a hetero residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def is_hetero(self) -&gt; bool:
+    &#34;&#34;&#34;
+    Returns True if the residue is a hetero residue.
+
+    Returns:
+        bool: True if the residue is a hetero residue.
+    &#34;&#34;&#34;
+    for atom in self._atoms.values():
+        if atom.is_hetero:
+            return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.num_atoms"><code class="name">var <span class="ident">num_atoms</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of atoms in the residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The number of atoms in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_atoms(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the number of atoms in the residue.
+
+    Returns:
+        int: The number of atoms in the residue.
+    &#34;&#34;&#34;
+    return len(self._atoms)</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.num_disordered_atoms"><code class="name">var <span class="ident">num_disordered_atoms</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of disordered atoms in the residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The number of disordered atoms in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_disordered_atoms(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the number of disordered atoms in the residue.
+
+    Returns:
+        int: The number of disordered atoms in the residue.
+    &#34;&#34;&#34;
+    count = 0
+    for atom in self._atoms.values():
+        if atom.is_disordered:
+            count += 1
+    return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.num_heavy_atoms"><code class="name">var <span class="ident">num_heavy_atoms</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of heavy atoms in the residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The number of heavy atoms in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_heavy_atoms(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the number of heavy atoms in the residue.
+
+    Returns:
+        int: The number of heavy atoms in the residue.
+    &#34;&#34;&#34;
+    count = 0
+    for atom in self._atoms.values():
+        if atom.element != &#34;H&#34;:
+            count += 1
+    return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.num_hetero_atoms"><code class="name">var <span class="ident">num_hetero_atoms</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of hetero atoms in the residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The number of hetero atoms in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_hetero_atoms(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the number of hetero atoms in the residue.
+
+    Returns:
+        int: The number of hetero atoms in the residue.
+    &#34;&#34;&#34;
+    count = 0
+    for atom in self._atoms.values():
+        if atom.is_hetero:
+            count += 1
+    return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.num_hydrogen_atoms"><code class="name">var <span class="ident">num_hydrogen_atoms</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the number of hydrogen atoms in the residue.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The number of hydrogen atoms in the residue.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_hydrogen_atoms(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the number of hydrogen atoms in the residue.
+
+    Returns:
+        int: The number of hydrogen atoms in the residue.
+    &#34;&#34;&#34;
+    count = 0
+    for atom in self._atoms.values():
+        if atom.element == &#34;H&#34;:
+            count += 1
+    return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.residue_code"><code class="name">var <span class="ident">residue_code</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's residue code.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue's residue code.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def residue_code(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s residue code.
+
+    Returns:
+        str: The residue&#39;s residue code.
+    &#34;&#34;&#34;
+    return str(self._residue_type) + self.sequence_code</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.residue_type"><code class="name">var <span class="ident">residue_type</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue type.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue type.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def residue_type(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue type.
+
+    Returns:
+        str: The residue type.
+    &#34;&#34;&#34;
+    return self._residue_type</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.sequence_code"><code class="name">var <span class="ident">sequence_code</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's sequence code.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue's sequence code.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sequence_code(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s sequence code.
+
+    Returns:
+        str: The residue&#39;s sequence code.
+    &#34;&#34;&#34;
+    return str(self._sequence_no) + self._insertion_code</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.sequence_no"><code class="name">var <span class="ident">sequence_no</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's sequence number.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The residue's sequence number.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sequence_no(self) -&gt; int:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s sequence number.
+
+    Returns:
+        int: The residue&#39;s sequence number.
+    &#34;&#34;&#34;
+    return self._sequence_no</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.short_code"><code class="name">var <span class="ident">short_code</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the residue's short code.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The residue's short code.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>Exception</code></dt>
+<dd>If the residue type is not found in Residue.SHORT_CODE.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def short_code(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the residue&#39;s short code.
+
+    Returns:
+        str: The residue&#39;s short code.
+
+    Raises:
+        Exception: If the residue type is not found in Residue.SHORT_CODE.
+    &#34;&#34;&#34;
+    if self._residue_type not in Residue.SHORT_CODE:
+        raise Exception(&#34;Residue type {self._residue_type} not found in Residue.SHORT_CODE.&#34;)
+
+    return Residue.SHORT_CODE[self._residue_type]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="protkit.structure.residue.Residue.add_atom"><code class="name flex">
+<span>def <span class="ident">add_atom</span></span>(<span>self, atom_id: str, atom: Atom) ‑> <a title="protkit.structure.atom.Atom" href="atom.html#protkit.structure.atom.Atom">Atom</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds an atom to the residue.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>atom_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>The atom's ID.</dd>
+<dt><strong><code>atom</code></strong> :&ensp;<code>Atom</code></dt>
+<dd>The atom.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Atom</code></dt>
+<dd>The atom.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_atom(self, atom_id: str, atom: Atom) -&gt; Atom:
+    &#34;&#34;&#34;
+    Adds an atom to the residue.
+
+    Args:
+        atom_id (str): The atom&#39;s ID.
+        atom (Atom): The atom.
+
+    Returns:
+        Atom: The atom.
+    &#34;&#34;&#34;
+    if atom_id in self._atoms:
+        current_atom = self._atoms[atom_id]
+        if current_atom.is_disordered and atom.is_disordered:
+            current_atom.merge_disordered_atom(atom)
+            return current_atom
+        else:
+            raise Exception(&#34;Atom ID {atom_id} already exists in residue.&#34;)
+    else:
+        self._atoms[atom_id] = atom
+        atom.residue = self
+        return atom</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.copy"><code class="name flex">
+<span>def <span class="ident">copy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a deep copy of the residue, excluding the chain.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="protkit.structure.residue.Residue" href="#protkit.structure.residue.Residue">Residue</a></code></dt>
+<dd>A deep copy of the residue, excluding the chain.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy(self):
+    &#34;&#34;&#34;
+    Returns a deep copy of the residue, excluding the chain.
+
+    Returns:
+        Residue: A deep copy of the residue, excluding the chain.
+    &#34;&#34;&#34;
+    chain = self._chain
+    self._chain = None
+    residue = deepcopy(self)
+    self._chain = chain
+    return residue</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.delete_attribute"><code class="name flex">
+<span>def <span class="ident">delete_attribute</span></span>(<span>self, key: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes the specified attribute.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_attribute(self, key: str) -&gt; None:
+    &#34;&#34;&#34;
+    Deletes the specified attribute.
+
+    Args:
+        key (str): The name of the attribute.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    if self.has_attribute(key):
+        delattr(self, &#34;_&#34; + key)</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.extra_heavy_atom_types"><code class="name flex">
+<span>def <span class="ident">extra_heavy_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of extra heavy atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of extra heavy atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extra_heavy_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of extra heavy atom types.
+
+    Returns:
+        Set[str]: A set of extra heavy atom types.
+    &#34;&#34;&#34;
+    heavy_atom_types = self.heavy_atom_types()
+    return heavy_atom_types - Residue.HEAVY_ATOMS[self._residue_type]</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.extra_hydrogen_atom_types"><code class="name flex">
+<span>def <span class="ident">extra_hydrogen_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of extra hydrogen atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of extra hydrogen atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def extra_hydrogen_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of extra hydrogen atom types.
+
+    Returns:
+        Set[str]: A set of extra hydrogen atom types.
+    &#34;&#34;&#34;
+    hydrogen_atom_types = self.hydrogen_atom_types()
+    return hydrogen_atom_types - Residue.HYDROGEN_ATOMS[self._residue_type]</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.filter_atoms"><code class="name flex">
+<span>def <span class="ident">filter_atoms</span></span>(<span>self, atom_criteria: Optional[List] = None) ‑> Iterator[<a title="protkit.structure.atom.Atom" href="atom.html#protkit.structure.atom.Atom">Atom</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an iterator of atoms that match the specified criteria.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>atom_criteria</code></strong> :&ensp;<code>Optional[List]</code></dt>
+<dd>The criteria for selecting atoms.</dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Atom</code></dt>
+<dd>The next atom that matches the criteria.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter_atoms(self, atom_criteria: Optional[List] = None) -&gt; Iterator[Atom]:
+    &#34;&#34;&#34;
+    Returns an iterator of atoms that match the specified criteria.
+
+    Args:
+        atom_criteria (Optional[List]): The criteria for selecting atoms.
+
+    Yields:
+        Atom: The next atom that matches the criteria.
+    &#34;&#34;&#34;
+    if atom_criteria is None:
+        atom_criteria = []
+    for atom in self._atoms.values():
+        match = True
+        for key, value in atom_criteria:
+            if type(value) is list:
+                if atom.get_attribute(key) not in value:
+                    match = False
+                    break
+            elif atom.get_attribute(key) != value:
+                match = False
+                break
+        if match:
+            yield atom</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.fix_disordered_atoms"><code class="name flex">
+<span>def <span class="ident">fix_disordered_atoms</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fixes disordered atoms by keeping the atom with the
+highest occupancy.</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fix_disordered_atoms(self):
+    &#34;&#34;&#34;
+    Fixes disordered atoms by keeping the atom with the
+    highest occupancy.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    for atom in self._atoms.values():
+        atom.fix_disordered_atom()</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.get_atom"><code class="name flex">
+<span>def <span class="ident">get_atom</span></span>(<span>self, atom_type: str) ‑> Optional[<a title="protkit.structure.atom.Atom" href="atom.html#protkit.structure.atom.Atom">Atom</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the atom with the specified atom type.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>atom_type</code></strong> :&ensp;<code>str</code></dt>
+<dd>The atom type.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Atom</code></dt>
+<dd>The atom with the specified atom type.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_atom(self, atom_type: str) -&gt; Optional[Atom]:
+    &#34;&#34;&#34;
+    Returns the atom with the specified atom type.
+
+    Args:
+        atom_type (str): The atom type.
+
+    Returns:
+        Atom: The atom with the specified atom type.
+    &#34;&#34;&#34;
+    if atom_type in self._atoms:
+        return self._atoms[atom_type]
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.get_attribute"><code class="name flex">
+<span>def <span class="ident">get_attribute</span></span>(<span>self, key: str) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the value of the specified attribute.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any</code></dt>
+<dd>The value of the specified attribute.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>AttributeError</code></dt>
+<dd>If the attribute does not exist.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attribute(self, key: str) -&gt; Any:
+    &#34;&#34;&#34;
+    Returns the value of the specified attribute.
+
+    Args:
+        key (str): The name of the attribute.
+
+    Returns:
+        Any: The value of the specified attribute.
+
+    Raises:
+        AttributeError: If the attribute does not exist.
+    &#34;&#34;&#34;
+    return getattr(self, &#34;_&#34; + key)</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.has_attribute"><code class="name flex">
+<span>def <span class="ident">has_attribute</span></span>(<span>self, key: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns True if the residue has the specified attribute.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the residue has the specified attribute.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_attribute(self, key: str) -&gt; bool:
+    &#34;&#34;&#34;
+    Returns True if the residue has the specified attribute.
+
+    Args:
+        key (str): The name of the attribute.
+
+    Returns:
+        bool: True if the residue has the specified attribute.
+    &#34;&#34;&#34;
+    return hasattr(self, &#34;_&#34; + key)</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.heavy_atom_types"><code class="name flex">
+<span>def <span class="ident">heavy_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of heavy atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of heavy atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def heavy_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of heavy atom types.
+
+    Returns:
+        Set[str]: A set of heavy atom types.
+    &#34;&#34;&#34;
+    atom_types = set()
+    for atom in self._atoms.values():
+        if atom.element != &#34;H&#34;:
+            atom_types.add(atom.atom_type)
+    return atom_types</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.hydrogen_atom_types"><code class="name flex">
+<span>def <span class="ident">hydrogen_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of hydrogen atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of hydrogen atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hydrogen_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of hydrogen atom types.
+
+    Returns:
+        Set[str]: A set of hydrogen atom types.
+    &#34;&#34;&#34;
+    atom_types = set()
+    for atom in self._atoms.values():
+        if atom.element == &#34;H&#34;:
+            atom_types.add(atom.atom_type)
+    return atom_types</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.keep_atoms"><code class="name flex">
+<span>def <span class="ident">keep_atoms</span></span>(<span>self, atom_types: List[str]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes all atoms except the specified atoms from the residue.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>atom_types</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>The atom types to keep.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def keep_atoms(self, atom_types: List[str]) -&gt; None:
+    &#34;&#34;&#34;
+    Removes all atoms except the specified atoms from the residue.
+
+    Args:
+        atom_types (List[str]): The atom types to keep.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    if atom_types is None:
+        atom_types = []
+    atoms = {}
+    for atom_type in atom_types:
+        if atom_type in self._atoms:
+            atoms[atom_type] = self._atoms[atom_type]
+    self._atoms = atoms</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.keep_backbone_atoms"><code class="name flex">
+<span>def <span class="ident">keep_backbone_atoms</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes all atoms except the backbone atoms from the residue.
+The backbone atoms are N, CA, C, and O.</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def keep_backbone_atoms(self) -&gt; None:
+    &#34;&#34;&#34;
+    Removes all atoms except the backbone atoms from the residue.
+    The backbone atoms are N, CA, C, and O.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    self.keep_atoms([&#34;N&#34;, &#34;CA&#34;, &#34;C&#34;, &#34;O&#34;])</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.missing_heavy_atom_types"><code class="name flex">
+<span>def <span class="ident">missing_heavy_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of missing heavy atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of missing heavy atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def missing_heavy_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of missing heavy atom types.
+
+    Returns:
+        Set[str]: A set of missing heavy atom types.
+    &#34;&#34;&#34;
+    heavy_atom_types = self.heavy_atom_types()
+    return Residue.HEAVY_ATOMS[self._residue_type] - heavy_atom_types</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.missing_hydrogen_atom_types"><code class="name flex">
+<span>def <span class="ident">missing_hydrogen_atom_types</span></span>(<span>self) ‑> Set[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a set of missing hydrogen atom types.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Set[str]</code></dt>
+<dd>A set of missing hydrogen atom types.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def missing_hydrogen_atom_types(self) -&gt; Set[str]:
+    &#34;&#34;&#34;
+    Returns a set of missing hydrogen atom types.
+
+    Returns:
+        Set[str]: A set of missing hydrogen atom types.
+    &#34;&#34;&#34;
+    hydrogen_atom_types = self.hydrogen_atom_types()
+    return Residue.HYDROGEN_ATOMS[self._residue_type] - hydrogen_atom_types</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.remove_atoms"><code class="name flex">
+<span>def <span class="ident">remove_atoms</span></span>(<span>self, atom_types: List[str])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes the specified atoms from the residue.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>atom_types</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>The atom types to remove.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_atoms(self, atom_types: List[str]):
+    &#34;&#34;&#34;
+    Removes the specified atoms from the residue.
+
+    Args:
+        atom_types (List[str]): The atom types to remove.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    if atom_types is None:
+        atom_types = []
+    for atom_type in atom_types:
+        if atom_type in self._atoms:
+            del self._atoms[atom_type]</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.remove_hydrogen_atoms"><code class="name flex">
+<span>def <span class="ident">remove_hydrogen_atoms</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes hydrogen atoms from the residue.</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_hydrogen_atoms(self):
+    &#34;&#34;&#34;
+    Removes hydrogen atoms from the residue.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    keys = list(self._atoms.keys())
+    for key in keys:
+        if self._atoms[key].element == &#34;H&#34;:
+            del self._atoms[key]
+
+    # The implementation below fails because the dictionary
+    # changes size during iteration.
+    # for atom in self._atoms.values():
+    #     if atom.element == &#34;H&#34;:
+    #         del self._atoms[atom.atom_type]</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.set_attribute"><code class="name flex">
+<span>def <span class="ident">set_attribute</span></span>(<span>self, key: str, value: Any) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the value of the specified attribute.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the attribute.</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>Any</code></dt>
+<dd>The value of the attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_attribute(self, key: str, value: Any) -&gt; None:
+    &#34;&#34;&#34;
+    Sets the value of the specified attribute.
+
+    Args:
+        key (str): The name of the attribute.
+        value (Any): The value of the attribute.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    if value is not None:
+        setattr(self, &#34;_&#34; + key, value)</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.sum_attribute"><code class="name flex">
+<span>def <span class="ident">sum_attribute</span></span>(<span>self, key: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sums the values of the specified attribute.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sum_attribute(self, key: str) -&gt; None:
+    &#34;&#34;&#34;
+    Sums the values of the specified attribute.
+    &#34;&#34;&#34;
+    atrribute_sum = 0.0
+    for atom in self._atoms.values():
+        atrribute_sum += atom.get_attribute(key)
+    self.set_attribute(key, atrribute_sum)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="protkit.structure" href="index.html">protkit.structure</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="protkit.structure.residue.Residue" href="#protkit.structure.residue.Residue">Residue</a></code></h4>
+<ul class="">
+<li><code><a title="protkit.structure.residue.Residue.HEAVY_ATOMS" href="#protkit.structure.residue.Residue.HEAVY_ATOMS">HEAVY_ATOMS</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.HYDROGEN_ATOMS" href="#protkit.structure.residue.Residue.HYDROGEN_ATOMS">HYDROGEN_ATOMS</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.SHORT_CODE" href="#protkit.structure.residue.Residue.SHORT_CODE">SHORT_CODE</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.add_atom" href="#protkit.structure.residue.Residue.add_atom">add_atom</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.atoms" href="#protkit.structure.residue.Residue.atoms">atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.chain" href="#protkit.structure.residue.Residue.chain">chain</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.copy" href="#protkit.structure.residue.Residue.copy">copy</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.delete_attribute" href="#protkit.structure.residue.Residue.delete_attribute">delete_attribute</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.extra_heavy_atom_types" href="#protkit.structure.residue.Residue.extra_heavy_atom_types">extra_heavy_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.extra_hydrogen_atom_types" href="#protkit.structure.residue.Residue.extra_hydrogen_atom_types">extra_hydrogen_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.filter_atoms" href="#protkit.structure.residue.Residue.filter_atoms">filter_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.fix_disordered_atoms" href="#protkit.structure.residue.Residue.fix_disordered_atoms">fix_disordered_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.get_atom" href="#protkit.structure.residue.Residue.get_atom">get_atom</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.get_attribute" href="#protkit.structure.residue.Residue.get_attribute">get_attribute</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.has_attribute" href="#protkit.structure.residue.Residue.has_attribute">has_attribute</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.heavy_atom_types" href="#protkit.structure.residue.Residue.heavy_atom_types">heavy_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.hydrogen_atom_types" href="#protkit.structure.residue.Residue.hydrogen_atom_types">hydrogen_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.id" href="#protkit.structure.residue.Residue.id">id</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.insertion_code" href="#protkit.structure.residue.Residue.insertion_code">insertion_code</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.is_disordered" href="#protkit.structure.residue.Residue.is_disordered">is_disordered</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.is_hetero" href="#protkit.structure.residue.Residue.is_hetero">is_hetero</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.keep_atoms" href="#protkit.structure.residue.Residue.keep_atoms">keep_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.keep_backbone_atoms" href="#protkit.structure.residue.Residue.keep_backbone_atoms">keep_backbone_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.missing_heavy_atom_types" href="#protkit.structure.residue.Residue.missing_heavy_atom_types">missing_heavy_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.missing_hydrogen_atom_types" href="#protkit.structure.residue.Residue.missing_hydrogen_atom_types">missing_hydrogen_atom_types</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.num_atoms" href="#protkit.structure.residue.Residue.num_atoms">num_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.num_disordered_atoms" href="#protkit.structure.residue.Residue.num_disordered_atoms">num_disordered_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.num_heavy_atoms" href="#protkit.structure.residue.Residue.num_heavy_atoms">num_heavy_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.num_hetero_atoms" href="#protkit.structure.residue.Residue.num_hetero_atoms">num_hetero_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.num_hydrogen_atoms" href="#protkit.structure.residue.Residue.num_hydrogen_atoms">num_hydrogen_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.remove_atoms" href="#protkit.structure.residue.Residue.remove_atoms">remove_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.remove_hydrogen_atoms" href="#protkit.structure.residue.Residue.remove_hydrogen_atoms">remove_hydrogen_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.residue_code" href="#protkit.structure.residue.Residue.residue_code">residue_code</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.residue_type" href="#protkit.structure.residue.Residue.residue_type">residue_type</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.sequence_code" href="#protkit.structure.residue.Residue.sequence_code">sequence_code</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.sequence_no" href="#protkit.structure.residue.Residue.sequence_no">sequence_no</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.set_attribute" href="#protkit.structure.residue.Residue.set_attribute">set_attribute</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.short_code" href="#protkit.structure.residue.Residue.short_code">short_code</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.sum_attribute" href="#protkit.structure.residue.Residue.sum_attribute">sum_attribute</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

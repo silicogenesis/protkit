@@ -4,10 +4,10 @@ joblib>=1.3.2
 
 # File I/O
 biopython>=1.83     # If using protkit.fileio.mmcif_io, protkit.fileio.mmtf_io
-mmtf-python==1.1.3  # If using protkit.fileio.mmtf_io
+mmtf-python>=1.1.3  # If using protkit.fileio.mmtf_io
 
-freesasa==2.2.1
-propka==3.5.1       # If using protkit.tasks.propka_adaptor
+freesasa>=2.2.1
+propka>=3.5.1       # If using protkit.tasks.propka_adaptor
 numpy>=1.20.3
 
 build>=1.0.3
