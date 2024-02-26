@@ -1,3 +1,8 @@
+<p align="center">
+    <!--img src="media/logo/protkit800px.png" width="400"-->
+    <img src="https://raw.githubusercontent.com/silicogenesis/protkit/main/media/logo/protkit800px.png" width="400px">
+</p>
+
 # Protkit
 
 Protkit is a Python library for that can be used for a variety of tasks
