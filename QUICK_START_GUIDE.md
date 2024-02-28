@@ -29,6 +29,12 @@ Protkit is designed to be intuitive and easy to use.  This Quick Start Guide wil
     5. [Residue Class](#55-residue-class)
     6. [Atom Class](#56-atom-class)
     7. [Extending the Structure Classes with Properties](#57-extending-the-structure-classes-with-properties)
+6. [Ensuring Data Quality](#6-ensuring-data-quality)
+    1. [Creating a Copy of a Protein](#61-creating-a-copy-of-a-protein)
+    2. [Removing Water Molecules](#62-removing-water-molecules)
+    3. [Removing Hetero Residues](#63-removing-hetero-residues)
+    4. [Fixing Disordered Atoms](#64-fixing-disordered-atoms)
+    5. [Removing Hydrogen Atoms (Deprotonation)](#65-removing-hydrogen-atoms-deprotonation) 
 
 ---
 
