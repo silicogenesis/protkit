@@ -15,7 +15,7 @@ import numpy as np
 
 from protkit.structure import Atom
 from protkit.tasks import SurfaceAreaCalculator
-from protkit.properties import VDWRadius
+from protkit.properties.vdw_radius import VDWRadius
 
 
 class FreeSASAAdaptor(SurfaceAreaCalculator):

@@ -1,3 +1,43 @@
+def quick_start_example():
+    from protkit.download import Download
+    from protkit.file_io import PDBIO, ProtIO
+    from protkit.properties import DihedralAngles, SurfaceArea
+
+    # Download a PDB file from the RCSB PDB database and save it to a file.
+    Download.download_pdb_file_from_rcsb("1ahw", "1ahw.pdb")
+
+    # Load a PDB file into a Protein object.
+    protein = PDBIO.load("1ahw.pdb")[0]
+
+    # Print the number of chains in the protein.
+    print(protein.num_chains)
+
+    # Keep only the A and B chains
+    protein.keep_chains(["A", "B"])
+    print(protein.get_chain('A').sequence)
+
+    # Do a bit of cleanup, by removing any hetero atoms and fixing disordered atoms.
+    protein.remove_hetero_residues()
+    protein.fix_disordered_atoms()
+
+    # Compute dihedral angles for the protein, and assign them as extended attributes to residues.
+    DihedralAngles.dihedral_angles_of_protein(protein, assign_attribute=True)
+    print(protein.get_chain('A').get_residue(1).get_attribute('dihedral_angles')['PHI'])
+
+    # Compute surface areas for the protein. Surface areas are automatically computed and assigned
+    # at the residue, chain and protein level.
+    SurfaceArea.surface_area_of_protein(protein, assign_attribute=True)
+    print(protein.get_attribute('surface_area'))
+
+    # Save the protein to a protkit (.prot) file.  All attributes, such as the
+    # computed dihedral angles and surface areas, will be saved as well and
+    # is available for later retrieval!
+    protein.set_attribute("note", "Experimenting with Protkit")
+    ProtIO.save(protein, "1ahw.prot")
+    protein2 = ProtIO.load("1ahw.prot")[0]
+    print(protein2.get_attribute('surface_area'))
+    print(protein2.get_attribute('note'))
+
 def download_pdb_example():
     from protkit.download import Download
 
@@ -39,6 +79,7 @@ def download_cif_example():
     Download.download_binary_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif_files/rcsb/")
 
 
+quick_start_example()
 # download_pdb_example()
 # download_fasta_example()
-download_cif_example()
+# download_cif_example()

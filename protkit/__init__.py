@@ -79,10 +79,8 @@ In the example, we download a PDB file from the RCSB, extract the A and B chains
 
 ```python
 from protkit.download import Download
-from protkit.file_io.pdb_io import PDBIO
-from protkit.file_io.prot_io import ProtIO
-from protkit.properties.dihedral_angles import DihedralAngles
-from protkit.properties.surface_area import SurfaceArea
+from protkit.file_io import PDBIO, ProtIO
+from protkit.properties import DihedralAngles, SurfaceArea
 
 # Download a PDB file from the RCSB PDB database and save it to a file.
 Download.download_pdb_file_from_rcsb("1ahw", "1ahw.pdb")
