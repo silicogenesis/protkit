@@ -427,7 +427,7 @@ Protkit provides a number of classes for representing protein molecular data in 
 Classes for representing structural data include the `Protein`, `Chain`, `Residue` and `Atom` classes. 
 These classes are available through the `protkit.structure` package.
 
-### 5.1 Aims with the Molecular Data Structures
+### 5.1 Aims with Protkit Data Structure Representations
 
 In designing these classes, we have aimed to make them intuitive and easy to use. We also aimed
 to give them a set of desirable properties that make them suitable for use in computational biology (and beyond what is currently available in other libraries).
@@ -590,17 +590,236 @@ PRO40, C, 7.392, 6.029, 23.842
 
 Note that the filters provide a convenient way to access the data in a linear fashion, which is useful for machine learning applications.
 
+#### Protein Statistics
+
+Proteins maintain a number of statistics about the protein, such as the number of chains, residues and atoms, etc. Consult the API documentation for more details.
+
+```python
+print(protein.num_chains)
+
+print(protein.num_residues)
+print(protein.num_disordered_residues)
+print(protein.num_hetero_residues)
+print(protein.num_water_residues)
+
+print(protein.num_atoms)
+print(protein.num_disordered_atoms)
+print(protein.num_hetero_atoms)
+print(protein.num_heavy_atoms)
+print(protein.num_hydrogen_atoms)
+```
+
+Chains and residues maintain similar statistics.
+
 ### 5.4 Chain Class
 
 The `Chain` class represents a chain in a protein. It contains a list of `Residue` objects.
+
+#### Identifying a Chain
+
+A chain object can be identified by its chain id, which (usually) is a single uppercase letter. The chain id is a unique identifier for the chain in the protein, i.e. no other chains in the protein can have the same identifier.
+
+To access the chain id of a chain, use the `chain_id` attribute.
+
+```python
+chain = protein.get_chain("A")
+print(chain.chain_id)
+```
+
+If you would like to change the chain id of a chain that is part of a protein, 
+call the `rename_chain()` method of the protein.
+
+```python
+protein.rename_chain("A", "Z")
+```
+
+Chains can also exist independently of a protein, although this is not common. In this case,
+the chain id can be changed at the chain level:
+
+```python
+chain.chain_id = "Z"
+```
+
+#### Chain sequence
+
+The sequence of a chain can be accessed through the `sequence` attribute. The sequence is a string of the one-letter codes of the residues in the chain.
+Note that the sequence is automatically generated from the residues in the chain, and is not stored as an attribute of the chain. In some cases, such as 
+when some residue information is missing, the sequence may not be the true sequence of the chain. In 
+such cases, it is preferable to work with `Sequence` objects instead.
+
+```python
+print(chain.sequence)
+```
+
+#### Referencing the Chain's Parent Protein
+
+A chain object maintains a reference to its parent protein if is part of a protein. This is useful for accessing the protein from the chain.
+
+```python
+protein = chain.protein
+```
+
+#### Accessing Residues in a Chain
+
+The residues that are part of the chain can be accessed in a similar way as for the protein, through the `residues` attribute, which returns an iterator through all the residues of the chain.
+
+
+```python
+for residue in chain.residues:
+    print(f"{residue.residue_id}: {residue.name}")
+```
+
+To get a residue by its residue index, use the `get_residue()` method. Note that the method uses 0-based indexing, i.e. to get the first residue, use `get_residue(0)`.
+
+```python
+residue = chain.get_residue(0)
+```
+
+#### Accessing Atoms in a Chain
+
+Similarly, the atoms that are part of the chain can be accessed through the `atoms` attribute, which returns an iterator through all the atoms of the chain.
+
+```python
+for atom in chain.atoms:
+    print(f"{atom.atom_id}: {atom.atom_type}")
+```
+
+#### Powerful Filters
+
+The `filter_residues()` and `filter_atoms()` methods provide powerful filters for filtering the residues and atoms of a chain. The functionality is similar to the `filter_atoms()` and `filter_residues()` methods of the protein class.
 
 ### 5.5 Residue Class
 
 The `Residue` class represents a residue in a protein. It contains a list of `Atom` objects.
 
+#### Identifying a Residue
+
+Within a chain, a residue is identified by its 0-based index. To get the first residue in a chain, use `get_residue(0)`.
+
+```python
+residue = chain.get_residue(0)
+```
+
+#### Core Residue Properties
+
+Residues have a set of core properties that are maintained as part of the residue.
+
+`residue_type` is the type of the residue, such as "ALA", "GLY", "PRO", etc.  Since the residue types can be residues besides the 20 standard amino acids, the three-letter code is used to identify the residue type. To access the one-letter code of the residue, use the `short_code` attribute.
+
+`sequence_no` and `insertion_code` refers to the position of the residue in the chain, as provided in the source data, or assigned at a later time. 
+
+`is_disordered` is a boolean that indicates whether the residue contains disordered atoms.  `is_hetero` is a boolean that indicates whether the residue is a hetero residue. These properties are derived from the atoms in the residue.
+
+```python
+print(residue.residue_type)    # eg. GLY
+print(residue.short_code)      # eg. G
+print(residue.sequence_no)     # eg. 100
+print(residue.insertion_code)  # eg. A
+print(residue.is_disordered)   # eg. True
+print(residue.is_hetero)       # eg. False
+```
+
+Residues also maintain additional properties that make it easy to identify them. For example, `sequence_code` is a combination of the sequence number and the insertion code.  `residue_code` provides more context about the residue, by combining the `residue_type` and `sequence_code`.  `sequence_code` and `residue_code` thus uniquely identifies the residue in the chain.  
+
+`residue_id` combines the chain id of the residue's chain, together with the `residue_code`. The `residue_id` is thus unique within a protein.
+
+```python
+print(residue.sequence_code)    # eg. 100A
+print(residue.residue_code)     # eg. GLY100A
+print(residue.residue_id)       # eg. A:GLY100A
+```
+
+#### Referencing the Residue's Parent Chain
+
+A residue can maintain reference to its parent chain. This is useful for accessing the chain from the residue.
+
+```python
+chain = residue.chain
+```
+
+#### Accessing Atoms in a Residue
+
+The atoms that are part of the residue can be accessed through the `atoms` attribute, which returns an iterator through all the atoms of the residue.
+
+```python
+for atom in residue.atoms:
+    print(f"{atom.atom_id}: {atom.atom_type}")
+```
+
+To get a specific atom in a residue, use the `get_atom()` method. The method takes the atom type as input.  For example, to get the CA atom in a residue, use `get_atom("CA")`.
+
+```python
+atom = residue.get_atom("CA")
+```
+
+#### Modifying the Atoms in a Residue
+
+The atoms in a residue can be modified in place. For example, to remove all the atoms except backbone atoms, call the `keep_backbone_atoms()` method. This will remove all the atoms in the residue except the backbone atoms (N, CA, C, O).
+
+```python
+residue.keep_backbone_atoms()
+```
+
+To keep only specific types of atoms, call the `keep_atoms()` method. This method takes a list of atom types as input, and removes all atoms that are not in the list.
+
+```python
+residue.keep_atoms(["N", "CA", "C"])
+```
+
+To remove only specific types of atoms, call the `remove_atoms()` method. This method takes a list of atom types as input, and removes all atoms that are in the list.
+
+```python
+residue.remove_atoms(["OXT"])
+```
+
+To remove all hydrogen atoms (deprotonate the residue), call the `remove_hydrogen_atoms()` method.
+
+```python
+residue.remove_hydrogen_atoms()
+```
+
+Note that most of these methods are available at the chain and protein level as well. When these methods are called at the chain or protein level, they are applied to all the residues in the chain or protein.
+
+#### Powerful Filters
+
+As is the case for the protein and chain classes, the `filter_atoms()` method provides a powerful filter for filtering the atoms of a residue. The functionality is similar to the `filter_atoms()` method of the protein and chain classes.
+
 ### 5.6 Atom Class
 
-The `Atom` class represents an atom in a protein. It contains the coordinates of the atom, the atom type, the residue it belongs to, etc.
+The `Atom` class represents an atom in a protein. It is the lowest level of the hierarchy of the protein data structure. 
+It contains the coordinates of the atom, the atom type, the residue it belongs to, etc.
+
+#### Identifying an Atom
+
+An atom is identified by its atom type, which is a string that identifies the type of the atom, such as "N", "CA", "C", "O", etc. The atom type is unique within a residue, i.e. no two atoms in the same residue can have the same atom type.
+
+To access the atom type of the atom, use the `atom_type` attribute.
+
+```python
+atom = residue.get_atom("CA")
+print(atom.atom_type)
+```
+
+#### Core Atom Properties
+
+Atoms have a set of core properties that are maintained as part of the atom.
+
+`element` is the element of the atom, such as "C", "N", "O", etc.
+
+`x`, `y` and `z` are the coordinates of the atom.
+
+`is_disordered` is a boolean that indicates whether the atom is disordered.  `is_hetero` is a boolean that indicates whether the atom is a hetero atom.
+
+```python
+print(atom.element)             # eg. C
+print(atom.x, atom.y, atom.z)   # eg. 12.446, 8.496, 43.176
+print(atom.is_disordered)       # eg. False
+print(atom.is_hetero)           # eg. False
+```
+
+#### Fixing Disordered Atoms
+
+
 
 ### 5.7 Extending the Structure Classes with Properties
 
