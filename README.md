@@ -5,8 +5,8 @@
 
 # Protkit
 
-Protkit is a Python library for that can be used for a variety of tasks
-in computational biology and bioinformatics, focusing and structural bioinformations
+Protkit is an open source Python library for that can be used for a variety of tasks
+in computational biology and bioinformatics, focusing on structural bioinformations
 and protein engineering.
 
 It is designed to support the broad community of computational biologists,
@@ -189,7 +189,7 @@ limited in the data they can represent and are not suitable for many application
     structure of proteins, protein complexes, chains, residues, atoms and sequences. It
     provides capabilities to extract data in both hierarchical and linear formats.
 
-    Our hope is that this data representation will be adopted by the community and will
+    Our goal is that this data representation will be adopted by the community and will
     become a standard for representing protein structures.  This will enable interoperability
     between different tools and applications and will make it easier to share data between
     different tools and applications. Protkit surpasses the capabilities of frameworks such
