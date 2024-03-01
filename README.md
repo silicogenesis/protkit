@@ -5,21 +5,21 @@
 
 # Protkit
 
-Protkit is a Python library for that can be used for a variety of tasks
-in computational biology and bioinformatics, focusing and structural bioinformations
+Protkit is a Python library that can be used for a variety of tasks
+in computational biology and bioinformatics, focusing on structural bioinformatics
 and protein engineering.
 
 It is designed to support the broad community of computational biologists,
-bioinformaticians, and machine learning researchers in academia, industry,
+bioinformaticians and machine learning researchers in academia, industry
 and government labs.
 
-Protkit can be used for a variety of computational biology tasks across the computational biology pipeline such as:
+Protkit can be used for a variety of computational biology tasks across the computational biology pipeline, such as:
 
 - **Reading and writing data** from popular structure file formats, such as
     PDB, PQR, MMTF, mmCIF; and sequence file formats, such as FASTA.
 - **Downloading** data from popular databases of protein structures, such as the PDB RCSB, UniProt and SAbDab.
 - **Data structures** for representing proteins, protein complexes, chains,
-    residues, atoms and sequences. These data structure provides capabilities to extract data
+    residues, atoms and sequences. These data structures provide capabilities to extract data
     in both hierarchical and linear formats. It is extensible and easy to add
     new properties to the data structure. It has a rich set of methods for extracting
     and filtering data from the data structure.
@@ -31,11 +31,11 @@ Protkit can be used for a variety of computational biology tasks across the comp
 - **Geometric operations** on proteins, such as aligning and superimposing
     structures.
 - **Metrics** for comparing proteins, such as RMSD and Sequence Similarity.
-- **Featurization** of proteins and their properties and preparation of datasets
+- **Featurization** of proteins and their properties enabling preparation of datasets
     for **machine learning** applications.
 - Performing and enabling a large variety of **computational tasks** on proteins,
     such as protein folding, protein docking, protein-protein binding affinity prediction,
-    humanisation of antibodies, prediction of developability characteristics. Care is taken
+    humanisation of antibodies, prediction of developability characteristics etc. Care is taken
     that the various tools are interoperable and can be used together in a seamless manner.
 
 Protkit is an open source library that is free to use and modify.  We welcome
@@ -59,7 +59,7 @@ See [Protkit](https://pypi.org/project/protkit/) on PyPI for more details.
 
 ### Cloning the Repository
 
-You can also clone the repository and install it from source:
+You can clone the repository and install it from source:
 
 ```bash
 git clone https://github.com/silicogenesis/protkit.git
@@ -77,7 +77,7 @@ pip install -r requirements.txt
 
 Protkit is designed to be intuitive and easy to use.  An extensive set of examples can be found in the [Quick Start Guide](QUICK_START_GUIDE.md).
 
-Here is a simple example to get you started.  It illustrates how powerful computation can be done with Protkit in just a few lines of code.   
+Here is a simple example to get you started.  It illustrates how powerful computation can be done with Protkit in just a few lines of code.
 
 In the example, we download a PDB file from the RCSB, extract the A and B chains and do some cleanup like removing hetero atoms and fixing disordered atoms.  We then compute dihedral angles and surface areas for the protein and save it to a file.  We then load the protein from the file and print the surface area and a note that we added to the protein.
 
@@ -114,7 +114,7 @@ print(protein.get_attribute('surface_area'))
 
 # Save the protein to a protkit (.prot) file.  All attributes, such as the
 # computed dihedral angles and surface areas, will be saved as well and
-# is available for later retrieval!
+# are available for later retrieval.
 protein.set_attribute("note", "Experimenting with Protkit")
 ProtIO.save(protein, "1ahw.prot")
 protein2 = ProtIO.load("1ahw.prot")[0]
@@ -136,7 +136,7 @@ Here are some of the reasons why you might want to use Protkit:
 - **Open Source**: Protkit is open source.  It is free to use and modify.  It is not
     a proprietary system where you are locked in and unable to make changes.
 - **Community**: Protkit is supported by a community of computational biologists,
-    bioinformaticians, and machine learning researchers. We actively encourage
+    bioinformaticians and machine learning researchers. We actively encourage
     contributions from the community.
 - **Easy to use**: Protkit is designed to be easy to use.  It is intuitive and has a
     consistent API.  It is easy to learn and use.
@@ -157,15 +157,15 @@ Here are some of the reasons why you might want to use Protkit:
 **Data**
 
 Computational biology is a rapidly growing field.  It is a multidisciplinary field
-that combines biology, computer science, statistics, mathematics, and engineering.
+that combines biology, computer science, statistics, mathematics and engineering.
 It is a field that is driven by data.  The amount of data that is being generated
 in the field is growing exponentially.  This is due to the rapid advances in
 experimental techniques, such as cryo-electron microscopy, that are used to
-generate data.
+generate data, as well as in-silico data generation such as sequence to structure prediction.
 
-- **Access to data**.  Protkit provides access and downloading of data from
-    popular databases of protein structures and sequences, such as the PDB RCSB
-    and UnitProt. It supports reading and writing of data stored in a variety of file formats,
+- **Access to data**.  Protkit makes it easy to  downloading protein data from
+    popular protein structures and sequence databases, such as PDB RCSB
+    and UnitProt. It supports reading and writing of data stored in a variety of file formats
     such as PDB and Fasta.
 
 - **Ensuring data quality**. Protein structures are often incomplete or contain
@@ -178,8 +178,8 @@ generate data.
 **Data Representations**
 
 Unfortunately, there is no unified data representation for protein structures across
-various research groups and industry. New tools and applications are often build from
-scratch and are based on different data representations, which are often incompatible
+various research groups and industry. New tools and applications are often built from
+scratch and are based on different data representations which are often incompatible
 with each other. This makes it difficult to share data between different tools and applications
 and many tools revert to using PDB files to share data between applications. PDB files are very
 limited in the data they can represent and are not suitable for many applications.
@@ -189,17 +189,17 @@ limited in the data they can represent and are not suitable for many application
     structure of proteins, protein complexes, chains, residues, atoms and sequences. It
     provides capabilities to extract data in both hierarchical and linear formats.
 
-    Our hope is that this data representation will be adopted by the community and will
+    Our goal is that this data representation will be adopted by the community and will
     become a standard for representing protein structures.  This will enable interoperability
     between different tools and applications and will make it easier to share data between
     different tools and applications. Protkit surpasses the capabilities of frameworks such
     as Biopython (a limited hierarchical structure) or BioPandas (a linear view of the data) and
     provides a rich set of methods for extracting and filtering data from the data structure.
 
-- **Extensible data representations and metadata management**.  Protkit provides an extensible data representation
+- **Extensible data representations and metadata management**.  Protkit provides an extensible data representation framework
     for protein structures.  It is easy to add new properties to the data structure.  This
     makes it easy to add new functionality to the library. For example, you can easily add
-    new properties to the data structure such as hydrophobicity, charge, surface areas, etc.
+    new properties to the data structure such as hydrophobicity, charge, surface areas etc.
 
     Protkit serializes the data structure when data is stored to disk (in .prot files), meaning that the data
     structure can be easily stored and shared between different tools and applications, preserving
@@ -219,7 +219,7 @@ limited in the data they can represent and are not suitable for many application
     and can be used to filter and extract data from the data structure.
 
     Protkit was designed in a modular way, so that it is easy to add new modules to compute
-    new properties.  Over time, as the community grows, we hope that various modules will be
+    new properties.  Over time, as the community grows, modules will be
     added to the library to compute new properties.
 
 **Algorithms and Methods**
@@ -238,8 +238,8 @@ be difficulties in using the output of one tool as input to another tool.
 - **Interoperability of tools**. Protkit was designed to allow tools to be used together in a
     seamless manner. Common tasks that may be performed on proteins, such as folding, docking,
     binding affinity prediction, humanisation of antibodies, prediction of developability, etc.
-    all have task definitions in the form of an API that need to be adhered to. Any tool that
-    adheres to the API can be used with other tools in the library.  This makes it easy to
+    all have task definitions in the form of an API that is to be adhered to by the community. Any tool that
+    adheres to the API can seamlessly be used with other tools in the library.  This makes it easy to
     combine tools together to perform complex tasks. We are working on adaptors for various
     tools that will allow them to be used within the Protkit ecosystem.
 
@@ -247,25 +247,25 @@ be difficulties in using the output of one tool as input to another tool.
     with publications that are monolithic in nature.  Unfortunately, this makes it difficult
     to work with those tools as they make inherent assumptions about the data and the
     computational infrastructure that is available.  Protkit is designed to be modular and
-    interoperable.  New modules can be added to the library with ease.  As researchers adopts
-    the framework, it allows them to focus on the development of new algorithms and methods,
-    rather than having to worry about how these tools will be combined together.
+    interoperable.  New modules can be added to the library with ease.  As researchers adopt
+    the framework it allows them to focus on the development of new algorithms and methods,
+    rather than having to worry about how these tools will be combined.
 
 **Machine Learning**
 
 We are seeing rapid advances in machine learning and deep learning applied to computational
 biology. Unfortunately, the way in which datasets are prepared for machine learning applications
 often leaves a lot to be desired. For example, datasets are often prepared in an ad-hoc manner
-and are not reproducible. In other cases, the datasets are not balanced and are biased towards a
+and are not reproducible. In other cases, the datasets are not balanced and are biased towards
 particular families of proteins that are overrepresented in the population.
 
 - **Dataset creation**. Protkit provides a rich set of methods for creating datasets for machine
     learning applications.  These methods are designed to be reproducible and
-    extensible.  We are taking care to ensure that tools are build into the process to ensure
-    that datasets are balanced and are not biased towards a particular families of proteins.
+    extensible.  We are taking care to ensure that tools are built into the process to ensure
+    that datasets are balanced and are not biased towards particular families of proteins.
 
 - **Support for machine learning frameworks**. Protkit provides support for different
-    machine learning frameworks, such as PyTorch and Tensorflow.  We are working on
+    machine learning frameworks such as PyTorch and Tensorflow.  We are working on
     building dataloaders for these frameworks that can be used to load datasets into
     these frameworks across a wide variety of machine learning models.
 
