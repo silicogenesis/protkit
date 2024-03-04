@@ -315,6 +315,21 @@ We would like to extend our thanks to the following people:
 - Claudio Jardim
 - Dean Sherry
 
+If you use Protkit in a scientific publication we would appreciate using the following citation:
+
+F. Senekal, L. Bisschoff, M. Nieuwoudt, C. Jardim, D. Sherry, Protkit: A
+unified toolkit for protein engineering., 2024. URL: https://protkit.silicogenesis.com/.
+
+Bibtex entry:
+```latex
+@misc{protkit,
+  author = {Senekal, Fred and Bisschoff, Lionel and Nieuwoudt, Mechiel and Jardim, Claudio and Sherry, Dean},
+  title = {Protkit: A Unified Toolkit for Protein Engineering.},
+  url ={https://protkit.silicogenesis.com/},
+  year = {2024}
+}
+```
+
 ---
 
 ## Licence
