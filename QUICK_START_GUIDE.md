@@ -71,9 +71,12 @@ pip install -r requirements.txt
 
 ## 2. Quick Start Example
 
-Here is a simple example to get you started.  It illustrates how powerful computation can be done with Protkit in just a few lines of code.   
+Here is a simple example to get you started.  It illustrates how powerful computation can be done with Protkit in just a few lines of code.
 
-In the example, we download a PDB file from the RCSB, extract the A and B chains and do some cleanup like removing hetero atoms and fixing disordered atoms.  We then compute dihedral angles and surface areas for the protein and save it to a file.  We then load the protein from the file and print the surface area and a note that we added to the protein.
+In the example, we download a PDB file from the RCSB, extract the A and B chains and do some cleanup like
+removing hetero atoms and fixing disordered atoms.  We then compute dihedral angles and surface areas for the
+protein and save it to a file.  We then load the protein from the file and print the surface area and a note
+that we added to the protein.
 
 ```python
 from protkit.download import Download
@@ -129,7 +132,7 @@ Single files can be downloaded, or multiple files can be efficiently downloaded 
 
 Most of the methods in the `Download` class take a unique identifier for a file, such
 as a PDB id or Uniprot id as input. The methods also take a `file_name` argument, which is the name 
-of the file on the disk it will be saved to.
+of the file it will be saved to on disk.
 
 ### 3.1 Downloading PDB Files
 
@@ -199,17 +202,23 @@ Download.download_binary_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif
 
 ## 4. File I/O
 
-Protkit provides a number of classes for reading and writing molecular data files.  These classes are located in the `protkit.file_io` package.  For example, the `PDBIO` class provides methods for reading and writing PDB files, while the `ProtIO` class provides methods for reading and writing Prot files, etc.
+Protkit provides a number of classes for reading and writing molecular data files.  These classes are located in 
+the `protkit.file_io` package.  For example, the `PDBIO` class provides methods for reading and writing PDB files, 
+while the `ProtIO` class provides methods for reading and writing Prot files, etc.
 
-Generally, the classes provide a method to read one or more proteins from a file, using the `load()` method, and a method to write one or more proteins to a file, using the `save()` method. Conversions between different file formats are also possible, through the use of the `convert()` method.
+Generally, the classes provide a method to read one or more proteins from a file, using the `load()` method,
+and a method to write one or more proteins to a file, using the `save()` method. Conversions between different
+file formats are also possible, through the use of the `convert()` method.
 
-The `load()` method returns a list of `Protein` objects, while the `save()` method takes a list of `Protein` objects as input. We will discuss the `Protein` class in more detail in the next section.
+The `load()` method returns a list of `Protein` objects, while the `save()` method takes a list of `Protein` objects
+as input. We will discuss the `Protein` class in more detail in the next section.
 
 ### 4.1 Working with PDB Files
 
 #### Reading PDB Files
 
-The PDB file format is a standard format for storing structural information about proteins. OpenSG provides a simple interface for reading and writing PDB files.
+The PDB file format is a standard format for storing structural information about proteins. OpenSG provides a simple
+interface for reading and writing PDB files.
 
 ```python
 from protkit.file_io import PDBIO
@@ -217,11 +226,15 @@ from protkit.file_io import PDBIO
 protein = PDBIO.load("1ahw.pdb")[0]
 ```
 
-The `load()` method returns a list of proteins. Generally, PDB files generated through X-ray crystallography contain only one protein, while NMR files may contain multiple proteins. In Protkit, the `load()` method always returns a list of proteins, even if the file contains only one protein.   
+The `load()` method returns a list of proteins. Generally, PDB files generated through X-ray crystallography contain
+only one protein, while NMR files may contain multiple proteins. In Protkit, the `load()` method always returns a 
+list of proteins, even if the file contains only one protein.   
 
-The above code loads the protein 1AHW from the file 1AHW.pdb. In this case, the list contains only one protein, so we take the first element of the list, using the `[0]` index in the array.
+The above code loads the protein 1AHW from the file 1AHW.pdb. In this case, the list contains only one protein, 
+so we take the first element of the list, using the `[0]` index in the array.
 
-The `Protein` object contains all the information about the protein. The `Protein` class is discussed in more detail in the next section.
+The `Protein` object contains all the information about the protein. The `Protein` class is discussed in more detail 
+in the next section.
 
 #### Saving PDB Files
 
@@ -236,19 +249,25 @@ PDBIO.save(protein, "1ahw_AB.pdb")
 
 #### PDB Metadata
 
-PDB files contain metadata such as the resolution of the structure, the method used to solve the structure, the date the structure was deposited, etc.
+PDB files contain metadata such as the resolution of the structure, the method used to solve the structure,
+the date the structure was deposited etc.
 
 Protkit does not currently read such metadata. Since Protkit is primarily aimed towards structural biology, it reads 
 data such as the sequence, the coordinates of the atoms, the occupancy and temperature factors, etc. contained
 in records such as ATOM, HETATM, MODEL, SEQRES, etc.
-
+   
 Future versions of Protkit may include methods to read and write such metadata.
 
 ### 4.2 Working with Prot Files
 
-Although the PDB file format is the dominant format for storing structural information about proteins, it is an old format that has many limitations.  For example, it cannot store additional information about the protein, such as surface areas, molecular masses or hydrophobicity values.
+Although the PDB file format is the dominant format for storing structural information about proteins, it is an
+old format that has many limitations.  For example, it cannot store additional information about the
+protein, such as surface areas, molecular masses or hydrophobicity values.
 
-To overcome the limitations, we have developed the Prot file format, which is a simple (JSON) text-based format that can store all the information about a protein in a single file. The Prot file format is designed to be easy to read and write, and to be easily extensible.  The Prot file format closely resembles the `Protein` data structure (discussed later), and can be efficiently serialised and deserialised.
+To overcome the limitations, we have developed the Prot file format, which is a simple (JSON) text-based format that 
+can store all the information about a protein in a single file. The Prot file format is designed to be easy to read
+and write, and to be easily extended.  The Prot file format closely resembles the `Protein` data structure 
+(discussed later), and can be efficiently serialised and deserialised.
 
 When working with protein data, it is recommended to use the Prot file format.
 
@@ -319,7 +338,8 @@ ProtIO.save(protein, "1AHW.prot.json", compress=False)
 
 ### 4.3 Working with Fasta Files
 
-The Fasta file format is a standard format for storing sequence information about proteins. Protkit provides a simple interface for reading and writing Fasta files.
+The Fasta file format is a standard format for storing sequence information about proteins. Protkit provides 
+a simple interface for reading and writing Fasta files.
 
 #### Reading Fasta Files
 
@@ -337,7 +357,8 @@ sequences = FastaIO.load("1AHW.fasta")
 
 #### Saving Fasta Files
 
-The FastaIO class provides a `save()` method for saving Fasta files. The `save()` method takes a single `Sequence` object or a list of `Sequence` objects as input.
+The FastaIO class provides a `save()` method for saving Fasta files. The `save()` method takes a single `Sequence` 
+object or a list of `Sequence` objects as input.
 
 ```python
 from protkit.file_io import FastaIO
@@ -349,15 +370,19 @@ FastaIO.save(sequences[0], "1AHW_A.fasta")
 
 ### 4.4 Working with PQR Files
 
-Protkit supports the PQR file format, which is a variant of the PDB file format that includes atomic charges and radii. The PQR file format is used in molecular dynamics simulations and in the calculation of electrostatic potentials.
+Protkit supports the PQR file format, which is a variant of the PDB file format that includes atomic charges and 
+radii. The PQR file format is used in molecular dynamics simulations and in the calculation of electrostatic 
+potentials.
 
 It is typically created by programs such as APBS, PDB2PQR, etc.
 
 #### Reading PQR Files
 
-The PQRIO class provides a `load()` method for reading PQR files. The `load()` method returns a list of `Protein` objects, describing the proteins in the file.
+The PQRIO class provides a `load()` method for reading PQR files. The `load()` method returns a list of `Protein` objects,
+describing the proteins in the file.
 
-The difference between the `PQRIO` class and the `PDBIO` class is that the `PQRIO` class reads the atomic charges and radii from the PQR file and assigns them to the atoms in the protein.
+The difference between the `PQRIO` class and the `PDBIO` class is that the `PQRIO` class reads the atomic charges 
+and radii from the PQR file and assigns them to the atoms in the protein.
 
 ```python
 from protkit.file_io import PQRIO
@@ -366,7 +391,8 @@ protein = PQRIO.load("1AHW.pqr")[0]
 
 ### Saving PQR Files
 
-The PQRIO class provides a `save()` method for saving PQR files. The `save()` method takes a single `Protein` object or a list of `Protein` objects as input.
+The PQRIO class provides a `save()` method for saving PQR files. The `save()` method takes a single `Protein` object 
+or a list of `Protein` objects as input.
 
 ```python
 PQRIO.save(protein, "1AHW.pqr")
@@ -374,11 +400,13 @@ PQRIO.save(protein, "1AHW.pqr")
 
 ### 4.5 Working with mmCIF Files
 
-The mmCIF format is a text-based format that is used to store data from macromolecular crystallography experiments. It is the successor to the PDB format and is the preferred format for the PDB archive.
+The mmCIF format is a text-based format that is used to store data from macromolecular crystallography experiments. 
+It is the successor to the PDB format and is the preferred format for the PDB archive.
 
 #### Reading mmCIF Files
 
-The mmCIFIO class provides a `load()` method for reading mmCIF files. The `load()` method returns a list of `Protein` objects, describing the proteins in the file.
+The mmCIFIO class provides a `load()` method for reading mmCIF files. The `load()` method returns a list of `Protein` 
+objects, describing the proteins in the file.
 
 ```python
 from protkit.file_io import MMTFIO
@@ -388,7 +416,8 @@ protein = MMTFIO.load("1AHW.cif")[0]
 
 #### Saving mmCIF Files
 
-The mmCIFIO class provides a `save()` method for saving mmCIF files. The `save()` method takes a single `Protein` object or a list of `Protein` objects as input.
+The mmCIFIO class provides a `save()` method for saving mmCIF files. The `save()` method takes a 
+single `Protein` object or a list of `Protein` objects as input.
 
 ```python
 MMTFIO.save(protein, "1AHW.cif")
