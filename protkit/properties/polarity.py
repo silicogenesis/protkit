@@ -30,6 +30,12 @@ class Polarity:
     # Polar residues: R, N, D, Q, E, H, K, S, T, Y
     # Non-polar residues: A, C, F, G, I, L, M, P, V, W
 
+    POLARITY_STRING = [
+        "Undefined",
+        "Polar",
+        "Non-polar"
+    ]
+
     POLARITY = {
         "ALA": NON_POLAR,
         "ARG": POLAR,

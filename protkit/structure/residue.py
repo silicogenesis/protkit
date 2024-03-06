@@ -666,7 +666,8 @@ class Residue:
         Raises:
             AttributeError: If the attribute does not exist.
         """
-        return getattr(self, "_" + key)
+        if hasattr(self, "_" + key):
+            return getattr(self, "_" + key)
 
     def set_attribute(self, key: str, value: Any) -> None:
         """

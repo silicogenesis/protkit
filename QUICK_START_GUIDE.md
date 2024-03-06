@@ -1119,8 +1119,8 @@ the chains and residues in the protein).
 from protkit.file_io import ProtIO
 from protkit.properties import Hydrophobicity
 
-protein = ProtIO.load("3i40.prot")[0]
-Hydrophobicity.hydrophobicity_to_protein(protein, assign_attribute=True)
+protein = ProtIO.load("1ahw.prot")[0]
+Hydrophobicity.hydrophobicity_of_protein(protein, assign_attribute=True)
 
 print(protein.get_attribute("hydrophobicity"))
 print(protein.get_chain("A").get_attribute("hydrophobicity"))
@@ -1145,9 +1145,9 @@ assigned based on the definitions by the IMGT.
 from protkit.file_io import ProtIO
 from protkit.properties import Hydrophobicity
 
-protein = ProtIO.load("3i40.prot")[0]
-Hydrophobicity.hydrophobicity_class_to_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_attribute("hydrophobicity_class"))
+protein = ProtIO.load("1ahw.prot")[0]
+Hydrophobicity.hydrophobicity_classes_of_protein(protein, assign_attribute=True)
+print(Hydrophobicity.HYDROPHOBICITY_CLASS_STRING[protein.get_chain("A").get_residue(0).get_attribute("hydrophobicity_class")])
 ```
 
 ### 7.4 Mass
@@ -1177,12 +1177,15 @@ Mass can be computed in three ways:
 from protkit.file_io import ProtIO
 from protkit.properties import Mass
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
 Mass.residue_mass_of_protein(protein, assign_attribute=True)
 Mass.atomic_mass_of_protein(protein, assign_attribute=True)
 Mass.molecular_mass_of_protein(protein, assign_attribute=True)
 
-print(protein.get_attribute("residue_mass"))
+residue = protein.get_chain("A").get_residue(0)
+print(residue.get_attribute("residue_mass"))
+print(residue.get_attribute("atomic_mass"))
+print(residue.get_attribute("molecular_mass"))
 ```
 
 ### 7.5 Chemical Class
@@ -1202,9 +1205,9 @@ The chemical classes follow the definitions by the IMGT.
 from protkit.file_io import ProtIO
 from protkit.properties import ChemicalClass
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
 ChemicalClass.chemical_classes_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_attribute("chemical_class"))
+print(ChemicalClass.CHEMICAL_CLASS_STRING[protein.get_chain("A").get_residue(0).get_attribute("chemical_class")])
 ```
 
 ### 7.6 Residue Charge
@@ -1224,9 +1227,13 @@ The charges are then propagated from residues to chains and proteins.
 from protkit.file_io import ProtIO
 from protkit.properties import Charge
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
 Charge.charge_of_protein(protein, assign_attribute=True)
+chain = protein.get_chain("A")
+residue = chain.get_residue(0)
 print(protein.get_attribute("charge"))
+print(chain.get_attribute("charge"))
+print(residue.get_attribute("charge"))
 ```
 
 ### 7.7 Residue Polarity
@@ -1246,9 +1253,10 @@ definitions by the IMGT.
 from protkit.file_io import ProtIO
 from protkit.properties import Polarity
 
-protein = ProtIO.load("3i40.prot")[0]
-Polarity.polarity_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_attribute("polarity"))
+protein = ProtIO.load("1ahw.prot")[0]
+Polarity.polarities_of_protein(protein, assign_attribute=True)
+residue = protein.get_chain("A").get_residue(0)
+print(Polarity.POLARITY_STRING[residue.get_attribute("polarity")])
 ```
 
 ### 7.8 Donors and Acceptors
@@ -1275,17 +1283,19 @@ Donor and acceptor values are assigned based on the definitions by the IMGT.
 from protkit.file_io import ProtIO
 from protkit.properties import DonorsAcceptors
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
 
-DonorsAcceptors.donors_residues_of_protein(protein, assign_attribute=True)
+DonorsAcceptors.donor_residues_of_protein(protein, assign_attribute=True)
 DonorsAcceptors.acceptor_residues_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_attribute("is_donor_residue"))
-print(protein.get_chain("A").get_residue(0).get_attribute("is_acceptor_residue"))
+residue = protein.get_chain("A").get_residue(0)
+print(residue.get_attribute("is_donor_residue"))
+print(residue.get_attribute("is_acceptor_residue"))
 
-DonorsAcceptors.donors_atoms_of_protein(protein, assign_attribute=True)
+DonorsAcceptors.donor_atoms_of_protein(protein, assign_attribute=True)
 DonorsAcceptors.acceptor_atoms_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_atom("N").get_attribute("is_donor_atom"))
-print(protein.get_chain("A").get_residue(0).get_atom("N").get_attribute("is_acceptor_atom"))
+atom = protein.get_chain("A").get_residue(0).get_atom("N")
+print(atom.get_attribute("is_donor_atom"))
+print(atom.get_attribute("is_acceptor_atom"))
 ```
 
 ### 7.9 Surface Area
@@ -1309,10 +1319,14 @@ as one of the dependencies when Protkit is installed.
 from protkit.file_io import ProtIO
 from protkit.properties import SurfaceArea
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
+chain = protein.get_chain("A")
+residue = chain.get_residue(0)
+
 SurfaceArea.surface_area_of_protein(protein, assign_attribute=True)
 print(protein.get_attribute("surface_area"))
-print(protein.get_chain("A").get_attribute("surface_area"))
+print(chain.get_attribute("surface_area"))
+print(residue.get_attribute("surface_area"))
 ```
 
 ### 7.10 Volume
@@ -1329,14 +1343,21 @@ The volume of a sequence is the sum of the volumes of the residues in the sequen
 values are defined by the IMGT for the 20 standard amino acids.
 
 ```python
-from protkit.file_io import ProtIO
+from protkit.file_io import ProtIO, FastaIO
 from protkit.properties import Volume
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
+chain = protein.get_chain("A")
+residue = chain.get_residue(0)
+
 Volume.volume_of_protein(protein, assign_attribute=True)
 print(protein.get_attribute("volume"))
-print(protein.get_chain("A").get_attribute("volume"))
-print(protein.get_chain("A").get_residue(0).get_attribute("volume"))
+print(chain.get_attribute("volume"))
+print(residue.get_attribute("volume"))
+
+sequence = FastaIO.load("1ahw.fasta")[0]
+Volume.volume_of_sequence(sequence, assign_attribute=True)
+print(sequence.get_attribute("volume"))
 ```
 
 ### 7.11 Volume Class
@@ -1353,12 +1374,19 @@ very small, small, medium, large or very large. The volume classes are assigned 
 definitions by the IMGT.
 
 ```python
-from protkit.file_io import ProtIO
+from protkit.file_io import ProtIO, FastaIO
 from protkit.properties import Volume
 
-protein = ProtIO.load("3i40.prot")[0]
-Volume.volume_class_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_residue(0).get_attribute("volume_class"))
+protein = ProtIO.load("1ahw.prot")[0]
+residue = protein.get_chain("A").get_residue(0)
+
+Volume.volume_classes_of_protein(protein, assign_attribute=True)
+print(Volume.VOLUME_CLASS_STRING[residue.get_attribute("volume_class")])
+
+sequence = FastaIO.load("1ahw.fasta")[0]
+Volume.volume_classes_of_sequence(sequence, assign_attribute=True)
+for volume_class in sequence.get_attribute("volume_class"):
+    print(Volume.VOLUME_CLASS_STRING[volume_class])
 ```
 
 ### 7.12 Object Bounds and Center
@@ -1413,10 +1441,10 @@ expected atoms are not present in the residue, the bond length is set to `None`.
 from protkit.file_io import ProtIO
 from protkit.properties import BondLengths
 
-protein = ProtIO.load("3i40.prot")[0]
-BondLengths.bond_lengths_of_protein(protein, assign_attribute=True)
-
+protein = ProtIO.load("1ahw.prot")[0]
 residue = protein.get_chain("A").get_residue(0)
+
+BondLengths.bond_lengths_of_protein(protein, assign_attribute=True)
 for (atom1, atom2), length in residue.get_attribute("bond_lengths").items():
     print(f"{atom1}-{atom2}: {length}")
 ```
@@ -1433,9 +1461,11 @@ chain(s).
 from protkit.file_io import ProtIO
 from protkit.properties import BondLengths
 
-protein = ProtIO.load("3i40.prot")[0]
-BondLengths.bond_lengths_of_protein(protein, assign_attribute=True)
-print(protein.get_chain("A").get_attribute("bond_lengths"))
+protein = ProtIO.load("1ahw.prot")[0]
+chain = protein.get_chain("A")
+
+BondLengths.peptide_bond_lengths_of_protein(protein, assign_attribute=True)
+print(chain.get_attribute("peptide_bond_lengths"))
 ```
 
 ### 7.14 Bond Angles
@@ -1461,9 +1491,10 @@ the bond angles for each residue in the chain, or for each residue in the protei
 from protkit.file_io import ProtIO
 from protkit.properties import BondAngles
 
-protein = ProtIO.load("3i40.prot")[0]
-BondAngles.bond_angles_of_protein(protein, assign_attribute=True)
+protein = ProtIO.load("1ahw.prot")[0]
 residue = protein.get_chain("A").get_residue(0)
+
+BondAngles.bond_angles_of_protein(protein, assign_attribute=True)
 for (atom1, atom2, atom3), angle in residue.get_attribute("bond_angles").items():
     print(f"{atom1}-{atom2}-{atom3}: {angle}")
 ```
@@ -1497,10 +1528,10 @@ the dihedral angles for each residue in the chain, or for each residue in the pr
 from protkit.file_io import ProtIO
 from protkit.properties import DihedralAngles
 
-protein = ProtIO.load("3i40.prot")[0]
-DihedralAngles.dihedral_angles_of_protein(protein, assign_attribute=True)
+protein = ProtIO.load("1ahw.prot")[0]
 residue = protein.get_chain("A").get_residue(1)
 
+DihedralAngles.dihedral_angles_of_protein(protein, assign_attribute=True)
 for angle_name, angle in residue.get_attribute("dihedral_angles").items():
     print(f"{angle_name}: {angle}")
 ```
@@ -1508,7 +1539,7 @@ for angle_name, angle in residue.get_attribute("dihedral_angles").items():
 ### 7.16 Circular Variance
 
 - Applicable to: `Residue` and `Atom`
-- Default key: `circular_variance`
+- Default key: `cv_residue` and `cv_atom`
 - Property type: `Normal`
 
 The circular variance of a residue or atom is computed using the ```CircularVariance``` class in the
@@ -1521,9 +1552,15 @@ It can be calculated in two ways:
 from protkit.file_io import ProtIO
 from protkit.properties import CircularVariance
 
-protein = ProtIO.load("3i40.prot")[0]
+protein = ProtIO.load("1ahw.prot")[0]
+residue = protein.get_chain("A").get_residue(1)
+atom = residue.get_atom("CA")
+
 CircularVariance.circular_variance_by_residue(protein, assign_attribute=True)
+print(residue.get_attribute("cv_residue"))
+
 CircularVariance.circular_variance_by_atom(protein, assign_attribute=True)
+print(atom.get_attribute("cv_atom"))
 ```
 
 ### 7.17 Interfaces
@@ -1553,10 +1590,13 @@ from protkit.file_io import ProtIO
 from protkit.properties import Interface
 
 protein = ProtIO.load("1ahw.prot")[0]
-atoms1 = protein.filter_atoms(chain_criteria=[("chain_id": ["A", "B"])])
-atoms2 = protein.filter_atoms(chain_criteria=[("chain_id": ["C"])])
+atoms1 = list(protein.filter_atoms(chain_criteria=[("chain_id", ["A", "B"])]))
+atoms2 = list(protein.filter_atoms(chain_criteria=[("chain_id", ["C"])]))
 
 Interface.interface_atoms(atoms1, atoms2, cutoff=5.0, assign_attribute=True)
+for atom in atoms1:
+    if atom.get_attribute("in_interface"):
+        print(atom.id)
 ```
 
 For residues, two residues are considered to be
@@ -1566,12 +1606,23 @@ consider two residues to be interacting if the distance between the C-alpha atom
 the two residues is less than the specified `cutoff` value.
 
 ```python
+from protkit.file_io import ProtIO
+from protkit.properties import Interface
+
 protein = ProtIO.load("1ahw.prot")[0]
-residues1 = protein.filter_residues(chain_criteria=[("chain_id": ["A", "B"])])
-residues2 = protein.filter_residues(chain_criteria=[("chain_id": ["C"])])
+residues1 = list(protein.filter_residues(chain_criteria=[("chain_id", ["A", "B"])]))
+residues2 = list(protein.filter_residues(chain_criteria=[("chain_id", ["C"])]))
 
 Interface.interface_residues(residues1, residues2, cutoff=5.0, assign_attribute=True)
-Interface.interface_residues_from_alpha_carbon(residues1, residues2, cutoff=5.0, assign_attribute=True)
+Interface.interface_residues_from_alpha_carbon(residues1, residues2, cutoff=6.0, assign_attribute=True, key="ca_in_interface")
+
+for residue in residues1:
+    if residue.get_attribute("in_interface"):
+        print(residue.id)
+
+for residue in residues1:
+    if residue.get_attribute("ca_in_interface"):
+        print(residue.id)
 ```
 
 ***This guide is in active development. More sections will be added soon.***

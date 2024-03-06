@@ -303,6 +303,7 @@ class Protein:
     # - num_hetero_residues (property)
     # - num_water_residues (property)
     # - num_residues_by_type (property)
+    # - get_residue()
     # - filter_residues (iterator)
     # Update
     # - renumber_residues
@@ -388,6 +389,22 @@ class Protein:
             num_residues[residue.residue_type] += 1
         return num_residues
 
+    def get_residue(self, chain_id: str, residue_index: int) -> Optional[Residue]:
+        """
+        Returns a residue from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+
+        Returns:
+            Residue: The residue if it exists, otherwise None.
+        """
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index)
+        else:
+            return None
+
     def filter_residues(self,
                         chain_criteria: Optional[List] = None,
                         residue_criteria: Optional[List] = None) -> Iterator[Residue]:
@@ -449,6 +466,7 @@ class Protein:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - get_atom()
     # - filter_atoms (iterator)
     # - missing_heavy_atom_types
     # - extra_heavy_atom_types
@@ -539,6 +557,23 @@ class Protein:
         for chain in self._chains.values():
             count += chain.num_hetero_atoms
         return count
+
+    def get_atom(self, chain_id: str, residue_index: int, atom_name: str) -> Optional[Atom]:
+        """
+        Returns an atom from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+            atom_name (str): The name of the atom.
+
+        Returns:
+            Atom: The atom if it exists, otherwise None.
+        """
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index).get_atom(atom_name)
+        else:
+            return None
 
     def filter_atoms(self,
                      chain_criteria: Optional[List] = None,

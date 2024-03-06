@@ -79,7 +79,7 @@ class Chain:
         """
         if self._protein is None:
             return self._chain_id
-        elif self._protein.id is None:
+        elif self._protein.id is None or self._protein.id == "":
             return self._chain_id
         else:
             return self._protein.id + ":" + self._chain_id

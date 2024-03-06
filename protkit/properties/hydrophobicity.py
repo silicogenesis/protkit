@@ -98,6 +98,13 @@ class Hydrophobicity:
     NEUTRAL = 2
     HYDROPHILIC = 3
 
+    HYDROPHOBICITY_CLASS_STRING = [
+        "Undefined",
+        "Hydrophobic",
+        "Neutral",
+        "Hydrophilic"
+    ]
+
     HYDROPHOBICITY_CLASS = {
         "ALA": HYDROPHOBIC,
         "ARG": HYDROPHILIC,
@@ -217,7 +224,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the chain.
         """
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue) for residue in chain.residues]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
         if assign_attribute:
             chain.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes
@@ -257,7 +264,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the protein.
         """
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain) for chain in protein.chains]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
         if assign_attribute:
             protein.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes

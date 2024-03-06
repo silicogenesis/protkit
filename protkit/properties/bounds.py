@@ -100,7 +100,7 @@ class Bounds:
         max_x = max_y = max_z = float("-inf")
 
         for residue in chain.residues:
-            min_x, max_x, min_y, max_y, min_z, max_z = Bounds.bounds_of_residue(residue, assign_attribute=assign_bounds, key=key)
+            min_x, max_x, min_y, max_y, min_z, max_z = Bounds.bounds_of_residue(residue, assign_attribute=assign_attribute, key=key)
             min_x = min(min_x, min_x)
             min_y = min(min_y, min_y)
             min_z = min(min_z, min_z)

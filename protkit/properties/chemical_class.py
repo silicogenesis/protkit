@@ -36,6 +36,17 @@ class ChemicalClass:
     ACIDIC = 6
     AMIDE = 7
 
+    CHEMICAL_CLASS_STRING = [
+        "Undefined",
+        "Aliphatic",
+        "Aromatic",
+        "Sulfur",
+        "Hydroxyl",
+        "Basic",
+        "Acidic",
+        "Amide"
+    ]
+
     CHEMICAL_CLASS = {
         "ALA": ALIPHATIC,
         "ARG": BASIC,

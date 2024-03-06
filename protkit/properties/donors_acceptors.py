@@ -260,7 +260,7 @@ class DonorsAcceptors:
         Returns:
             list: A list of donor residues.
         """
-        donor_residues = [DonorsAcceptors.donor_residue(residue) for residue in chain.residues]
+        donor_residues = [DonorsAcceptors.donor_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
         if assign_attribute:
             chain.set_attribute(key, donor_residues)
         return donor_residues
@@ -280,7 +280,7 @@ class DonorsAcceptors:
         Returns:
             list: A list of acceptor residues.
         """
-        acceptor_residues = [DonorsAcceptors.acceptor_residue(residue) for residue in chain.residues]
+        acceptor_residues = [DonorsAcceptors.acceptor_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
         if assign_attribute:
             chain.set_attribute(key, acceptor_residues)
         return acceptor_residues
@@ -300,7 +300,7 @@ class DonorsAcceptors:
         Returns:
             list: A list of donor residues.
         """
-        donor_residues = [DonorsAcceptors.donor_residues_of_chain(chain) for chain in protein.chains]
+        donor_residues = [DonorsAcceptors.donor_residues_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
         if assign_attribute:
             protein.set_attribute(key, donor_residues)
         return donor_residues
@@ -320,7 +320,7 @@ class DonorsAcceptors:
         Returns:
             list: A list of acceptor residues.
         """
-        acceptor_residues = [DonorsAcceptors.acceptor_residues_of_chain(chain) for chain in protein.chains]
+        acceptor_residues = [DonorsAcceptors.acceptor_residues_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
         if assign_attribute:
             protein.set_attribute(key, acceptor_residues)
         return acceptor_residues

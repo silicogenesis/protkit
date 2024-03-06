@@ -91,6 +91,15 @@ class Volume:
     L = 4
     VL = 5
 
+    VOLUME_CLASS_STRING = [
+        "Undefined",
+        "Very Small",
+        "Small",
+        "Medium",
+        "Large",
+        "Very Large"
+    ]
+
     VOLUME_CLASS = {
         "ALA": VS,
         "ARG": L,
@@ -190,7 +199,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the chain.
         """
-        volume = sum(Volume.volume_of_residue(residue) for residue in chain.residues)
+        volume = sum(Volume.volume_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues)
         if assign_attribute:
             chain.set_attribute(key, volume)
         return volume
@@ -211,8 +220,8 @@ class Volume:
             list: A list of volume classes of the chain.
         """
         volume_classes = [Volume.volume_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
-        if assign_attribute:
-            chain.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     chain.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod
@@ -230,7 +239,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the protein.
         """
-        volume = sum(Volume.volume_of_chain(chain) for chain in protein.chains)
+        volume = sum(Volume.volume_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains)
         if assign_attribute:
             protein.set_attribute(key, volume)
         return volume
@@ -251,8 +260,8 @@ class Volume:
             list: A list of volume classes of the protein.
         """
         volume_classes = [Volume.volume_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
-        if assign_attribute:
-            protein.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     protein.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod

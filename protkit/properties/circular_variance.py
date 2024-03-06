@@ -105,6 +105,7 @@ class CircularVariance:
         # Assign circular variance to residues
         circular_variance_by_residue = CircularVariance.circular_variance(residue_coordinates, radius)
         if assign_attribute:
+            residues = protein.filter_residues()
             for residue, cv in zip(residues, circular_variance_by_residue):
                 residue.set_attribute(key, cv)
 

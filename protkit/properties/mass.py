@@ -259,7 +259,7 @@ class Mass:
             float: The mass of the residue.
 
         """
-        mass = sum([Mass.atomic_mass_of_atom(atom, assign_attribute=False, key=key) for atom in residue.atoms])
+        mass = sum([Mass.atomic_mass_of_atom(atom, assign_attribute=assign_attribute, key=key) for atom in residue.atoms])
         if assign_attribute:
             residue.set_attribute(key, mass)
         return mass
@@ -280,7 +280,7 @@ class Mass:
             float: The mass of the chain.
 
         """
-        mass = sum([Mass.atomic_mass_of_residue(residue, assign_attribute=False, key=key) for residue in chain.residues])
+        mass = sum([Mass.atomic_mass_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues])
         if assign_attribute:
             chain.set_attribute(key, mass)
         return mass
@@ -301,7 +301,7 @@ class Mass:
             float: The mass of the protein.
 
         """
-        mass = sum([Mass.atomic_mass_of_chain(chain, assign_attribute=False, key=key) for chain in protein.chains])
+        mass = sum([Mass.atomic_mass_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains])
         if assign_attribute:
             protein.set_attribute(key, mass)
         return mass
