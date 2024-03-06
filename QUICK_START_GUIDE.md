@@ -35,7 +35,24 @@ Protkit is designed to be intuitive and easy to use.  This Quick Start Guide wil
     3. [Removing Hetero Residues](#63-removing-hetero-residues)
     4. [Fixing Disordered Atoms](#64-fixing-disordered-atoms)
     5. [Removing Hydrogen Atoms (Deprotonation)](#65-removing-hydrogen-atoms-deprotonation) 
-
+7. [Calculating Protein Properties](#7-calculating-protein-properties)
+    1. [Methodology behind Calculating Properties](#71-methodology-behind-calculating-properties)
+    2. [Hydrophobicity](#72-hydrophobicity)
+    3. [Hydrophobicity Class](#73-hydrophobicity-class)
+    4. [Mass](#74-mass)
+    5. [Chemical Class](#75-chemical-class)
+    6. [Residue Charge](#76-residue-charge)
+    7. [Residue Polarity](#77-residue-polarity)
+    8. [Donors and Acceptors](#78-donors-and-acceptors)
+    9. [Surface Area](#79-surface-area)
+    10. [Volume](#710-volume)
+    11. [Volume Class](#711-volume-class)
+    12. [Object Bounds and Center](#712-object-bounds-and-center)
+    13. [Bond Lengths](#713-bond-lengths)
+    14. [Bond Angles](#714-bond-angles)
+    15. [Torsion / Dihedral Angles](#715-torsion-dihedral-angles)
+    16. [Circular Variance](#716-circular-variance)
+    17. [Interfaces](#717-interfaces)
 ---
 
 ## 1. Installation
@@ -1031,5 +1048,530 @@ Running the above code would produce the following output:
 ```
 
 ```remove_hydrogen_atoms()``` can also be called at the chain or residue level.
+
+## 7. Calculating Protein Properties
+
+It is often useful to compute properties, attributes or features of a protein, chain,
+residue or atom. For example, we may want to compute the surface area 
+of a protein, the hydrophobicity of a residue or the mass of an atom.
+
+Protkit provides an extensive set of methods for computing such properties.
+These methods are available through the `protkit.properties` package.
+
+### 7.1 Methodology behind Calculating Properties
+
+The design decision was made to compute the properties externally to the
+protein, chain, residue or atom objects. This was done to avoid bloating the
+code with a large number of methods inside these classes.
+
+Instead, properties are calculated using classes from the `protkit.properties`
+package. These classes are designed to be easily extendable, and to be easily
+used in a variety of contexts.  Each class within the `protkit.properties` package
+is used to compute one or a few related properties.  For example, the `SurfaceArea`
+class is used to compute the surface area of a protein, while the `Hydrophobicity`
+class is used to compute the hydrophobicity of a residue.
+
+These classes are typically called with a protein, chain, residue or atom as input,
+and return the computed property as output. The function names of the methods 
+are typically descriptive of the property being computed. For example, the 
+`surface_area_of_protein()` method of the `SurfaceArea` class computes the surface
+area of a protein, while the `hydrophobicity_of_chain()` method of the `Hydrophobicity`
+class computes the hydrophobicity of a chain.
+
+The computed property is not stored 
+as part of the corresponding object, but is returned as a separate object.  This
+is done to avoid bloating the objects with unnecessary attributes, in cases they are 
+not needed downstream. The computed property can be stored as part of the object,
+by setting the `assign_attribute` parameter to `True` when calling the method. An 
+optional `key` parameter can be used to specify the name of the attribute.
+Properties computed in this way are stored as part of the object and are available for 
+future use.  It is persisted in the Prot file when the object is saved.
+
+Note that some properties are computed at several levels of the hierarchy. For example,
+when the mass of a protein is calculated, the mass of the protein is computed as the sum
+of the masses of the chains in the protein, which in turn is the sum of the masses of the
+residues in the chain. When the `assign_attribute` parameter is set to `True`, the mass
+values are assigned across all levels of the hierarchy.
+
+### 7.2 Hydrophobicity
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `hydrophobicity`
+- Property Type: `Additive`
+
+Hydrophobicity is computed using the ```Hydrophobicity``` class in the
+```src.properties``` package. 
+
+Hydrophobicity is computed using
+the Kyte-Doolittle scale, which ranges from -4.5 to 4.5.  The hydrophobicity
+values are only defined for the 20 standard amino acids.  The values for 
+non-standard amino acids are set to 0.0.
+
+The methods `hydrophobicity_of_protein()`, `hydrophobicity_of_chain()`, `hydrophobicity_of_residue()` and
+`hydrophobicity_of_sequence()` are used to compute the hydrophobicity. Hydrophobicity is not defined
+at the atom level.
+
+The example below illustrates how hydrophobicity is computed at the protein level
+and assigned as an attribute of the protein (which in turn assigns the hydrophobicity to
+the chains and residues in the protein).
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Hydrophobicity
+
+protein = ProtIO.load("3i40.prot")[0]
+Hydrophobicity.hydrophobicity_to_protein(protein, assign_attribute=True)
+
+print(protein.get_attribute("hydrophobicity"))
+print(protein.get_chain("A").get_attribute("hydrophobicity"))
+print(protein.get_chain("B").get_attribute("hydrophobicity"))
+print(protein.get_chain("A").get_residue(0).get_attribute("hydrophobicity"))
+```
+
+### 7.3 Hydrophobicity Class
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `hydrophobicity_class`
+- Property type: `Categorical`
+
+Hydrophobicity class is computed using the ```Hydrophobicity``` class in the
+```src.properties.hydrophobicity``` module. 
+
+The hydrophobicity class is a categorical property that assigns a residue to one of
+three classes: hydrophobic, hydrophilic or neutral. The hydrophobicity classes are
+assigned based on the definitions by the IMGT.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Hydrophobicity
+
+protein = ProtIO.load("3i40.prot")[0]
+Hydrophobicity.hydrophobicity_class_to_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_attribute("hydrophobicity_class"))
+```
+
+### 7.4 Mass
+
+Mass can be computed in three ways:
+
+- Atomic mass: A mass is assigned to each atom.
+  It is then propagated to the residue, chain and protein levels.
+  The first method is applicable if the complete atomic structure is available.
+  - Applicable to: `Protein`, `Chain`, `Residue` and `Atom`
+  - Default key: `atomic_mass`
+  - Property type: `Additive`
+- Residue mass. A mass is assigned to each residue.
+  It is then propagated to the chain and protein. It can also be assigned to a sequence,
+  since it is dependent on knowledge of the residue sequence only.
+  - Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+  - Default key: `residue_mass`
+  - Property type: `Additive`
+- Molecular mass. In the third method, the molecular mass is assigned to each residue.
+  This is the mass of the unbound amino acid. It would not make sense to
+  assign this mass to the chain or protein. It can be assigned to a sequence.
+  - Applicable to: `Residue` and `Sequence` (can be called at the protein or chain level, but no assignments are made)
+  - Default key: `molecular_mass`
+  - Property type: `Normal`
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Mass
+
+protein = ProtIO.load("3i40.prot")[0]
+Mass.residue_mass_of_protein(protein, assign_attribute=True)
+Mass.atomic_mass_of_protein(protein, assign_attribute=True)
+Mass.molecular_mass_of_protein(protein, assign_attribute=True)
+
+print(protein.get_attribute("residue_mass"))
+```
+
+### 7.5 Chemical Class
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `chemical_class`
+- Property type: `Categorical`
+
+The chemical class of a residue is computed using the ```ChemicalClass``` class in the
+```src.properties``` module.
+
+The chemical class is a categorical property that assigns a residue to one of
+seven classes: aliphatic, aromatic, acidic, amide, basic, hydroxyl and sulfur. 
+The chemical classes follow the definitions by the IMGT.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import ChemicalClass
+
+protein = ProtIO.load("3i40.prot")[0]
+ChemicalClass.chemical_classes_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_attribute("chemical_class"))
+```
+
+### 7.6 Residue Charge
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `charge`
+- Property type: `Additive`
+
+The charge of a residue, chain or protein is computed using the ```Charge``` class in the
+```src.properties``` module. 
+
+Note that these charges are not calculated using the pKa values of the residues. 
+Instead, they are based on residue charges as defined by the IMGT.
+The charges are then propagated from residues to chains and proteins.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Charge
+
+protein = ProtIO.load("3i40.prot")[0]
+Charge.charge_of_protein(protein, assign_attribute=True)
+print(protein.get_attribute("charge"))
+```
+
+### 7.7 Residue Polarity
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `polarity`
+- Property type: `Categorical`
+
+The polarity of a residue is computed using the ```Polarity``` class in the
+```src.properties``` module.
+
+The polarity is a categorical property that assigns a residue to one of
+two classes: polar or non-polar. The polarity classes are assigned based on the
+definitions by the IMGT.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Polarity
+
+protein = ProtIO.load("3i40.prot")[0]
+Polarity.polarity_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_attribute("polarity"))
+```
+
+### 7.8 Donors and Acceptors
+
+Donors and Acceptors are calculated using the ```DonorsAcceptors``` class in the
+```src.properties``` module.
+
+Donors and Acceptors can refer to atoms or residues. Specific atoms are assigned
+as donors or acceptors based on their atom type. Residues are assigned as donors
+or acceptors based on the presence of specific atoms in the residue. 
+
+Donor and acceptor values are assigned based on the definitions by the IMGT. 
+
+- Donor and Acceptor Residues
+  - Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+  - Default keys: `is_donor_residue` and `is_acceptor_residue`
+  - Property type: `Boolean`
+- Donor and Acceptor Atoms
+  - Applicable to: `Protein`, `Chain`, `Residue` and `Atom`
+  - Default keys: `is_donor_atom` and `is_acceptor_atom`
+  - Property type: `Boolean`
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import DonorsAcceptors
+
+protein = ProtIO.load("3i40.prot")[0]
+
+DonorsAcceptors.donors_residues_of_protein(protein, assign_attribute=True)
+DonorsAcceptors.acceptor_residues_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_attribute("is_donor_residue"))
+print(protein.get_chain("A").get_residue(0).get_attribute("is_acceptor_residue"))
+
+DonorsAcceptors.donors_atoms_of_protein(protein, assign_attribute=True)
+DonorsAcceptors.acceptor_atoms_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_atom("N").get_attribute("is_donor_atom"))
+print(protein.get_chain("A").get_residue(0).get_atom("N").get_attribute("is_acceptor_atom"))
+```
+
+### 7.9 Surface Area
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Atom`
+- Default key: `surface_area`
+- Property type: `Additive`
+
+The surface area of a protein, chain, residue or atom is computed using the ```SurfaceArea``` class in the
+```src.properties``` module.
+
+The surface area refers to the solvent accessible surface area (SASA) of the protein, chain, residue or atom. 
+The surface area can be computed using the Lee-Richards or the Shrake-Rupley algorithm. 
+The surface area then propagated from atoms to residues, chains and proteins.
+
+The current implementation uses FreeSASA for surface computations. FreeSASA is installed
+as one of the dependencies when Protkit is installed.
+
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import SurfaceArea
+
+protein = ProtIO.load("3i40.prot")[0]
+SurfaceArea.surface_area_of_protein(protein, assign_attribute=True)
+print(protein.get_attribute("surface_area"))
+print(protein.get_chain("A").get_attribute("surface_area"))
+```
+
+### 7.10 Volume
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`.
+- Default key: `volume`
+- Property type: `Additive`
+
+The volume of a protein, chain, residue or sequence is computed using the ```Volume``` class in the
+```src.properties``` module.
+
+Note that volumes are based on average estimated values for the residues. The volume of a protein is the sum of the volumes of the chains in the protein, which in turn is the sum of the volumes of the residues in the chain. 
+The volume of a sequence is the sum of the volumes of the residues in the sequence. The volume
+values are defined by the IMGT for the 20 standard amino acids.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Volume
+
+protein = ProtIO.load("3i40.prot")[0]
+Volume.volume_of_protein(protein, assign_attribute=True)
+print(protein.get_attribute("volume"))
+print(protein.get_chain("A").get_attribute("volume"))
+print(protein.get_chain("A").get_residue(0).get_attribute("volume"))
+```
+
+### 7.11 Volume Class
+
+- Applicable to: `Protein`, `Chain`, `Residue` and `Sequence`
+- Default key: `volume_class`
+- Property type: `Categorical`
+
+The volume class of a residue is computed using the ```Volume``` class in the
+```src.properties``` module.
+
+The volume class is a categorical property that assigns a residue to one of five classes: 
+very small, small, medium, large or very large. The volume classes are assigned based on the
+definitions by the IMGT.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Volume
+
+protein = ProtIO.load("3i40.prot")[0]
+Volume.volume_class_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_residue(0).get_attribute("volume_class"))
+```
+
+### 7.12 Object Bounds and Center
+
+- Applicable to: `Protein`, `Chain` and `Residue`
+- Default keys: `bounds` and `center`
+- Property type: `Normal`
+
+The bounds and center of a protein, chain or residue are computed using the 
+```Bounds``` class in the ```src.properties``` package.
+
+The bounds of an object are the minimum and maximum coordinates of the object
+in the x, y and z dimensions, based on the coordinates of the atoms that
+comprise the object. The center of an object is the average of the minimum and
+maximum coordinates of the object in the x, y and z dimensions.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Bounds
+
+protein = ProtIO.load("3i40.prot")[0]
+
+Bounds.bounds_of_protein(protein, assign_attribute=True)
+Bounds.center_of_protein(protein, assign_attribute=True)
+
+print(protein.get_attribute("bounds"))
+print(protein.get_chain("A").get_attribute("bounds"))
+print(protein.get_attribute("center"))
+print(protein.get_chain("A").get_residue(0).get_attribute("center"))
+```
+
+### 7.13 Bond Lengths
+
+- Applicable to: `Protein`, `Chain` and `Residue`
+- Default key: `bond_lengths`
+- Property type: `Normal`
+
+Bond lengths for residues can be computed using the
+```BondLengths``` class in the ```src.properties``` package.  
+
+Each different type of residue  has a unique set expected covalent bonds.  
+This collection of bond lengths are defined by the `HEAVY_ATOM_BONDS` dictionary
+in the `BondLengths` class.  For example, an Alanine (ALA) residue has 4 covalent
+bonds, namely N-CA, CA-C, C-O and CA-CB.
+
+Bond lengths are computed for each residue and can be stored as an attribute of the
+residue.  The bond lengths are stored as a dictionary, where the keys are tuples of
+atom types and the values are the bond lengths. In the case that one of the
+expected atoms are not present in the residue, the bond length is set to `None`.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import BondLengths
+
+protein = ProtIO.load("3i40.prot")[0]
+BondLengths.bond_lengths_of_protein(protein, assign_attribute=True)
+
+residue = protein.get_chain("A").get_residue(0)
+for (atom1, atom2), length in residue.get_attribute("bond_lengths").items():
+    print(f"{atom1}-{atom2}: {length}")
+```
+
+To calculate the bond lengths (peptide lengths) between residues in a chain, use the
+`bond_lengths_of_chain()` or `bond_lengths_of_protein()` method.  This will calculate
+the bond lengths between the C atom of one residue and the N atom of the next residue.
+
+If the `assign_attribute` parameter is set to `True, the bond lengths are stored as 
+a list of floating point values in the `bond_lengths` attribute of the corresponding
+chain(s).
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import BondLengths
+
+protein = ProtIO.load("3i40.prot")[0]
+BondLengths.bond_lengths_of_protein(protein, assign_attribute=True)
+print(protein.get_chain("A").get_attribute("bond_lengths"))
+```
+
+### 7.14 Bond Angles
+
+- Applicable to: `Protein`, `Chain` and `Residue`
+- Default key: `bond_angles`
+- Property type: `Normal`
+
+Bond angles for residues can be computed using the
+```BondAngles``` class in the ```src.properties``` package.
+
+Bond angles are defined as the angle between three atoms in a residue.  Each 
+residue has a unique set of expected bond angles.  This collection of bond angles
+are defined by the `HEAVY_ATOM_ANGLES` dictionary in the `BondAngles` class.  For
+example, an Alanine (ALA) residue has 4 bond angles, namely N-CA-C, CA-C-O, 
+N-CA-CB and C-CA-CB.
+
+To compute the bond angles of a residue, use the `bond_angles_of_residue()`,
+`bond_angles_of_chain()` or `bond_angles_of_protein()` method.  This will calculate
+the bond angles for each residue in the chain, or for each residue in the protein.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import BondAngles
+
+protein = ProtIO.load("3i40.prot")[0]
+BondAngles.bond_angles_of_protein(protein, assign_attribute=True)
+residue = protein.get_chain("A").get_residue(0)
+for (atom1, atom2, atom3), angle in residue.get_attribute("bond_angles").items():
+    print(f"{atom1}-{atom2}-{atom3}: {angle}")
+```
+
+### 7.15 Torsion / Dihedral Angles
+
+- Applicable to: `Protein`, `Chain` and `Residue`
+- Default key: `dihedral_angles`
+- Attribute type: `Normal`
+
+Dihedral angles can be computed using the
+```DihedralAngles``` class in the ```src.properties``` package.
+
+Dihedral angles are defined as the angle between four atoms in a residue.  Each
+residue has a unique set of expected dihedral angles.  This collection of dihedral
+angles are defined by the `DIHEDRAL_ANGLES` dictionary in the `DihedralAngles`
+class.  For example, an Aspargine (ASN) residue has 2 dihedral angles associated
+with its side chain, namely N-CA-CB-CG and CA-CB-CG-OD1. These are known as 
+the chi1 and chi2 angles.  
+
+In addition, the phi, psi and omega angles are also
+calculated - these are defined as the dihedral angles between two neighbouring
+residues. As is the usual convention, the phi, psi and omega angles are 
+associated with the second residue.
+
+To compute the dihedral angles of a residue, use the `dihedral_angles_of_residue()`,
+`dihedral_angles_of_chain()` or `dihedral_angles_of_protein()` method.  This will calculate
+the dihedral angles for each residue in the chain, or for each residue in the protein.
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import DihedralAngles
+
+protein = ProtIO.load("3i40.prot")[0]
+DihedralAngles.dihedral_angles_of_protein(protein, assign_attribute=True)
+residue = protein.get_chain("A").get_residue(1)
+
+for angle_name, angle in residue.get_attribute("dihedral_angles").items():
+    print(f"{angle_name}: {angle}")
+```
+
+### 7.16 Circular Variance
+
+- Applicable to: `Residue` and `Atom`
+- Default key: `circular_variance`
+- Property type: `Normal`
+
+The circular variance of a residue or atom is computed using the ```CircularVariance``` class in the
+```src.properties``` package.
+
+Circular variance (CV) is a measure of the spread of atoms in the local environment of a residue or atom.
+It can be calculated in two ways: 
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import CircularVariance
+
+protein = ProtIO.load("3i40.prot")[0]
+CircularVariance.circular_variance_by_residue(protein, assign_attribute=True)
+CircularVariance.circular_variance_by_atom(protein, assign_attribute=True)
+```
+
+### 7.17 Interfaces
+
+- Applicable to: `Residue` and `Atom`
+- Default key: `in_interface`
+- Property type: `Boolean`
+
+The interface of a residue or atom is computed using the ```Interface``` class in the
+```src.properties``` package.
+
+The interface is a boolean property that indicates whether the residue or atom 
+is part of an interface. The interface is defined as the region of the protein
+that is in contact with another protein or ligand. The interface is computed
+using the distance between atoms in the residue or atom and atoms in other
+proteins or ligands.
+
+Interfaces can be computed at the residue or atom level.  For each, two sets of 
+objects are provided as input: the objects (atoms or residues) of interest and a set of other objects
+that are in contact with the object of interest.  
+
+For atoms, two atoms are considered to be interacting if the distance between them is 
+less than a specified `cutoff` value. 
+
+```python
+from protkit.file_io import ProtIO
+from protkit.properties import Interface
+
+protein = ProtIO.load("1ahw.prot")[0]
+atoms1 = protein.filter_atoms(chain_criteria=[("chain_id": ["A", "B"])])
+atoms2 = protein.filter_atoms(chain_criteria=[("chain_id": ["C"])])
+
+Interface.interface_atoms(atoms1, atoms2, cutoff=5.0, assign_attribute=True)
+```
+
+For residues, two residues are considered to be
+interacting if the distance between any two atoms in the two residues is less than the
+specified `cutoff` value. A second method for computing interface residues is to
+consider two residues to be interacting if the distance between the C-alpha atoms of
+the two residues is less than the specified `cutoff` value.
+
+```python
+protein = ProtIO.load("1ahw.prot")[0]
+residues1 = protein.filter_residues(chain_criteria=[("chain_id": ["A", "B"])])
+residues2 = protein.filter_residues(chain_criteria=[("chain_id": ["C"])])
+
+Interface.interface_residues(residues1, residues2, cutoff=5.0, assign_attribute=True)
+Interface.interface_residues_from_alpha_carbon(residues1, residues2, cutoff=5.0, assign_attribute=True)
+```
 
 ***This guide is in active development. More sections will be added soon.***
