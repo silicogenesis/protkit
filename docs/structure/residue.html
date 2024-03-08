@@ -695,7 +695,8 @@ class Residue:
         Raises:
             AttributeError: If the attribute does not exist.
         &#34;&#34;&#34;
-        return getattr(self, &#34;_&#34; + key)
+        if hasattr(self, &#34;_&#34; + key):
+            return getattr(self, &#34;_&#34; + key)
 
     def set_attribute(self, key: str, value: Any) -&gt; None:
         &#34;&#34;&#34;
@@ -1414,7 +1415,8 @@ class Residue:
         Raises:
             AttributeError: If the attribute does not exist.
         &#34;&#34;&#34;
-        return getattr(self, &#34;_&#34; + key)
+        if hasattr(self, &#34;_&#34; + key):
+            return getattr(self, &#34;_&#34; + key)
 
     def set_attribute(self, key: str, value: Any) -&gt; None:
         &#34;&#34;&#34;
@@ -2171,7 +2173,8 @@ highest occupancy.</p>
     Raises:
         AttributeError: If the attribute does not exist.
     &#34;&#34;&#34;
-    return getattr(self, &#34;_&#34; + key)</code></pre>
+    if hasattr(self, &#34;_&#34; + key):
+        return getattr(self, &#34;_&#34; + key)</code></pre>
 </details>
 </dd>
 <dt id="protkit.structure.residue.Residue.has_attribute"><code class="name flex">

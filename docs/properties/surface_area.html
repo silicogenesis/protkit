@@ -126,8 +126,7 @@ with implementation hooks for Python.
 
 from typing import TYPE_CHECKING
 from protkit.structure import Protein
-if TYPE_CHECKING:
-    from protkit.tools import FreeSASAAdaptor
+from protkit.tools.freesasa_adaptor import FreeSASAAdaptor
 
 
 class SurfaceArea:

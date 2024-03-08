@@ -3,4 +3,4 @@
 These include tasks such as docking, folding, affinity prediction, and more.
 """
 
-from .freesasa_adaptor import FreeSASAAdaptor
+# from .freesasa_adaptor import FreeSASAAdaptor

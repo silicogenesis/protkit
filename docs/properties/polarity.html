@@ -63,6 +63,12 @@ class Polarity:
     # Polar residues: R, N, D, Q, E, H, K, S, T, Y
     # Non-polar residues: A, C, F, G, I, L, M, P, V, W
 
+    POLARITY_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Polar&#34;,
+        &#34;Non-polar&#34;
+    ]
+
     POLARITY = {
         &#34;ALA&#34;: NON_POLAR,
         &#34;ARG&#34;: POLAR,
@@ -216,6 +222,12 @@ class Polarity:
     # Polar residues: R, N, D, Q, E, H, K, S, T, Y
     # Non-polar residues: A, C, F, G, I, L, M, P, V, W
 
+    POLARITY_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Polar&#34;,
+        &#34;Non-polar&#34;
+    ]
+
     POLARITY = {
         &#34;ALA&#34;: NON_POLAR,
         &#34;ARG&#34;: POLAR,
@@ -351,6 +363,10 @@ class Polarity:
 <div class="desc"></div>
 </dd>
 <dt id="protkit.properties.polarity.Polarity.POLARITY"><code class="name">var <span class="ident">POLARITY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="protkit.properties.polarity.Polarity.POLARITY_STRING"><code class="name">var <span class="ident">POLARITY_STRING</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -561,6 +577,7 @@ def polarity_of_residue(residue: Residue,
 <li><code><a title="protkit.properties.polarity.Polarity.NON_POLAR" href="#protkit.properties.polarity.Polarity.NON_POLAR">NON_POLAR</a></code></li>
 <li><code><a title="protkit.properties.polarity.Polarity.POLAR" href="#protkit.properties.polarity.Polarity.POLAR">POLAR</a></code></li>
 <li><code><a title="protkit.properties.polarity.Polarity.POLARITY" href="#protkit.properties.polarity.Polarity.POLARITY">POLARITY</a></code></li>
+<li><code><a title="protkit.properties.polarity.Polarity.POLARITY_STRING" href="#protkit.properties.polarity.Polarity.POLARITY_STRING">POLARITY_STRING</a></code></li>
 <li><code><a title="protkit.properties.polarity.Polarity.UNDEFINED" href="#protkit.properties.polarity.Polarity.UNDEFINED">UNDEFINED</a></code></li>
 <li><code><a title="protkit.properties.polarity.Polarity.polarities_of_chain" href="#protkit.properties.polarity.Polarity.polarities_of_chain">polarities_of_chain</a></code></li>
 <li><code><a title="protkit.properties.polarity.Polarity.polarities_of_protein" href="#protkit.properties.polarity.Polarity.polarities_of_protein">polarities_of_protein</a></code></li>

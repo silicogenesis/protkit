@@ -1,21 +1,20 @@
 """
 # Protkit
 
-Protkit is a Python library for that can be used for a variety of tasks
-in computational biology and bioinformatics, focusing and structural bioinformations
-and protein engineering.
+Protkit is an open source Python library that can be used for a variety of tasks in computational biology
+and bioinformatics, focusing on structural bioinformatics, protein engineering and machine learning.
 
 It is designed to support the broad community of computational biologists,
-bioinformaticians, and machine learning researchers in academia, industry,
+bioinformaticians and machine learning researchers in academia, industry
 and government labs.
 
-Protkit can be used for a variety of computational biology tasks across the computational biology pipeline such as:
+Protkit can be used for a variety of computational biology tasks across the computational biology pipeline, such as:
 
 - **Reading and writing data** from popular structure file formats, such as
     PDB, PQR, MMTF, mmCIF; and sequence file formats, such as FASTA.
 - **Downloading** data from popular databases of protein structures, such as the PDB RCSB, UniProt and SAbDab.
 - **Data structures** for representing proteins, protein complexes, chains,
-    residues, atoms and sequences. These data structure provides capabilities to extract data
+    residues, atoms and sequences. These data structures provide capabilities to extract data
     in both hierarchical and linear formats. It is extensible and easy to add
     new properties to the data structure. It has a rich set of methods for extracting
     and filtering data from the data structure.
@@ -27,11 +26,11 @@ Protkit can be used for a variety of computational biology tasks across the comp
 - **Geometric operations** on proteins, such as aligning and superimposing
     structures.
 - **Metrics** for comparing proteins, such as RMSD and Sequence Similarity.
-- **Featurization** of proteins and their properties and preparation of datasets
+- **Featurization** of proteins and their properties enabling preparation of datasets
     for **machine learning** applications.
 - Performing and enabling a large variety of **computational tasks** on proteins,
     such as protein folding, protein docking, protein-protein binding affinity prediction,
-    humanisation of antibodies, prediction of developability characteristics. Care is taken
+    humanisation of antibodies, prediction of developability characteristics etc. Care is taken
     that the various tools are interoperable and can be used together in a seamless manner.
 
 Protkit is an open source library that is free to use and modify.  We welcome

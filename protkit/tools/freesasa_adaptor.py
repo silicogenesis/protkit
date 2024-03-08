@@ -14,7 +14,7 @@ from typing import List
 import numpy as np
 
 from protkit.structure import Atom
-from protkit.tasks import SurfaceAreaCalculator
+from protkit.tasks.surface_area_calculator import SurfaceAreaCalculator
 from protkit.properties.vdw_radius import VDWRadius
 
 

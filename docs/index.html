@@ -23,19 +23,18 @@
 </header>
 <section id="section-intro">
 <h1 id="protkit">Protkit</h1>
-<p>Protkit is a Python library for that can be used for a variety of tasks
-in computational biology and bioinformatics, focusing and structural bioinformations
-and protein engineering.</p>
+<p>Protkit is an open source Python library that can be used for a variety of tasks in computational biology
+and bioinformatics, focusing on structural bioinformatics, protein engineering and machine learning.</p>
 <p>It is designed to support the broad community of computational biologists,
-bioinformaticians, and machine learning researchers in academia, industry,
+bioinformaticians and machine learning researchers in academia, industry
 and government labs.</p>
-<p>Protkit can be used for a variety of computational biology tasks across the computational biology pipeline such as:</p>
+<p>Protkit can be used for a variety of computational biology tasks across the computational biology pipeline, such as:</p>
 <ul>
 <li><strong>Reading and writing data</strong> from popular structure file formats, such as
 PDB, PQR, MMTF, mmCIF; and sequence file formats, such as FASTA.</li>
 <li><strong>Downloading</strong> data from popular databases of protein structures, such as the PDB RCSB, UniProt and SAbDab.</li>
 <li><strong>Data structures</strong> for representing proteins, protein complexes, chains,
-residues, atoms and sequences. These data structure provides capabilities to extract data
+residues, atoms and sequences. These data structures provide capabilities to extract data
 in both hierarchical and linear formats. It is extensible and easy to add
 new properties to the data structure. It has a rich set of methods for extracting
 and filtering data from the data structure.</li>
@@ -47,11 +46,11 @@ secondary structures, dihedral angles, interface residues and more.</li>
 <li><strong>Geometric operations</strong> on proteins, such as aligning and superimposing
 structures.</li>
 <li><strong>Metrics</strong> for comparing proteins, such as RMSD and Sequence Similarity.</li>
-<li><strong>Featurization</strong> of proteins and their properties and preparation of datasets
+<li><strong>Featurization</strong> of proteins and their properties enabling preparation of datasets
 for <strong>machine learning</strong> applications.</li>
 <li>Performing and enabling a large variety of <strong>computational tasks</strong> on proteins,
 such as protein folding, protein docking, protein-protein binding affinity prediction,
-humanisation of antibodies, prediction of developability characteristics. Care is taken
+humanisation of antibodies, prediction of developability characteristics etc. Care is taken
 that the various tools are interoperable and can be used together in a seamless manner.</li>
 </ul>
 <p>Protkit is an open source library that is free to use and modify.
@@ -83,10 +82,8 @@ It illustrates how powerful computation can be done with Protkit in just a few l
 We then compute dihedral angles and surface areas for the protein and save it to a file.
 We then load the protein from the file and print the surface area and a note that we added to the protein.</p>
 <pre><code class="language-python">from protkit.download import Download
-from protkit.file_io.pdb_io import PDBIO
-from protkit.file_io.prot_io import ProtIO
-from protkit.properties.dihedral_angles import DihedralAngles
-from protkit.properties.surface_area import SurfaceArea
+from protkit.file_io import PDBIO, ProtIO
+from protkit.properties import DihedralAngles, SurfaceArea
 
 # Download a PDB file from the RCSB PDB database and save it to a file.
 Download.download_pdb_file_from_rcsb(&quot;1ahw&quot;, &quot;1ahw.pdb&quot;)
@@ -132,21 +129,20 @@ print(protein2.get_attribute('note'))
 <pre><code class="python">&#34;&#34;&#34;
 # Protkit
 
-Protkit is a Python library for that can be used for a variety of tasks
-in computational biology and bioinformatics, focusing and structural bioinformations
-and protein engineering.
+Protkit is an open source Python library that can be used for a variety of tasks in computational biology
+and bioinformatics, focusing on structural bioinformatics, protein engineering and machine learning.
 
 It is designed to support the broad community of computational biologists,
-bioinformaticians, and machine learning researchers in academia, industry,
+bioinformaticians and machine learning researchers in academia, industry
 and government labs.
 
-Protkit can be used for a variety of computational biology tasks across the computational biology pipeline such as:
+Protkit can be used for a variety of computational biology tasks across the computational biology pipeline, such as:
 
 - **Reading and writing data** from popular structure file formats, such as
     PDB, PQR, MMTF, mmCIF; and sequence file formats, such as FASTA.
 - **Downloading** data from popular databases of protein structures, such as the PDB RCSB, UniProt and SAbDab.
 - **Data structures** for representing proteins, protein complexes, chains,
-    residues, atoms and sequences. These data structure provides capabilities to extract data
+    residues, atoms and sequences. These data structures provide capabilities to extract data
     in both hierarchical and linear formats. It is extensible and easy to add
     new properties to the data structure. It has a rich set of methods for extracting
     and filtering data from the data structure.
@@ -158,11 +154,11 @@ Protkit can be used for a variety of computational biology tasks across the comp
 - **Geometric operations** on proteins, such as aligning and superimposing
     structures.
 - **Metrics** for comparing proteins, such as RMSD and Sequence Similarity.
-- **Featurization** of proteins and their properties and preparation of datasets
+- **Featurization** of proteins and their properties enabling preparation of datasets
     for **machine learning** applications.
 - Performing and enabling a large variety of **computational tasks** on proteins,
     such as protein folding, protein docking, protein-protein binding affinity prediction,
-    humanisation of antibodies, prediction of developability characteristics. Care is taken
+    humanisation of antibodies, prediction of developability characteristics etc. Care is taken
     that the various tools are interoperable and can be used together in a seamless manner.
 
 Protkit is an open source library that is free to use and modify.  We welcome
@@ -210,10 +206,8 @@ In the example, we download a PDB file from the RCSB, extract the A and B chains
 
 ```python
 from protkit.download import Download
-from protkit.file_io.pdb_io import PDBIO
-from protkit.file_io.prot_io import ProtIO
-from protkit.properties.dihedral_angles import DihedralAngles
-from protkit.properties.surface_area import SurfaceArea
+from protkit.file_io import PDBIO, ProtIO
+from protkit.properties import DihedralAngles, SurfaceArea
 
 # Download a PDB file from the RCSB PDB database and save it to a file.
 Download.download_pdb_file_from_rcsb(&#34;1ahw&#34;, &#34;1ahw.pdb&#34;)

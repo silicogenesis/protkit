@@ -127,6 +127,15 @@ class Volume:
     L = 4
     VL = 5
 
+    VOLUME_CLASS_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Very Small&#34;,
+        &#34;Small&#34;,
+        &#34;Medium&#34;,
+        &#34;Large&#34;,
+        &#34;Very Large&#34;
+    ]
+
     VOLUME_CLASS = {
         &#34;ALA&#34;: VS,
         &#34;ARG&#34;: L,
@@ -226,7 +235,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the chain.
         &#34;&#34;&#34;
-        volume = sum(Volume.volume_of_residue(residue) for residue in chain.residues)
+        volume = sum(Volume.volume_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues)
         if assign_attribute:
             chain.set_attribute(key, volume)
         return volume
@@ -247,8 +256,8 @@ class Volume:
             list: A list of volume classes of the chain.
         &#34;&#34;&#34;
         volume_classes = [Volume.volume_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
-        if assign_attribute:
-            chain.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     chain.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod
@@ -266,7 +275,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the protein.
         &#34;&#34;&#34;
-        volume = sum(Volume.volume_of_chain(chain) for chain in protein.chains)
+        volume = sum(Volume.volume_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains)
         if assign_attribute:
             protein.set_attribute(key, volume)
         return volume
@@ -287,8 +296,8 @@ class Volume:
             list: A list of volume classes of the protein.
         &#34;&#34;&#34;
         volume_classes = [Volume.volume_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
-        if assign_attribute:
-            protein.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     protein.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod
@@ -417,6 +426,15 @@ class Volume:
     L = 4
     VL = 5
 
+    VOLUME_CLASS_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Very Small&#34;,
+        &#34;Small&#34;,
+        &#34;Medium&#34;,
+        &#34;Large&#34;,
+        &#34;Very Large&#34;
+    ]
+
     VOLUME_CLASS = {
         &#34;ALA&#34;: VS,
         &#34;ARG&#34;: L,
@@ -516,7 +534,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the chain.
         &#34;&#34;&#34;
-        volume = sum(Volume.volume_of_residue(residue) for residue in chain.residues)
+        volume = sum(Volume.volume_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues)
         if assign_attribute:
             chain.set_attribute(key, volume)
         return volume
@@ -537,8 +555,8 @@ class Volume:
             list: A list of volume classes of the chain.
         &#34;&#34;&#34;
         volume_classes = [Volume.volume_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
-        if assign_attribute:
-            chain.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     chain.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod
@@ -556,7 +574,7 @@ class Volume:
         Returns:
             float: A float representing the volume of the protein.
         &#34;&#34;&#34;
-        volume = sum(Volume.volume_of_chain(chain) for chain in protein.chains)
+        volume = sum(Volume.volume_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains)
         if assign_attribute:
             protein.set_attribute(key, volume)
         return volume
@@ -577,8 +595,8 @@ class Volume:
             list: A list of volume classes of the protein.
         &#34;&#34;&#34;
         volume_classes = [Volume.volume_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
-        if assign_attribute:
-            protein.set_attribute(key, volume_classes)
+        # if assign_attribute:
+        #     protein.set_attribute(key, volume_classes)
         return volume_classes
 
     @staticmethod
@@ -648,6 +666,10 @@ class Volume:
 <div class="desc"></div>
 </dd>
 <dt id="protkit.properties.volume.Volume.VOLUME_CLASS"><code class="name">var <span class="ident">VOLUME_CLASS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="protkit.properties.volume.Volume.VOLUME_CLASS_STRING"><code class="name">var <span class="ident">VOLUME_CLASS_STRING</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -741,8 +763,8 @@ def volume_classes_of_chain(chain: Chain,
         list: A list of volume classes of the chain.
     &#34;&#34;&#34;
     volume_classes = [Volume.volume_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
-    if assign_attribute:
-        chain.set_attribute(key, volume_classes)
+    # if assign_attribute:
+    #     chain.set_attribute(key, volume_classes)
     return volume_classes</code></pre>
 </details>
 </dd>
@@ -785,8 +807,8 @@ def volume_classes_of_protein(protein: Protein,
         list: A list of volume classes of the protein.
     &#34;&#34;&#34;
     volume_classes = [Volume.volume_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
-    if assign_attribute:
-        protein.set_attribute(key, volume_classes)
+    # if assign_attribute:
+    #     protein.set_attribute(key, volume_classes)
     return volume_classes</code></pre>
 </details>
 </dd>
@@ -872,7 +894,7 @@ def volume_of_chain(chain: Chain,
     Returns:
         float: A float representing the volume of the chain.
     &#34;&#34;&#34;
-    volume = sum(Volume.volume_of_residue(residue) for residue in chain.residues)
+    volume = sum(Volume.volume_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues)
     if assign_attribute:
         chain.set_attribute(key, volume)
     return volume</code></pre>
@@ -916,7 +938,7 @@ def volume_of_protein(protein: Protein,
     Returns:
         float: A float representing the volume of the protein.
     &#34;&#34;&#34;
-    volume = sum(Volume.volume_of_chain(chain) for chain in protein.chains)
+    volume = sum(Volume.volume_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains)
     if assign_attribute:
         protein.set_attribute(key, volume)
     return volume</code></pre>
@@ -1038,6 +1060,7 @@ def volume_of_sequence(sequence: Sequence,
 <li><code><a title="protkit.properties.volume.Volume.VL" href="#protkit.properties.volume.Volume.VL">VL</a></code></li>
 <li><code><a title="protkit.properties.volume.Volume.VOLUME" href="#protkit.properties.volume.Volume.VOLUME">VOLUME</a></code></li>
 <li><code><a title="protkit.properties.volume.Volume.VOLUME_CLASS" href="#protkit.properties.volume.Volume.VOLUME_CLASS">VOLUME_CLASS</a></code></li>
+<li><code><a title="protkit.properties.volume.Volume.VOLUME_CLASS_STRING" href="#protkit.properties.volume.Volume.VOLUME_CLASS_STRING">VOLUME_CLASS_STRING</a></code></li>
 <li><code><a title="protkit.properties.volume.Volume.VS" href="#protkit.properties.volume.Volume.VS">VS</a></code></li>
 <li><code><a title="protkit.properties.volume.Volume.volume_class_of_residue" href="#protkit.properties.volume.Volume.volume_class_of_residue">volume_class_of_residue</a></code></li>
 <li><code><a title="protkit.properties.volume.Volume.volume_classes_of_chain" href="#protkit.properties.volume.Volume.volume_classes_of_chain">volume_classes_of_chain</a></code></li>

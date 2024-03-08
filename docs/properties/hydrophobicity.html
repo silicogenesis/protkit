@@ -143,6 +143,13 @@ class Hydrophobicity:
     NEUTRAL = 2
     HYDROPHILIC = 3
 
+    HYDROPHOBICITY_CLASS_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Hydrophobic&#34;,
+        &#34;Neutral&#34;,
+        &#34;Hydrophilic&#34;
+    ]
+
     HYDROPHOBICITY_CLASS = {
         &#34;ALA&#34;: HYDROPHOBIC,
         &#34;ARG&#34;: HYDROPHILIC,
@@ -262,7 +269,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the chain.
         &#34;&#34;&#34;
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue) for residue in chain.residues]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
         if assign_attribute:
             chain.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes
@@ -302,7 +309,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the protein.
         &#34;&#34;&#34;
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain) for chain in protein.chains]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
         if assign_attribute:
             protein.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes
@@ -428,6 +435,13 @@ class Hydrophobicity:
     NEUTRAL = 2
     HYDROPHILIC = 3
 
+    HYDROPHOBICITY_CLASS_STRING = [
+        &#34;Undefined&#34;,
+        &#34;Hydrophobic&#34;,
+        &#34;Neutral&#34;,
+        &#34;Hydrophilic&#34;
+    ]
+
     HYDROPHOBICITY_CLASS = {
         &#34;ALA&#34;: HYDROPHOBIC,
         &#34;ARG&#34;: HYDROPHILIC,
@@ -547,7 +561,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the chain.
         &#34;&#34;&#34;
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue) for residue in chain.residues]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
         if assign_attribute:
             chain.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes
@@ -587,7 +601,7 @@ class Hydrophobicity:
         Returns:
             list: The hydrophobicity classes of the residues of the protein.
         &#34;&#34;&#34;
-        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain) for chain in protein.chains]
+        hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
         if assign_attribute:
             protein.set_attribute(key, hydrophobicity_classes)
         return hydrophobicity_classes
@@ -647,6 +661,10 @@ class Hydrophobicity:
 <div class="desc"></div>
 </dd>
 <dt id="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS"><code class="name">var <span class="ident">HYDROPHOBICITY_CLASS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS_STRING"><code class="name">var <span class="ident">HYDROPHOBICITY_CLASS_STRING</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -743,7 +761,7 @@ def hydrophobicity_classes_of_chain(chain: Chain,
     Returns:
         list: The hydrophobicity classes of the residues of the chain.
     &#34;&#34;&#34;
-    hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue) for residue in chain.residues]
+    hydrophobicity_classes = [Hydrophobicity.hydrophobicity_class_of_residue(residue, assign_attribute=assign_attribute, key=key) for residue in chain.residues]
     if assign_attribute:
         chain.set_attribute(key, hydrophobicity_classes)
     return hydrophobicity_classes</code></pre>
@@ -787,7 +805,7 @@ def hydrophobicity_classes_of_protein(protein: Protein,
     Returns:
         list: The hydrophobicity classes of the residues of the protein.
     &#34;&#34;&#34;
-    hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain) for chain in protein.chains]
+    hydrophobicity_classes = [Hydrophobicity.hydrophobicity_classes_of_chain(chain, assign_attribute=assign_attribute, key=key) for chain in protein.chains]
     if assign_attribute:
         protein.set_attribute(key, hydrophobicity_classes)
     return hydrophobicity_classes</code></pre>
@@ -1035,6 +1053,7 @@ def hydrophobicity_of_sequence(sequence: Sequence,
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBIC" href="#protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBIC">HYDROPHOBIC</a></code></li>
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY" href="#protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY">HYDROPHOBICITY</a></code></li>
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS" href="#protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS">HYDROPHOBICITY_CLASS</a></code></li>
+<li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS_STRING" href="#protkit.properties.hydrophobicity.Hydrophobicity.HYDROPHOBICITY_CLASS_STRING">HYDROPHOBICITY_CLASS_STRING</a></code></li>
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.NEUTRAL" href="#protkit.properties.hydrophobicity.Hydrophobicity.NEUTRAL">NEUTRAL</a></code></li>
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.UNDEFINED" href="#protkit.properties.hydrophobicity.Hydrophobicity.UNDEFINED">UNDEFINED</a></code></li>
 <li><code><a title="protkit.properties.hydrophobicity.Hydrophobicity.hydrophobicity_class_of_residue" href="#protkit.properties.hydrophobicity.Hydrophobicity.hydrophobicity_class_of_residue">hydrophobicity_class_of_residue</a></code></li>

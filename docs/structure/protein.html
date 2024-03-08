@@ -332,6 +332,7 @@ class Protein:
     # - num_hetero_residues (property)
     # - num_water_residues (property)
     # - num_residues_by_type (property)
+    # - get_residue()
     # - filter_residues (iterator)
     # Update
     # - renumber_residues
@@ -417,6 +418,22 @@ class Protein:
             num_residues[residue.residue_type] += 1
         return num_residues
 
+    def get_residue(self, chain_id: str, residue_index: int) -&gt; Optional[Residue]:
+        &#34;&#34;&#34;
+        Returns a residue from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+
+        Returns:
+            Residue: The residue if it exists, otherwise None.
+        &#34;&#34;&#34;
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index)
+        else:
+            return None
+
     def filter_residues(self,
                         chain_criteria: Optional[List] = None,
                         residue_criteria: Optional[List] = None) -&gt; Iterator[Residue]:
@@ -478,6 +495,7 @@ class Protein:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - get_atom()
     # - filter_atoms (iterator)
     # - missing_heavy_atom_types
     # - extra_heavy_atom_types
@@ -568,6 +586,23 @@ class Protein:
         for chain in self._chains.values():
             count += chain.num_hetero_atoms
         return count
+
+    def get_atom(self, chain_id: str, residue_index: int, atom_name: str) -&gt; Optional[Atom]:
+        &#34;&#34;&#34;
+        Returns an atom from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+            atom_name (str): The name of the atom.
+
+        Returns:
+            Atom: The atom if it exists, otherwise None.
+        &#34;&#34;&#34;
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index).get_atom(atom_name)
+        else:
+            return None
 
     def filter_atoms(self,
                      chain_criteria: Optional[List] = None,
@@ -1121,6 +1156,7 @@ class Protein:
     # - num_hetero_residues (property)
     # - num_water_residues (property)
     # - num_residues_by_type (property)
+    # - get_residue()
     # - filter_residues (iterator)
     # Update
     # - renumber_residues
@@ -1206,6 +1242,22 @@ class Protein:
             num_residues[residue.residue_type] += 1
         return num_residues
 
+    def get_residue(self, chain_id: str, residue_index: int) -&gt; Optional[Residue]:
+        &#34;&#34;&#34;
+        Returns a residue from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+
+        Returns:
+            Residue: The residue if it exists, otherwise None.
+        &#34;&#34;&#34;
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index)
+        else:
+            return None
+
     def filter_residues(self,
                         chain_criteria: Optional[List] = None,
                         residue_criteria: Optional[List] = None) -&gt; Iterator[Residue]:
@@ -1267,6 +1319,7 @@ class Protein:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - get_atom()
     # - filter_atoms (iterator)
     # - missing_heavy_atom_types
     # - extra_heavy_atom_types
@@ -1357,6 +1410,23 @@ class Protein:
         for chain in self._chains.values():
             count += chain.num_hetero_atoms
         return count
+
+    def get_atom(self, chain_id: str, residue_index: int, atom_name: str) -&gt; Optional[Atom]:
+        &#34;&#34;&#34;
+        Returns an atom from the protein if it exists.
+
+        Args:
+            chain_id (str): The ID of the chain.
+            residue_index (int): The index of the residue.
+            atom_name (str): The name of the atom.
+
+        Returns:
+            Atom: The atom if it exists, otherwise None.
+        &#34;&#34;&#34;
+        if chain_id in self._chains:
+            return self._chains[chain_id].get_residue(residue_index).get_atom(atom_name)
+        else:
+            return None
 
     def filter_atoms(self,
                      chain_criteria: Optional[List] = None,
@@ -2414,6 +2484,47 @@ Yielded residues must match all criteria.</p>
         chain.fix_disordered_atoms()</code></pre>
 </details>
 </dd>
+<dt id="protkit.structure.protein.Protein.get_atom"><code class="name flex">
+<span>def <span class="ident">get_atom</span></span>(<span>self, chain_id: str, residue_index: int, atom_name: str) ‑> Optional[<a title="protkit.structure.atom.Atom" href="atom.html#protkit.structure.atom.Atom">Atom</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an atom from the protein if it exists.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chain_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>The ID of the chain.</dd>
+<dt><strong><code>residue_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>The index of the residue.</dd>
+<dt><strong><code>atom_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the atom.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Atom</code></dt>
+<dd>The atom if it exists, otherwise None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_atom(self, chain_id: str, residue_index: int, atom_name: str) -&gt; Optional[Atom]:
+    &#34;&#34;&#34;
+    Returns an atom from the protein if it exists.
+
+    Args:
+        chain_id (str): The ID of the chain.
+        residue_index (int): The index of the residue.
+        atom_name (str): The name of the atom.
+
+    Returns:
+        Atom: The atom if it exists, otherwise None.
+    &#34;&#34;&#34;
+    if chain_id in self._chains:
+        return self._chains[chain_id].get_residue(residue_index).get_atom(atom_name)
+    else:
+        return None</code></pre>
+</details>
+</dd>
 <dt id="protkit.structure.protein.Protein.get_attribute"><code class="name flex">
 <span>def <span class="ident">get_attribute</span></span>(<span>self, key: str) ‑> Any</span>
 </code></dt>
@@ -2485,6 +2596,44 @@ Yielded residues must match all criteria.</p>
     &#34;&#34;&#34;
     if chain_id in self._chains:
         return self._chains[chain_id]
+    else:
+        return None</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.protein.Protein.get_residue"><code class="name flex">
+<span>def <span class="ident">get_residue</span></span>(<span>self, chain_id: str, residue_index: int) ‑> Optional[<a title="protkit.structure.residue.Residue" href="residue.html#protkit.structure.residue.Residue">Residue</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a residue from the protein if it exists.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>chain_id</code></strong> :&ensp;<code>str</code></dt>
+<dd>The ID of the chain.</dd>
+<dt><strong><code>residue_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>The index of the residue.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Residue</code></dt>
+<dd>The residue if it exists, otherwise None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_residue(self, chain_id: str, residue_index: int) -&gt; Optional[Residue]:
+    &#34;&#34;&#34;
+    Returns a residue from the protein if it exists.
+
+    Args:
+        chain_id (str): The ID of the chain.
+        residue_index (int): The index of the residue.
+
+    Returns:
+        Residue: The residue if it exists, otherwise None.
+    &#34;&#34;&#34;
+    if chain_id in self._chains:
+        return self._chains[chain_id].get_residue(residue_index)
     else:
         return None</code></pre>
 </details>
@@ -3014,8 +3163,10 @@ Yielded residues must match all criteria.</p>
 <li><code><a title="protkit.structure.protein.Protein.filter_chains" href="#protkit.structure.protein.Protein.filter_chains">filter_chains</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.filter_residues" href="#protkit.structure.protein.Protein.filter_residues">filter_residues</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.fix_disordered_atoms" href="#protkit.structure.protein.Protein.fix_disordered_atoms">fix_disordered_atoms</a></code></li>
+<li><code><a title="protkit.structure.protein.Protein.get_atom" href="#protkit.structure.protein.Protein.get_atom">get_atom</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.get_attribute" href="#protkit.structure.protein.Protein.get_attribute">get_attribute</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.get_chain" href="#protkit.structure.protein.Protein.get_chain">get_chain</a></code></li>
+<li><code><a title="protkit.structure.protein.Protein.get_residue" href="#protkit.structure.protein.Protein.get_residue">get_residue</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.has_attribute" href="#protkit.structure.protein.Protein.has_attribute">has_attribute</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.has_chain" href="#protkit.structure.protein.Protein.has_chain">has_chain</a></code></li>
 <li><code><a title="protkit.structure.protein.Protein.id" href="#protkit.structure.protein.Protein.id">id</a></code></li>

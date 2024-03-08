@@ -359,11 +359,11 @@ def properties_interface_residues():
 # properties_surface_area()
 # properties_volume()
 # properties_volume_class()
-# properties_bounds_and_center() -> To fix
+# properties_bounds_and_center()
 # properties_bond_lengths()
 # properties_peptide_lengths()
 # properties_bond_angles()
 # properties_dihedral_angles()
 # properties_circular_variance() -> double check first residue
 # properties_interface_atoms()
-properties_interface_residues()
+# properties_interface_residues()

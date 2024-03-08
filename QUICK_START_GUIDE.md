@@ -1309,7 +1309,7 @@ The surface area of a protein, chain, residue or atom is computed using the ```S
 
 The surface area refers to the solvent accessible surface area (SASA) of the protein, chain, residue or atom. 
 The surface area can be computed using the Lee-Richards or the Shrake-Rupley algorithm. 
-The surface area then propagated from atoms to residues, chains and proteins.
+The surface area is then propagated from atoms to residues, chains and proteins.
 
 The current implementation uses FreeSASA for surface computations. FreeSASA is installed
 as one of the dependencies when Protkit is installed.
@@ -1428,7 +1428,7 @@ Bond lengths for residues can be computed using the
 ```BondLengths``` class in the ```src.properties``` package.  
 
 Each different type of residue  has a unique set expected covalent bonds.  
-This collection of bond lengths are defined by the `HEAVY_ATOM_BONDS` dictionary
+This collection of bond lengths is defined by the `HEAVY_ATOM_BONDS` dictionary
 in the `BondLengths` class.  For example, an Alanine (ALA) residue has 4 covalent
 bonds, namely N-CA, CA-C, C-O and CA-CB.
 
@@ -1479,7 +1479,7 @@ Bond angles for residues can be computed using the
 
 Bond angles are defined as the angle between three atoms in a residue.  Each 
 residue has a unique set of expected bond angles.  This collection of bond angles
-are defined by the `HEAVY_ATOM_ANGLES` dictionary in the `BondAngles` class.  For
+is defined by the `HEAVY_ATOM_ANGLES` dictionary in the `BondAngles` class.  For
 example, an Alanine (ALA) residue has 4 bond angles, namely N-CA-C, CA-C-O, 
 N-CA-CB and C-CA-CB.
 
@@ -1510,7 +1510,7 @@ Dihedral angles can be computed using the
 
 Dihedral angles are defined as the angle between four atoms in a residue.  Each
 residue has a unique set of expected dihedral angles.  This collection of dihedral
-angles are defined by the `DIHEDRAL_ANGLES` dictionary in the `DihedralAngles`
+angles is defined by the `DIHEDRAL_ANGLES` dictionary in the `DihedralAngles`
 class.  For example, an Aspargine (ASN) residue has 2 dihedral angles associated
 with its side chain, namely N-CA-CB-CG and CA-CB-CG-OD1. These are known as 
 the chi1 and chi2 angles.  
