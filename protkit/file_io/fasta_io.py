@@ -16,8 +16,8 @@ See https://www.rcsb.org/ for examples of FASTA files.
 Methods are static and can be called without instantiating the class.
 The main functions exposed by the class are:
 
-- `load()` to load a protein from a PDB file.
-- `save()` to save a protein to a PDB file.
+- `load()` to load a protein from a Fasta file.
+- `save()` to save a protein to a Fasta file.
 """
 
 from typing import List

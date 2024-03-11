@@ -45,15 +45,21 @@ def prep_data():
 
     # Download a PDB file from the RCSB PDB database and save it to a file.
     Download.download_pdb_file_from_rcsb("1ahw", "1ahw.pdb")
+    Download.download_pdb_file_from_rcsb("3i40", "3i40.pdb")
     Download.download_pdb_file_from_rcsb("4nkq", "4nkq.pdb")
+    Download.download_pdb_file_from_rcsb("6bom", "6bom.pdb")
 
     # Load a PDB file into a Protein object.
     ProtIO.convert("1ahw.pdb", "1ahw.prot")
+    ProtIO.convert("3i40.pdb", "3i40.prot")
     ProtIO.convert("4nkq.pdb", "4nkq.prot")
+    ProtIO.convert("6bom.pdb", "6bom.prot")
 
     # Download a FASTA file from RCSB PDB and save it to file.
     Download.download_fasta_file_from_rcsb("1ahw", "1ahw.fasta")
+    Download.download_fasta_file_from_rcsb("3i40", "1ahw.3i40")
     Download.download_fasta_file_from_rcsb("4nkq", "4nkq.fasta")
+    Download.download_fasta_file_from_rcsb("6bom", "6bom.fasta")
 
 
 def download_pdb_example():
@@ -151,6 +157,262 @@ def file_io_fasta_save():
     sequences = FastaIO.load("1ahw.fasta")
     FastaIO.save(sequences, "1ahw_copy.fasta")
     FastaIO.save(sequences[0], "1ahw_A.fasta")
+
+
+def file_io_pqr():
+    from protkit.file_io import PQRIO
+
+    protein = PQRIO.load("1ahw.pqr")[0]
+
+    PQRIO.save(protein, "1ahw_copy.pqr")
+
+
+def file_io_cif():
+    from protkit.file_io import MMTFIO
+
+    protein = MMTFIO.load("1ahw.cif")[0]
+
+    MMTFIO.save(protein, "1ahw_copy.cif")
+
+
+def file_io_mmtf():
+    from protkit.file_io import MMTFIO
+
+    protein = MMTFIO.load("1ahw.mmtf")[0]
+
+
+def representation_protein():
+    # Loading a Protein
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot")[0]
+
+    # Accessing Chains in a Protein
+    for chain in protein.chains:
+        print(f"{chain.chain_id}: {chain.num_residues} residues")
+        print(chain.sequence)
+
+    chain_a = protein.get_chain("A")
+    print(chain_a.sequence)
+
+    protein2 = protein.copy()
+    protein2.keep_chains(["A", "B"])
+    print(protein.num_chains)
+    print(protein2.num_chains)
+
+    protein3 = protein.copy()
+    protein3.remove_chains(["C", "D"])
+    print(protein3.num_chains)
+
+    # Isolating Chains
+    protein2 = protein.copy()
+    protein2.keep_chains(["A", "B"])
+    print(protein.num_chains)
+    print(protein2.num_chains)
+
+    # Renaming Chains
+    protein.rename_chain("A", "Z")
+
+
+def representation_protein_access():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot")[0]
+
+    # Accessing Residues in a Protein
+    for residue in protein.residues:
+        print(f"{residue.id}: {residue.residue_type}")
+
+    # Accessing Atoms in a Protein
+    coordinates = [(atom.x, atom.y, atom.z) for atom in protein.atoms]
+    print(coordinates)
+
+    # Powerful filters
+    atoms = protein.filter_atoms(
+        chain_criteria=[("chain_id", "A")],
+        residue_criteria=[("residue_type", "PRO")],
+        atom_criteria=[("atom_type", ["C", "CA", "N"])])
+    for atom in atoms:
+        print(f"{atom.residue.residue_code}, {atom.atom_type}, {atom.x}, {atom.y}, {atom.z}")
+
+    # Protein statistics
+    print(protein.num_chains)
+
+    print(protein.num_residues)
+    print(protein.num_disordered_residues)
+    print(protein.num_hetero_residues)
+    print(protein.num_water_residues)
+
+    print(protein.num_atoms)
+    print(protein.num_disordered_atoms)
+    print(protein.num_hetero_atoms)
+    print(protein.num_heavy_atoms)
+    print(protein.num_hydrogen_atoms)
+
+
+def representation_chain():
+    from protkit.file_io import ProtIO
+
+    # Identifying a Chain
+    protein = ProtIO.load("1ahw.prot")[0]
+    chain = protein.get_chain("A")
+    print(chain.chain_id)
+
+    protein.rename_chain("A", "Z")
+    print(chain.chain_id)
+    chain.chain_id = "X"
+
+    # Chain Sequence
+    print(chain.sequence)
+
+    # Accessing Residues in a Chain
+    for residue in chain.residues:
+        print(f"{residue.id}: {residue.residue_type}")
+
+    residue = chain.get_residue(0)
+    print(residue.id)
+
+    # Accessing Atoms in a Chain
+    for atom in chain.atoms:
+        print(f"{atom.id}")
+
+
+def representation_residue():
+    # Identifying a Residue
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot")[0]
+    chain = protein.get_chain("A")
+    residue = chain.get_residue(0)
+
+    # Core Residue Properties
+    print(residue.residue_type)  # eg. GLY
+    print(residue.short_code)  # eg. G
+    print(residue.sequence_no)  # eg. 100
+    print(residue.insertion_code)  # eg. A
+    print(residue.is_disordered)  # eg. True
+    print(residue.is_hetero)  # eg. False
+
+    print(residue.sequence_code)  # eg. 100A
+    print(residue.residue_code)  # eg. GLY100A
+    print(residue.id)  # eg. A:GLY100A
+
+    # Accessing Atoms in a Residue
+    for atom in residue.atoms:
+        print(f"{atom.id}")
+
+    # Modifying the Atoms in a Residue
+    residue.keep_backbone_atoms()
+
+    residue.keep_atoms(["N", "CA", "C"])
+
+    residue.remove_atoms(["OXT"])
+
+    residue.remove_hydrogen_atoms()
+
+
+def representation_atom():
+    # Identifying an Atom
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot")[0]
+    residue = protein.get_chain("A").get_residue(0)
+    atom = residue.get_atom("CA")
+
+    print(atom.id)
+    print(atom.atom_type)
+
+    print(atom.element)  # eg. C
+    print(atom.x, atom.y, atom.z)  # eg. 12.446, 8.496, 43.176
+    print(atom.is_disordered)  # eg. False
+    print(atom.is_hetero)  # eg. False
+
+def representation_atom_fix_disordered():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot")[0]
+    protein.fix_disordered_atoms()
+
+
+def representation_attributes():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("3i40.prot")[0]
+
+    protein.set_attribute("note", "The file describes Human Insulin")
+    protein.set_attribute("organism", "Homo Sapiens")
+    protein.set_attribute("resolution", 1.85)
+    protein.get_chain("A").set_attribute("name", "Insulin A chain")
+    protein.get_chain("A").get_residue(0).set_attribute('first', True)
+
+    print(protein.get_attribute("note"))
+    print(protein.get_attribute("organism"))
+    print(protein.get_attribute("resolution"))
+    print(protein.get_chain("A").has_attribute("name"))
+    print(protein.get_chain("A").get_attribute("name"))
+    print(protein.get_chain("B").has_attribute("name"))
+    print(protein.get_chain("A").get_residue(0).get_attribute('first'))
+
+
+def quality_create_copy():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("3i40.prot")[0]
+    protein2 = protein.copy()
+
+
+def quality_remove_water_molecules():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("6bom.prot")[0]
+    print(f"{protein.num_water_residues}")
+    protein.remove_water_residues()
+    print(f"{protein.num_water_residues}")
+
+    protein.get_chain("A").remove_water_residues()
+
+
+def quality_remove_hetero_residues():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("6bom.prot")[0]
+    print(f"{protein.num_hetero_residues}")
+    protein.remove_hetero_residues("TRS")
+    print(f"{protein.num_hetero_residues}")
+
+    protein.remove_hetero_residues(["TRS", "SO4"])
+
+
+def quality_fixing_disordered_atoms():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("3i40.prot")[0]
+    print(f"{protein.num_disordered_atoms}")
+    print(protein.get_chain("A").get_residue(13).is_disordered)
+    print(protein.get_chain("A").get_residue(13).get_atom("CA").is_disordered)
+    print(protein.get_chain("A").get_residue(13).get_atom("CB").is_disordered)
+
+    protein.fix_disordered_atoms()
+    print(protein.get_chain("A").get_residue(13).get_atom("CB").is_disordered)
+    print(f"{protein.num_disordered_atoms}")
+
+
+def quality_removing_hydrogen_atoms():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1a4y_A_B.prot")[0]
+
+    print(f"{protein.num_atoms} atoms")
+    print(f"{protein.num_heavy_atoms} heavy atoms")
+    print(f"{protein.num_hydrogen_atoms} hydrogen atoms")
+
+    protein.remove_hydrogen_atoms()
+
+    print(f"{protein.num_hydrogen_atoms} hydrogen atoms after removal")
+
+
+# prep_data()
+quality_removing_hydrogen_atoms()
 
 
 def properties_hydrophobicity():
