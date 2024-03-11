@@ -10,8 +10,8 @@ find = {}
 
 [project]
 name = "protkit"
-version = "0.2.0"
-requires-python = ">=3.8"
+version = "0.2.1"
+requires-python = ">=3.6"
 authors = [
     { name="Fred Senekal", email="fred@silicogenesis.com"},
 ]
@@ -41,11 +41,8 @@ dev = [
     "pytest>=6.2.5",
     "setuptools>=61.0",
 ]
-bio = [
-    "biopython==1.78",     # If using protkit.fileio.mmcif_io, protkit.fileio.mmtf_io
-    "freesasa==2.2.1",
-]
 
 [project.urls]
-Homepage = "https://www.protkit.com"
+Homepage = "https://protkit.silicogenesis.com"
 Repository = "https://github.com/silicogenesis/protkit"
+Documentation = "https://silicogenesis.github.io/protkit"

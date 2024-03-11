@@ -38,45 +38,6 @@ def quick_start_example():
     print(protein2.get_attribute('surface_area'))
     print(protein2.get_attribute('note'))
 
-def download_pdb_example():
-    from protkit.download import Download
-
-    # Download a PDB file from the RCSB PDB database and save it to a file.
-    Download.download_pdb_file_from_rcsb("1ahw", "data/pdb_files/rcsb/1ahw.pdb")
-
-    # Download a PDB file from the SAbDab database and save it to a file.
-    Download.download_pdb_file_from_sabdab("1ahw", "data/pdb_files/sabdab/1ahw.pdb")
-
-    # Download multiple PDB files from the RCSB PDB in parallel and save them to a directory.
-    Download.download_pdb_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/pdb_files/rcsb/", n_jobs=3)
-
-def download_fasta_example():
-    from protkit.download import Download
-
-    # Download a Fasta file from the Uniprot database and save it to a file.
-    Download.download_fasta_file_from_uniprot("P12345", "data/fasta_files/uniprot/P12345.xml")
-
-    # Download multiple Fasta files from the RCSB database in parallel and save them to a directory.
-    Download.download_fasta_files_from_rcsb(["P12345", "P12346", "P12347"], "data/fasta_files/rcsb/")
-
-    # Download multiple Fasta files from the Uniprot database in parallel and save them to a directory.
-    Download.download_fasta_files_from_uniprot(["P12345", "P12346", "P12347"], "data/fasta_files/rcsb/")
-
-
-def download_cif_example():
-    from protkit.download import Download
-
-    # Download a CIF file from the RCSB PDB database and save it to a file.
-    Download.download_cif_file_from_rcsb("1ahw", "data/cif_files/rcsb/1ahw.cif")
-
-    # Download multiple CIF files from the RCSB PDB database in parallel and save them to a directory.
-    Download.download_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif_files/rcsb/")
-
-    # Download a binary CIF file from the RCSB PDB database and save it to a file.
-    Download.download_binary_cif_file_from_rcsb("1ahw", "data/cif_files/rcsb/1ahw.bcif")
-
-    # Download multiple binary CIF files from the RCSB PDB database in parallel and save them to a directory.
-    Download.download_binary_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif_files/rcsb/")
 
 def prep_data():
     from protkit.download import Download
@@ -84,12 +45,113 @@ def prep_data():
 
     # Download a PDB file from the RCSB PDB database and save it to a file.
     Download.download_pdb_file_from_rcsb("1ahw", "1ahw.pdb")
+    Download.download_pdb_file_from_rcsb("4nkq", "4nkq.pdb")
 
     # Load a PDB file into a Protein object.
     ProtIO.convert("1ahw.pdb", "1ahw.prot")
+    ProtIO.convert("4nkq.pdb", "4nkq.prot")
 
     # Download a FASTA file from RCSB PDB and save it to file.
     Download.download_fasta_file_from_rcsb("1ahw", "1ahw.fasta")
+    Download.download_fasta_file_from_rcsb("4nkq", "4nkq.fasta")
+
+
+def download_pdb_example():
+    from protkit.download import Download
+
+    # Download a PDB file from the RCSB PDB database and save it to a file.
+    Download.download_pdb_file_from_rcsb("1ahw", "data/pdb/rcsb/1ahw.pdb")
+
+    # Download a PDB file from the SAbDab database and save it to a file.
+    Download.download_pdb_file_from_sabdab("1ahw", "data/pdb/sabdab/1ahw.pdb")
+
+    # Download multiple PDB files from the RCSB PDB in parallel and save them to a directory.
+    Download.download_pdb_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/pdb/rcsb/", n_jobs=3)
+
+
+def download_fasta_example():
+    from protkit.download import Download
+
+    # Download a Fasta file from the Uniprot database and save it to a file.
+    Download.download_fasta_file_from_uniprot("P01308", "data/fasta/uniprot/P01308.fasta")
+
+    # Download multiple Fasta files from the Uniprot database in parallel and save them to a directory.
+    Download.download_fasta_files_from_uniprot(["P01308", "P68871", "P00533"], "data/fasta/uniprot", n_jobs=3)
+
+    # Download a Fasta file from the RCSB PDB database and save it to a file.
+    Download.download_fasta_file_from_rcsb("1ahw", "data/fasta/rcsb/1ahw.fasta")
+
+    # Download multiple Fasta files from the RCSB PDB database in parallel and save them to a directory.
+    Download.download_fasta_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/fasta/rcsb/", n_jobs=3)
+
+
+def download_cif_example():
+    from protkit.download import Download
+
+    # Download a CIF file from the RCSB PDB database and save it to a file.
+    Download.download_cif_file_from_rcsb("1ahw", "data/cif/rcsb/1ahw.cif")
+
+    # Download multiple CIF files from the RCSB PDB database in parallel and save them to a directory.
+    Download.download_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif/rcsb/")
+
+    # Download a binary CIF file from the RCSB PDB database and save it to a file.
+    Download.download_binary_cif_file_from_rcsb("1ahw", "data/cif/rcsb/1ahw.bcif")
+
+    # Download multiple binary CIF files from the RCSB PDB database in parallel and save them to a directory.
+    Download.download_binary_cif_files_from_rcsb(["1ahw", "1a4y", "1a6m"], "data/cif/rcsb/")
+
+
+def file_io_pdb():
+    from protkit.file_io import PDBIO
+
+    protein = PDBIO.load("1ahw.pdb")[0]
+
+    protein.keep_chains(["A", "B"])
+
+    PDBIO.save(protein, "1ahw_AB.pdb")
+
+
+def file_io_prot():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.convert("1ahw.pdb", "1ahw.prot")
+
+    protein = ProtIO.load("1ahw.prot")[0]
+
+    ProtIO.save(protein, "1ahw.prot")
+
+
+def file_io_prot_multisave():
+    from protkit.file_io import ProtIO, PDBIO
+
+    protein1 = PDBIO.load("1ahw.pdb")[0]
+    protein2 = PDBIO.load("4nkq.pdb")[0]
+
+    ProtIO.save([protein1, protein2], "database.prot")
+
+
+def file_io_prot_compression():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("1ahw.prot", decompress=True)[0]
+    ProtIO.save(protein, "1ahw.prot.json", compress=False)
+
+
+def file_io_fasta_load():
+    from protkit.file_io import FastaIO
+
+    sequences = FastaIO.load("1ahw.fasta")
+    for sequence in sequences:
+        print(f"{sequence.chain_id}: {sequence}")
+
+
+def file_io_fasta_save():
+    from protkit.file_io import FastaIO
+
+    sequences = FastaIO.load("1ahw.fasta")
+    FastaIO.save(sequences, "1ahw_copy.fasta")
+    FastaIO.save(sequences[0], "1ahw_A.fasta")
+
 
 def properties_hydrophobicity():
     from protkit.file_io import ProtIO
@@ -345,6 +407,7 @@ def properties_interface_residues():
 # prep_data()
 
 # quick_start_example()
+
 # download_pdb_example()
 # download_fasta_example()
 # download_cif_example()

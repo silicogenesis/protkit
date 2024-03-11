@@ -59,8 +59,8 @@ class Download:
             response = requests.get(url)
             if response.status_code == 200:
                 # Create the directory if it does not exist.
-                if os.path.isdir(file_path):
-                    directory = os.path.dirname(file_path)
+                directory = os.path.dirname(file_path)
+                if directory != "":
                     if not os.path.exists(directory):
                         os.makedirs(directory)
 

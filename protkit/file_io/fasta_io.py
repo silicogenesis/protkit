@@ -78,13 +78,13 @@ class FastaIO:
         return sequences
 
     @staticmethod
-    def save(file_path: str, sequence: [Sequence, List[Sequence]], line_length: [int, None] = 80) -> None:
+    def save(sequence: [Sequence, List[Sequence]], file_path: str, line_length: [int, None] = 80) -> None:
         """
         Saves a FASTA file.
 
         Args:
-            file_path (str): The path to the FASTA file.
             sequence (Union[Sequence, List[Sequence]]): The sequence(s) to save.
+            file_path (str): The path to the FASTA file.
             line_length (int): The length of the lines in the FASTA file.
                 If None, the sequence will be saved on one line.
 
@@ -105,5 +105,5 @@ class FastaIO:
                     file.write(seq.sequence + "\n")
                 else:
                     for i in range((len(seq.sequence) - 1) // line_length + 1):
-                        file.write(seq.sequence[i * line_length:(i + 1) * line_length] + "\n")
+                        file.write(seq.to_string(i * line_length, (i + 1) * line_length - 1) + "\n")
                 file.write("\n")

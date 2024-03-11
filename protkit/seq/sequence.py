@@ -74,6 +74,28 @@ class Sequence(ExtendedAttributes):
             spacer = " "
         return spacer.join(self._sequence)
 
+    def to_string(self, start_index: int, end_index: int) -> str:
+        """
+        Returns a string representation of a subsequence.
+
+        Args:
+            start_index (int): The start index of the subsequence.
+            end_index (int): The end index of the subsequence.
+
+        Returns:
+            str: The string representation of the subsequence.
+        """
+        if self._sequence is None or len(self.sequence) == 0:
+            return ""
+
+        sub_sequence = [self._sequence[i] for i in range(start_index, min(end_index + 1, self.length))]
+
+        if len(self._sequence[0]) == 1:
+            return "".join(sub_sequence)
+        else:
+            return " ".join(sub_sequence)
+
+
     def __len__(self):
         """
         Returns the length of the sequence.
