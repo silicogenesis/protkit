@@ -242,12 +242,14 @@ def representation_protein_access():
     print(protein.num_disordered_residues)
     print(protein.num_hetero_residues)
     print(protein.num_water_residues)
+    print(protein.num_residues_with_missing_heavy_atoms)
 
     print(protein.num_atoms)
     print(protein.num_disordered_atoms)
     print(protein.num_hetero_atoms)
     print(protein.num_heavy_atoms)
     print(protein.num_hydrogen_atoms)
+    print(protein.num_missing_heavy_atoms)
 
 
 def representation_chain():
@@ -292,6 +294,7 @@ def representation_residue():
     print(residue.insertion_code)  # eg. A
     print(residue.is_disordered)  # eg. True
     print(residue.is_hetero)  # eg. False
+    print(residue.has_missing_heavy_atoms) # eg. False
 
     print(residue.sequence_code)  # eg. 100A
     print(residue.residue_code)  # eg. GLY100A
@@ -381,6 +384,19 @@ def quality_remove_hetero_residues():
     print(f"{protein.num_hetero_residues}")
 
     protein.remove_hetero_residues(["TRS", "SO4"])
+
+
+def quality_remove_residues_with_missing_heavy_atoms():
+    from protkit.file_io import ProtIO
+
+    protein = ProtIO.load("6bom.prot")[0]
+    protein.remove_hetero_residues()
+    protein.remove_water_residues()
+    print(f"{protein.num_missing_heavy_atoms}")
+    protein.remove_residues_with_missing_heavy_atoms()
+    print(f"{protein.num_missing_heavy_atoms}")
+
+    protein.get_chain("A").remove_residues_with_missing_heavy_atoms()
 
 
 def quality_fixing_disordered_atoms():

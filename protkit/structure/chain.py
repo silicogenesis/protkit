@@ -159,6 +159,7 @@ class Chain:
     # - num_water_residues (property)
     # - num_disordered_residues (property)
     # - num_residues_by_type (property)
+    # - num_residues_with_missing_heavy_atoms
     # - get_residue
     # - filter_residues (iterator)
     # - seqres_analysis
@@ -167,6 +168,8 @@ class Chain:
     # - renumber_residues
     # Delete
     # - remove_hetero_residues
+    # - remove_water_residues
+    # - remove_residues_with_missing_heavy_atoms
     # ------------------------------------------------------------
 
     def add_residue(self, residue: Residue) -> Residue:
@@ -258,6 +261,20 @@ class Chain:
         for residue in self._residues:
             num_resides[residue.residue_type] += 1
         return num_resides
+    
+    @property
+    def num_residues_with_missing_heavy_atoms(self) -> int:
+        """
+        Returns the number of residues with missing heavy atoms in the chain.
+
+        Returns:
+            int: The number of residues with missing heavy atoms in the chain.
+        """
+        count = 0
+        for residue in self._residues:
+            if residue.has_missing_heavy_atoms:
+                count += 1
+        return count
 
     def get_residue(self, index) -> Residue:
         """
@@ -360,6 +377,16 @@ class Chain:
         """
         self._residues = [residue for residue in self._residues if not residue.residue_type == "HOH"]
 
+    def remove_residues_with_missing_heavy_atoms(self) -> None:
+        """
+        Removes resiues with missing heavy atoms from the chain.
+
+        Returns:
+            None
+        """
+        self._residues = [residue for residue in self._residues if not residue.has_missing_heavy_atoms]
+
+
     # ------------------------------------------------------------
     # Methods for managing the chain's atoms.
     # Create
@@ -370,6 +397,7 @@ class Chain:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - num_missing_heavy_atoms (property)
     # - filter_atoms (iterator)
     # - missing_heavy_atom_types
     # - extra_heavy_atom_types
@@ -460,6 +488,20 @@ class Chain:
         for residue in self._residues:
             count += residue.num_hetero_atoms
         return count
+    
+    @property
+    def num_missing_heavy_atoms(self) -> int:
+        """
+        Returns the number of missing heavy atoms in the chain.
+
+        Returns:
+            int: The number of missing heavy atoms in the chain.
+        """
+        count = 0
+        for residue in self._residues:
+            count += residue.num_missing_heavy_atoms
+        return count
+
 
     def filter_atoms(self,
                      atom_criteria: Optional[List] = None,

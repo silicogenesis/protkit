@@ -303,6 +303,7 @@ class Protein:
     # - num_hetero_residues (property)
     # - num_water_residues (property)
     # - num_residues_by_type (property)
+    # - num_residues_with_missing_heavy_atoms (property)
     # - get_residue()
     # - filter_residues (iterator)
     # Update
@@ -310,6 +311,7 @@ class Protein:
     # Delete(keep_chain_ids=["A"])
     # - remove_hetero_residues
     # - remove_water_residues
+    # - remove_residues_with_missing_heavy_atoms
     # ------------------------------------------------------------
 
     @property
@@ -388,6 +390,19 @@ class Protein:
         for residue in self.residues:
             num_residues[residue.residue_type] += 1
         return num_residues
+    
+    @property
+    def num_residues_with_missing_heavy_atoms(self) -> int:
+        """
+        Returns the number of residues with missing heavy atoms in the protein.
+
+        Returns:
+            int: The number of residues with missing heavy atoms in the protein.
+        """
+        count = 0
+        for chain in self._chains.values():
+            count += chain.num_residues_with_missing_heavy_atoms
+        return count
 
     def get_residue(self, chain_id: str, residue_index: int) -> Optional[Residue]:
         """
@@ -456,6 +471,16 @@ class Protein:
         for chain in self.chains:
             chain.remove_water_residues()
 
+    def remove_residues_with_missing_heavy_atoms(self) -> None:
+        """
+        Removes all of the residues that have missing heavy atoms from the protein.
+
+        Returns:
+            None
+        """
+        for chain in self.chains:
+            chain.remove_residues_with_missing_heavy_atoms()
+
     # ------------------------------------------------------------
     # Methods for managing the protein's atoms.
     # Create
@@ -466,6 +491,7 @@ class Protein:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - num_missing_heavy_atoms (property)
     # - get_atom()
     # - filter_atoms (iterator)
     # - missing_heavy_atom_types
@@ -556,6 +582,19 @@ class Protein:
         count = 0
         for chain in self._chains.values():
             count += chain.num_hetero_atoms
+        return count
+    
+    @property
+    def num_missing_heavy_atoms(self) -> int:
+        """
+        Returns the number of missing heavy atoms in the protein.
+
+        Returns:
+            int: The number of missing heavy atoms in the protein.
+        """
+        count = 0
+        for chain in self._chains.values():
+            count += chain.num_missing_heavy_atoms
         return count
 
     def get_atom(self, chain_id: str, residue_index: int, atom_name: str) -> Optional[Atom]:
@@ -805,11 +844,13 @@ class Protein:
             f"# Disordered residues: {self.num_disordered_residues}",
             f"# Hetero residues: {self.num_hetero_residues}",
             f"# Water residues: {self.num_water_residues}",
+            f"# Residues with missing heavy atoms: {self.num_residues_with_missing_heavy_atoms}",
             f"# Atoms: {self.num_atoms}",
             f"# Heavy atoms: {self.num_heavy_atoms}",
             f"# Hydrogen atoms: {self.num_hydrogen_atoms}",
             f"# Disordered atoms: {self.num_disordered_atoms}",
-            f"# Hetero atoms: {self.num_hetero_atoms}"
+            f"# Hetero atoms: {self.num_hetero_atoms}",
+            f"# Missing heavy atoms: {self.num_missing_heavy_atoms}"
         ]
 
         return "\n".join(text)
