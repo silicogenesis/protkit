@@ -149,6 +149,7 @@ class Residue:
     # - insertion_code (setter)
     # - is_disordered (property)
     # - is_hetero (property)
+    # - has_missing_heavy_atoms (property)
     # - short_code (property)
     # ------------------------------------------------------------
 
@@ -279,6 +280,18 @@ class Residue:
             if atom.is_hetero:
                 return True
         return False
+    
+    @property
+    def has_missing_heavy_atoms(self) -> bool:
+        """
+        Returns True if the resiude has missing heavy atoms.
+
+        Returns:
+            bool: True if the residue has missing heavy atoms.
+        """
+        if self.num_missing_heavy_atoms > 0:
+            return True
+        return False
 
     @property
     def short_code(self) -> str:
@@ -336,6 +349,7 @@ class Residue:
     # - num_hydrogen_atoms (property)
     # - num_disordered_atoms (property)
     # - num_hetero_atoms (property)
+    # - num_missing_heavy_atoms (property)
     # - get_atom
     # - filter_atoms (iterator)
     # - heavy_atom_types
@@ -451,6 +465,17 @@ class Residue:
         for atom in self._atoms.values():
             if atom.is_hetero:
                 count += 1
+        return count
+    
+    @property
+    def num_missing_heavy_atoms(self) -> int:
+        """
+        Returns the number of missing heavy atoms in the residue.
+        
+        Returns:
+            int: The number of missing heavy atoms in the residue.
+        """
+        count = len(self.missing_heavy_atom_types())
         return count
 
     def get_atom(self, atom_type: str) -> Optional[Atom]:
