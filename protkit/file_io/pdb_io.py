@@ -373,14 +373,20 @@ class PDBIO():
     # --------------------------------------------------------------------------------
 
     @staticmethod
-    def parse_pdb_entries(file_path: str, is_pqr_format: bool = False):
+    def parse_pdb_entries_from_string(pdb_string: str, is_pqr_format: bool = False):
         """
-        Parse PDB file according to the spec provided at:
-        https://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM
+        Parse a PDB file in string format into a list of entries.
+
+        Args:
+            pdb_string (str): The PDB file as a string.
+            is_pqr_format (bool): If the file is in PQR format.
+
+        Returns:
+            List[Dict]: A list of parsed entries.
         """
-        # Open the file and extract the individual lines.
-        with open(file_path) as file:
-            lines = file.read().split("\n")
+
+        # Split the string into lines
+        lines = pdb_string.split("\n")
 
         # Parse every line into dictionary information
         entries = []
@@ -406,11 +412,23 @@ class PDBIO():
                 entries.append(pdb_seqres_dict)
         return entries
 
-    @staticmethod
-    def load(file_path: str,
-             is_pqr_format: bool = False,
-             pdb_id: Optional[str] = None) -> List[Protein]:
 
+    @staticmethod
+    def parse_pdb_entries(file_path: str, is_pqr_format: bool = False):
+        """
+        Parse PDB file according to the spec provided at:
+        https://www.wwpdb.org/documentation/file-format-content/format33/sect9.html#ATOM
+        """
+        # Open the file and extract the individual lines.
+        with open(file_path) as file:
+            pdb_string = file.read()
+
+        return PDBIO.parse_pdb_entries_from_string(pdb_string, is_pqr_format=is_pqr_format)
+
+    @staticmethod
+    def load_from_string(pdb_string: str,
+                         is_pqr_format: bool = False,
+                         pdb_id: Optional[str] = None) -> List[Protein]:
         protein = Protein(pdb_id=pdb_id)
         models = []
         seqres = {}
@@ -419,7 +437,8 @@ class PDBIO():
         current_chain_id = None
         current_residue: Optional[Residue] = None
         current_residue_id = None
-        entries = PDBIO.parse_pdb_entries(file_path, is_pqr_format=is_pqr_format)
+
+        entries = PDBIO.parse_pdb_entries_from_string(pdb_string, is_pqr_format=is_pqr_format)
 
         for entry in entries:
             record_name = entry["record_name"]
@@ -532,10 +551,32 @@ class PDBIO():
 
         return [protein]
 
+
     @staticmethod
-    def save(protein: Protein,
-             file_path: str,
-             is_pqr_format=False) -> None:
+    def load(file_path: str,
+             is_pqr_format: bool = False,
+             pdb_id: Optional[str] = None) -> List[Protein]:
+        """
+        Load a protein from a PDB file.
+
+        Args:
+            file_path (str): The path to the PDB file.
+            is_pqr_format (bool): If the file is in PQR format.
+            pdb_id (str): The PDB ID of the protein.
+
+        Returns:
+            List[Protein]: A list of proteins.
+        """
+
+        # Open the file and extract the individual lines.
+        with open(file_path) as file:
+            pdb_string = file.read()
+
+        return PDBIO.load_from_string(pdb_string, is_pqr_format=is_pqr_format, pdb_id=pdb_id)
+
+    @staticmethod
+    def save_to_string(protein: Protein,
+                       is_pqr_format=False) -> str:
         text_entries = []
         num_seqres = 0
         num_atoms = 0
@@ -571,197 +612,205 @@ class PDBIO():
         text_entries.append(PDBIO.create_pdb_master_line(num_atoms, num_hetatoms, num_ter, num_seqres=num_seqres))
         text_entries.append("END".ljust(80))
 
+        return "\n".join(text_entries)
+
+    @staticmethod
+    def save(protein: Protein,
+             file_path: str,
+             is_pqr_format=False) -> None:
+
+        pdb_string = PDBIO.save_to_string(protein, is_pqr_format=is_pqr_format)
+
         with open(file_path, "w") as file:
-            file.write("\n".join(text_entries))
+            file.write(pdb_string)
 
     # TODO: from_pdb_text and to_pdb_text was added by Claudio
     # The intent is that one should parse proteins from text
     # without working with files. However, a lot of code copying
     # was made and it need to be reworked significantly.
 
-    @staticmethod
-    def from_pdb_text(lines) -> List[Protein]:
-        lines = lines.split("\n")
+    # @staticmethod
+    # def from_pdb_text(lines) -> List[Protein]:
+    #     lines = lines.split("\n")
+    #
+    #     entries = []
+    #     for line in lines:
+    #         record_name = line[0:6].strip().upper()
+    #         if record_name == "ATOM":
+    #             pdb_atom_dict = PDBIO.parse_pdb_atom_line(line)
+    #             entries.append(pdb_atom_dict)
+    #         elif record_name == "HETATM":
+    #             pdb_atom_dict = PDBIO.parse_pdb_atom_line(line)
+    #             entries.append(pdb_atom_dict)
+    #         elif record_name == "TER":
+    #             pdb_ter_dict = PDBIO.parse_pdb_ter_line(line)
+    #             entries.append(pdb_ter_dict)
+    #         elif record_name == "MODEL":
+    #             pdb_model_dict = PDBIO.parse_pdb_model_line(line)
+    #             entries.append(pdb_model_dict)
+    #         elif record_name == "ENDMDL":
+    #             pdb_end_model_dict = PDBIO.parse_pdb_end_model_line(line)
+    #             entries.append(pdb_end_model_dict)
+    #         elif record_name == "SEQRES":
+    #             pdb_seqres_dict = PDBIO.parse_pdb_seqres_line(line)
+    #             entries.append(pdb_seqres_dict)
+    #
+    #     protein = Protein()
+    #     models = []
+    #     seqres = {}
+    #     current_model = None
+    #     current_chain: Optional[Chain] = None
+    #     current_chain_id = None
+    #     current_residue: Optional[Residue] = None
+    #     current_residue_id = None
+    #
+    #     for entry in entries:
+    #         record_name = entry["record_name"]
+    #         if record_name == "SEQRES":
+    #             chain_id = entry["chain_id"]
+    #             if chain_id not in seqres:
+    #                 seqres[chain_id] = []
+    #             seqres[chain_id].extend(entry["residues"])
+    #         elif record_name == "MODEL":
+    #             # Usually, the MODEL field will only be found in structures based on NMR.
+    #             # We only use the first model in a file if provided.
+    #             # There is nothing to do, so we
+    #             pass
+    #         elif record_name == "ENDMDL":
+    #             # Usually, the ENDMDL field will only be found in structures based on NMR.
+    #             # it closes a corresponding MODEL field.
+    #             # Since the end of the model is reached, no more entries should be parsed.
+    #             break
+    #         elif record_name == "TER":
+    #             # The TER field terminates the current chain.
+    #             current_chain = None
+    #             current_chain_id = None
+    #         elif record_name == "ATOM" or record_name == "HETATM":
+    #             # If we switched chains, set the chain.
+    #             if entry["chain_id"] != current_chain_id:
+    #                 current_chain_id = entry["chain_id"]
+    #                 if protein.has_chain(current_chain_id):
+    #                     current_chain = protein.get_chain(current_chain_id)
+    #                 else:
+    #                     current_chain = protein.create_chain(current_chain_id)
+    #
+    #             # Check if the residue exists
+    #             residue_id = current_chain_id + entry["res_seq"] + entry["icode"]
+    #             if residue_id != current_residue_id:
+    #                 current_residue_id = residue_id
+    #                 if record_name == "ATOM":
+    #                     # if entry["res_name"] in ResidueTemplate.VALID_DNA_RESIDUES:
+    #                     #     current_residue = current_chain.add_dna_residue(
+    #                     #         residue_type=entry["res_name"],
+    #                     #         sequence_no=int(entry["res_seq"]),
+    #                     #         insertion_code=entry["icode"]
+    #                     #     )
+    #                     # else:
+    #                     current_residue = Residue(
+    #                         residue_type=entry["res_name"],
+    #                         sequence_no=int(entry["res_seq"]),
+    #                         insertion_code=entry["icode"],
+    #                         chain=current_chain)
+    #                     current_chain.add_residue(current_residue)
+    #                 elif record_name == "HETATM":
+    #                     current_residue = Residue(
+    #                         residue_type=entry["res_name"],
+    #                         sequence_no=int(entry["res_seq"]),
+    #                         insertion_code=entry["icode"],
+    #                         chain=current_chain)
+    #                     current_chain.add_residue(current_residue)
+    #
+    #                     # current_residue = current_chain.add_het_residue(
+    #                     #     residue_type=entry["res_name"],
+    #                     #     sequence_no=int(entry["res_seq"]),
+    #                     #     insertion_code=entry["icode"]
+    #                     # )
+    #
+    #             # Temporary fix need to see if anything breaks (For Evo eg. 2HH1 -> HH12)
+    #             # Fix atom naming
+    #             if entry["atom_name"][0].isnumeric():
+    #                 entry["atom_name"] = entry["atom_name"][1:] + entry["atom_name"][0]
+    #                 if entry["element"] != "H":
+    #                     print(0)
+    #                 if entry["atom_name"][0] == "H":
+    #                     entry["element"] = "H"
+    #
+    #             # Add the atom to the residue
+    #             if entry["alt_loc"] == "":
+    #                 atom_id = entry["atom_name"]
+    #             else:
+    #                 atom_id = entry["atom_name"] + "_" + entry["alt_loc"]
+    #             atom = Atom(
+    #                 element=entry["element"],
+    #                 atom_type=entry["atom_name"],
+    #                 x=entry["x"],
+    #                 y=entry["y"],
+    #                 z=entry["z"],
+    #
+    #                 # pdb_serial=entry["serial"],
+    #                 # pdb_alt_loc=entry["alt_loc"],
+    #                 # pdb_occupancy=entry["occupancy"],
+    #                 # pdb_temp_factor=entry["temp_factor"],
+    #                 # pdb_assigned_charge=entry["assigned_charge"],
+    #                 # pqr_calculated_charge=entry["calculated_charge"],
+    #                 # pqr_radius=entry["radius"],
+    #                 #
+    #                 is_hetero=(record_name == "HETATM"),
+    #
+    #                 residue=current_residue
+    #             )
+    #             current_residue.add_atom(atom_id, atom)
+    #
+    #     # if seqres:
+    #     #     for chain_id in seqres:
+    #     #         if seqres[chain_id]:
+    #     #             protein.chains[chain_id].sequence = seqres[chain_id]
+    #
+    #     # Housekeeping
+    #     # protein.set_residue_indexing()
+    #
+    #     return [protein]
 
-        entries = []
-        for line in lines:
-            record_name = line[0:6].strip().upper()
-            if record_name == "ATOM":
-                pdb_atom_dict = PDBIO.parse_pdb_atom_line(line)
-                entries.append(pdb_atom_dict)
-            elif record_name == "HETATM":
-                pdb_atom_dict = PDBIO.parse_pdb_atom_line(line)
-                entries.append(pdb_atom_dict)
-            elif record_name == "TER":
-                pdb_ter_dict = PDBIO.parse_pdb_ter_line(line)
-                entries.append(pdb_ter_dict)
-            elif record_name == "MODEL":
-                pdb_model_dict = PDBIO.parse_pdb_model_line(line)
-                entries.append(pdb_model_dict)
-            elif record_name == "ENDMDL":
-                pdb_end_model_dict = PDBIO.parse_pdb_end_model_line(line)
-                entries.append(pdb_end_model_dict)
-            elif record_name == "SEQRES":
-                pdb_seqres_dict = PDBIO.parse_pdb_seqres_line(line)
-                entries.append(pdb_seqres_dict)
-
-        protein = Protein()
-        models = []
-        seqres = {}
-        current_model = None
-        current_chain: Optional[Chain] = None
-        current_chain_id = None
-        current_residue: Optional[Residue] = None
-        current_residue_id = None
-
-        for entry in entries:
-            record_name = entry["record_name"]
-            if record_name == "SEQRES":
-                chain_id = entry["chain_id"]
-                if chain_id not in seqres:
-                    seqres[chain_id] = []
-                seqres[chain_id].extend(entry["residues"])
-            elif record_name == "MODEL":
-                # Usually, the MODEL field will only be found in structures based on NMR.
-                # We only use the first model in a file if provided.
-                # There is nothing to do, so we
-                pass
-            elif record_name == "ENDMDL":
-                # Usually, the ENDMDL field will only be found in structures based on NMR.
-                # it closes a corresponding MODEL field.
-                # Since the end of the model is reached, no more entries should be parsed.
-                break
-            elif record_name == "TER":
-                # The TER field terminates the current chain.
-                current_chain = None
-                current_chain_id = None
-            elif record_name == "ATOM" or record_name == "HETATM":
-                # If we switched chains, set the chain.
-                if entry["chain_id"] != current_chain_id:
-                    current_chain_id = entry["chain_id"]
-                    if protein.has_chain(current_chain_id):
-                        current_chain = protein.get_chain(current_chain_id)
-                    else:
-                        current_chain = protein.create_chain(current_chain_id)
-
-                # Check if the residue exists
-                residue_id = current_chain_id + entry["res_seq"] + entry["icode"]
-                if residue_id != current_residue_id:
-                    current_residue_id = residue_id
-                    if record_name == "ATOM":
-                        # if entry["res_name"] in ResidueTemplate.VALID_DNA_RESIDUES:
-                        #     current_residue = current_chain.add_dna_residue(
-                        #         residue_type=entry["res_name"],
-                        #         sequence_no=int(entry["res_seq"]),
-                        #         insertion_code=entry["icode"]
-                        #     )
-                        # else:
-                        current_residue = Residue(
-                            residue_type=entry["res_name"],
-                            sequence_no=int(entry["res_seq"]),
-                            insertion_code=entry["icode"],
-                            chain=current_chain)
-                        current_chain.add_residue(current_residue)
-                    elif record_name == "HETATM":
-                        current_residue = Residue(
-                            residue_type=entry["res_name"],
-                            sequence_no=int(entry["res_seq"]),
-                            insertion_code=entry["icode"],
-                            chain=current_chain)
-                        current_chain.add_residue(current_residue)
-
-                        # current_residue = current_chain.add_het_residue(
-                        #     residue_type=entry["res_name"],
-                        #     sequence_no=int(entry["res_seq"]),
-                        #     insertion_code=entry["icode"]
-                        # )
-
-                # Temporary fix need to see if anything breaks (For Evo eg. 2HH1 -> HH12)
-                # Fix atom naming
-                if entry["atom_name"][0].isnumeric():
-                    entry["atom_name"] = entry["atom_name"][1:] + entry["atom_name"][0]
-                    if entry["element"] != "H":
-                        print(0)
-                    if entry["atom_name"][0] == "H":
-                        entry["element"] = "H"
-
-                # Add the atom to the residue
-                if entry["alt_loc"] == "":
-                    atom_id = entry["atom_name"]
-                else:
-                    atom_id = entry["atom_name"] + "_" + entry["alt_loc"]
-                atom = Atom(
-                    element=entry["element"],
-                    atom_type=entry["atom_name"],
-                    x=entry["x"],
-                    y=entry["y"],
-                    z=entry["z"],
-
-                    # pdb_serial=entry["serial"],
-                    # pdb_alt_loc=entry["alt_loc"],
-                    # pdb_occupancy=entry["occupancy"],
-                    # pdb_temp_factor=entry["temp_factor"],
-                    # pdb_assigned_charge=entry["assigned_charge"],
-                    # pqr_calculated_charge=entry["calculated_charge"],
-                    # pqr_radius=entry["radius"],
-                    #
-                    is_hetero=(record_name == "HETATM"),
-
-                    residue=current_residue
-                )
-                current_residue.add_atom(atom_id, atom)
-
-        # if seqres:
-        #     for chain_id in seqres:
-        #         if seqres[chain_id]:
-        #             protein.chains[chain_id].sequence = seqres[chain_id]
-
-        # Housekeeping
-        # protein.set_residue_indexing()
-
-        return [protein]
-
-    @staticmethod
-    def to_pdb_text(protein: Protein):
-        text_entries = ""
-        num_seqres = 0
-        num_atoms = 0
-        num_hetatoms = 0
-        num_ter = 0
-        serial = 1
-
-        for chain in protein.chains:
-            for residue in chain.residues:
-                for atom in residue.atoms:
-                    if not atom.is_hetero:
-                        atom_entry = {
-                            "element": atom.element,
-                            "atom_name": atom.atom_type,
-                            "alt_loc": atom.get_attribute("pdb_alt_loc"),
-                            "res_name": residue.residue_type,
-                            "chain_id": chain.chain_id,
-                            "res_seq": str(residue.sequence_no),
-                            "icode": residue.insertion_code,
-                            "x": atom.x,
-                            "y": atom.y,
-                            "z": atom.z,
-                            "occupancy": atom.get_attribute("occupancy"),
-                            # "temp_factor": atom._pdb_temp_factor if atom._pdb_temp_factor is not None else 0.0,
-                            "temp_factor": atom.get_attribute("temp_factor"),
-                            "charge": atom.get_attribute("assigned_charge")
-                        }
-                        text_entries += PDBIO.create_pdb_atom_line(atom_entry, serial)
-                        text_entries += "\n"
-                        serial += 1
-                        num_atoms += 1
-
-        # Bookkeeping records
-        text_entries += PDBIO.create_pdb_master_line(num_atoms, num_hetatoms, num_ter, num_seqres=num_seqres)
-        text_entries += "END".ljust(80)
-        text_entries += "\n"
-
-        return text_entries
-
+    # @staticmethod
+    # def to_pdb_text(protein: Protein):
+    #     text_entries = ""
+    #     num_seqres = 0
+    #     num_atoms = 0
+    #     num_hetatoms = 0
+    #     num_ter = 0
+    #     serial = 1
+    #
+    #     for chain in protein.chains:
+    #         for residue in chain.residues:
+    #             for atom in residue.atoms:
+    #                 if not atom.is_hetero:
+    #                     atom_entry = {
+    #                         "element": atom.element,
+    #                         "atom_name": atom.atom_type,
+    #                         "alt_loc": atom.get_attribute("pdb_alt_loc"),
+    #                         "res_name": residue.residue_type,
+    #                         "chain_id": chain.chain_id,
+    #                         "res_seq": str(residue.sequence_no),
+    #                         "icode": residue.insertion_code,
+    #                         "x": atom.x,
+    #                         "y": atom.y,
+    #                         "z": atom.z,
+    #                         "occupancy": atom.get_attribute("occupancy"),
+    #                         # "temp_factor": atom._pdb_temp_factor if atom._pdb_temp_factor is not None else 0.0,
+    #                         "temp_factor": atom.get_attribute("temp_factor"),
+    #                         "charge": atom.get_attribute("assigned_charge")
+    #                     }
+    #                     text_entries += PDBIO.create_pdb_atom_line(atom_entry, serial)
+    #                     text_entries += "\n"
+    #                     serial += 1
+    #                     num_atoms += 1
+    #
+    #     # Bookkeeping records
+    #     text_entries += PDBIO.create_pdb_master_line(num_atoms, num_hetatoms, num_ter, num_seqres=num_seqres)
+    #     text_entries += "END".ljust(80)
+    #     text_entries += "\n"
+    #
+    #     return text_entries
 
     # @staticmethod
     # def save_to_pdb(file_path: str, protein):
