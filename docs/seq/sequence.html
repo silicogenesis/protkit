@@ -111,6 +111,28 @@ class Sequence(ExtendedAttributes):
             spacer = &#34; &#34;
         return spacer.join(self._sequence)
 
+    def to_string(self, start_index: int, end_index: int) -&gt; str:
+        &#34;&#34;&#34;
+        Returns a string representation of a subsequence.
+
+        Args:
+            start_index (int): The start index of the subsequence.
+            end_index (int): The end index of the subsequence.
+
+        Returns:
+            str: The string representation of the subsequence.
+        &#34;&#34;&#34;
+        if self._sequence is None or len(self.sequence) == 0:
+            return &#34;&#34;
+
+        sub_sequence = [self._sequence[i] for i in range(start_index, min(end_index + 1, self.length))]
+
+        if len(self._sequence[0]) == 1:
+            return &#34;&#34;.join(sub_sequence)
+        else:
+            return &#34; &#34;.join(sub_sequence)
+
+
     def __len__(self):
         &#34;&#34;&#34;
         Returns the length of the sequence.
@@ -315,6 +337,28 @@ consistency, the sequence is always represented as a list of codes.</p></div>
         else:
             spacer = &#34; &#34;
         return spacer.join(self._sequence)
+
+    def to_string(self, start_index: int, end_index: int) -&gt; str:
+        &#34;&#34;&#34;
+        Returns a string representation of a subsequence.
+
+        Args:
+            start_index (int): The start index of the subsequence.
+            end_index (int): The end index of the subsequence.
+
+        Returns:
+            str: The string representation of the subsequence.
+        &#34;&#34;&#34;
+        if self._sequence is None or len(self.sequence) == 0:
+            return &#34;&#34;
+
+        sub_sequence = [self._sequence[i] for i in range(start_index, min(end_index + 1, self.length))]
+
+        if len(self._sequence[0]) == 1:
+            return &#34;&#34;.join(sub_sequence)
+        else:
+            return &#34; &#34;.join(sub_sequence)
+
 
     def __len__(self):
         &#34;&#34;&#34;
@@ -537,6 +581,52 @@ def sequence(self):
 </details>
 </dd>
 </dl>
+<h3>Methods</h3>
+<dl>
+<dt id="protkit.seq.sequence.Sequence.to_string"><code class="name flex">
+<span>def <span class="ident">to_string</span></span>(<span>self, start_index: int, end_index: int) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a string representation of a subsequence.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>start_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>The start index of the subsequence.</dd>
+<dt><strong><code>end_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>The end index of the subsequence.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The string representation of the subsequence.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_string(self, start_index: int, end_index: int) -&gt; str:
+    &#34;&#34;&#34;
+    Returns a string representation of a subsequence.
+
+    Args:
+        start_index (int): The start index of the subsequence.
+        end_index (int): The end index of the subsequence.
+
+    Returns:
+        str: The string representation of the subsequence.
+    &#34;&#34;&#34;
+    if self._sequence is None or len(self.sequence) == 0:
+        return &#34;&#34;
+
+    sub_sequence = [self._sequence[i] for i in range(start_index, min(end_index + 1, self.length))]
+
+    if len(self._sequence[0]) == 1:
+        return &#34;&#34;.join(sub_sequence)
+    else:
+        return &#34; &#34;.join(sub_sequence)</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
 <li><code><b><a title="protkit.core.extend_attributes.ExtendedAttributes" href="../core/extend_attributes.html#protkit.core.extend_attributes.ExtendedAttributes">ExtendedAttributes</a></b></code>:
@@ -573,6 +663,7 @@ def sequence(self):
 <li><code><a title="protkit.seq.sequence.Sequence.description" href="#protkit.seq.sequence.Sequence.description">description</a></code></li>
 <li><code><a title="protkit.seq.sequence.Sequence.length" href="#protkit.seq.sequence.Sequence.length">length</a></code></li>
 <li><code><a title="protkit.seq.sequence.Sequence.sequence" href="#protkit.seq.sequence.Sequence.sequence">sequence</a></code></li>
+<li><code><a title="protkit.seq.sequence.Sequence.to_string" href="#protkit.seq.sequence.Sequence.to_string">to_string</a></code></li>
 </ul>
 </li>
 </ul>

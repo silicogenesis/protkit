@@ -33,8 +33,8 @@ See <a href="https://www.rcsb.org/">https://www.rcsb.org/</a> for examples of FA
 <p>Methods are static and can be called without instantiating the class.
 The main functions exposed by the class are:</p>
 <ul>
-<li><code>load()</code> to load a protein from a PDB file.</li>
-<li><code>save()</code> to save a protein to a PDB file.</li>
+<li><code>load()</code> to load a protein from a Fasta file.</li>
+<li><code>save()</code> to save a protein to a Fasta file.</li>
 </ul>
 <details class="source">
 <summary>
@@ -58,8 +58,8 @@ See https://www.rcsb.org/ for examples of FASTA files.
 Methods are static and can be called without instantiating the class.
 The main functions exposed by the class are:
 
-- `load()` to load a protein from a PDB file.
-- `save()` to save a protein to a PDB file.
+- `load()` to load a protein from a Fasta file.
+- `save()` to save a protein to a Fasta file.
 &#34;&#34;&#34;
 
 from typing import List
@@ -120,13 +120,13 @@ class FastaIO:
         return sequences
 
     @staticmethod
-    def save(file_path: str, sequence: [Sequence, List[Sequence]], line_length: [int, None] = 80) -&gt; None:
+    def save(sequence: [Sequence, List[Sequence]], file_path: str, line_length: [int, None] = 80) -&gt; None:
         &#34;&#34;&#34;
         Saves a FASTA file.
 
         Args:
-            file_path (str): The path to the FASTA file.
             sequence (Union[Sequence, List[Sequence]]): The sequence(s) to save.
+            file_path (str): The path to the FASTA file.
             line_length (int): The length of the lines in the FASTA file.
                 If None, the sequence will be saved on one line.
 
@@ -147,7 +147,7 @@ class FastaIO:
                     file.write(seq.sequence + &#34;\n&#34;)
                 else:
                     for i in range((len(seq.sequence) - 1) // line_length + 1):
-                        file.write(seq.sequence[i * line_length:(i + 1) * line_length] + &#34;\n&#34;)
+                        file.write(seq.to_string(i * line_length, (i + 1) * line_length - 1) + &#34;\n&#34;)
                 file.write(&#34;\n&#34;)</code></pre>
 </details>
 </section>
@@ -223,13 +223,13 @@ class FastaIO:
         return sequences
 
     @staticmethod
-    def save(file_path: str, sequence: [Sequence, List[Sequence]], line_length: [int, None] = 80) -&gt; None:
+    def save(sequence: [Sequence, List[Sequence]], file_path: str, line_length: [int, None] = 80) -&gt; None:
         &#34;&#34;&#34;
         Saves a FASTA file.
 
         Args:
-            file_path (str): The path to the FASTA file.
             sequence (Union[Sequence, List[Sequence]]): The sequence(s) to save.
+            file_path (str): The path to the FASTA file.
             line_length (int): The length of the lines in the FASTA file.
                 If None, the sequence will be saved on one line.
 
@@ -250,7 +250,7 @@ class FastaIO:
                     file.write(seq.sequence + &#34;\n&#34;)
                 else:
                     for i in range((len(seq.sequence) - 1) // line_length + 1):
-                        file.write(seq.sequence[i * line_length:(i + 1) * line_length] + &#34;\n&#34;)
+                        file.write(seq.to_string(i * line_length, (i + 1) * line_length - 1) + &#34;\n&#34;)
                 file.write(&#34;\n&#34;)</code></pre>
 </details>
 <h3>Static methods</h3>
@@ -328,16 +328,16 @@ def load(file_path: str) -&gt; List[Sequence]:
 </details>
 </dd>
 <dt id="protkit.file_io.fasta_io.FastaIO.save"><code class="name flex">
-<span>def <span class="ident">save</span></span>(<span>file_path: str, sequence: [<class '<a title="protkit.seq.sequence.Sequence" href="../seq/sequence.html#protkit.seq.sequence.Sequence">Sequence</a>'>, typing.List[<a title="protkit.seq.sequence.Sequence" href="../seq/sequence.html#protkit.seq.sequence.Sequence">Sequence</a>]], line_length: [<class 'int'>, None] = 80) ‑> None</span>
+<span>def <span class="ident">save</span></span>(<span>sequence: [<class '<a title="protkit.seq.sequence.Sequence" href="../seq/sequence.html#protkit.seq.sequence.Sequence">Sequence</a>'>, typing.List[<a title="protkit.seq.sequence.Sequence" href="../seq/sequence.html#protkit.seq.sequence.Sequence">Sequence</a>]], file_path: str, line_length: [<class 'int'>, None] = 80) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Saves a FASTA file.</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>file_path</code></strong> :&ensp;<code>str</code></dt>
-<dd>The path to the FASTA file.</dd>
 <dt><strong><code>sequence</code></strong> :&ensp;<code>Union[Sequence, List[Sequence]]</code></dt>
 <dd>The sequence(s) to save.</dd>
+<dt><strong><code>file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path to the FASTA file.</dd>
 <dt><strong><code>line_length</code></strong> :&ensp;<code>int</code></dt>
 <dd>The length of the lines in the FASTA file.
 If None, the sequence will be saved on one line.</dd>
@@ -349,13 +349,13 @@ If None, the sequence will be saved on one line.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def save(file_path: str, sequence: [Sequence, List[Sequence]], line_length: [int, None] = 80) -&gt; None:
+def save(sequence: [Sequence, List[Sequence]], file_path: str, line_length: [int, None] = 80) -&gt; None:
     &#34;&#34;&#34;
     Saves a FASTA file.
 
     Args:
-        file_path (str): The path to the FASTA file.
         sequence (Union[Sequence, List[Sequence]]): The sequence(s) to save.
+        file_path (str): The path to the FASTA file.
         line_length (int): The length of the lines in the FASTA file.
             If None, the sequence will be saved on one line.
 
@@ -376,7 +376,7 @@ def save(file_path: str, sequence: [Sequence, List[Sequence]], line_length: [int
                 file.write(seq.sequence + &#34;\n&#34;)
             else:
                 for i in range((len(seq.sequence) - 1) // line_length + 1):
-                    file.write(seq.sequence[i * line_length:(i + 1) * line_length] + &#34;\n&#34;)
+                    file.write(seq.to_string(i * line_length, (i + 1) * line_length - 1) + &#34;\n&#34;)
             file.write(&#34;\n&#34;)</code></pre>
 </details>
 </dd>
