@@ -1886,4 +1886,5 @@ Internally, Protkit also uses FreeSASA to calculate the surface area of proteins
 class and provides a different interface for assigning the surface area to the protein, chain, residue
 or atom objects.
 
+
 ***This guide is in active development. More sections will be added soon.***
