@@ -1754,4 +1754,136 @@ for residue in residues1:
         print(residue.id)
 ```
 
+## 8. Tasks, Tools and Pipelines
+
+Protkit distinguishes between Tasks, Tools and Pipelines.
+
+### 8.1 Tasks
+
+In computational biology, we often need to perform various tasks on a protein
+structure or sequence. These tasks can be fairly diverse.  
+
+A ***Task*** is a collection of steps that perform a specific function. For example, a 
+***structure-prediction task*** may take a protein sequence as input and predict the
+structure of the protein as the output of the task.
+
+Examples of tasks could be calculating the surface area of a protein, docking two
+proteins together, predicting the structure upon mutation of a residue, predicting
+the structure of a protein from sequence alone, etc.
+
+Note that in Protkit, a task does not directly perform the computation (computation is performed
+by tools - discussed next). Instead, a task provides a definition of the computation
+to be performed. For example, in a structure-prediction task, a transformation of
+a protein sequences (```Sequence``` object) to a protein structure (```Protein``` object)
+is defined. The actual computation is performed by a tool.
+
+Tasks are defined in the `protkit.tasks` package. Each task is specified as a abstract
+class that defines the input and output of the task. Tools that implement the task
+must adhere to the input and output specifications of the task.
+
+### 8.2 Tools
+
+***Tools*** implement the functionality of tasks. For example, a ***structure-prediction task***
+may be implemented by a ***structure-prediction tool*** such as AlphaFold or RoseTTAFold.
+Modelling the effect of a mutation on the structure of a protein (task) may be implemented by
+a ***mutation-modelling tools*** such as FoldX or EvoEF (tools).
+
+The computation performed by a tool can be achieved in a variety of ways. For example, the
+computation may be performed by calling an external executable program, 
+by calling a web service, by calling a library function installed via PyPI, etc.
+
+Tools are defined in the `protkit.tools` package. Each tool is specified as a class that
+implements the functionality of a task. The tool must adhere to the input and output
+specifications of the task. We often call the classes associated with tools adaptors, to
+indicate that they provide a "bridge" between the task specification and the actual computation.
+For example, the `AlphaFoldAdaptor` class is an adaptor for the `AlphaFold` tool, which
+implements the `StructurePrediction` task.
+
+### 8.3 Pipelines
+
+***Pipelines*** are a sequence of tasks that are executed in a specific order and 
+automates the execution of a series of tasks. The output of one task may be fed to the input
+of another task in the pipeline. For example, a ***structure-prediction pipeline*** may
+consist of a ***sequence-alignment task***, a ***structure-prediction task*** and a ***structure-refinement
+task***.
+
+Pipelines are defined in the `protkit.pipelines` package. Each pipeline is specified as a class
+that defines the sequence of tasks to be executed. The pipeline also defines the input and output
+of the pipeline.
+
+Pipelines provide the ability to automate complex tasks. Pipelines can be executed in a single
+command, and the output of one task is automatically fed to the input of the next task.  The tools
+used in the pipeline are interchangeable, as long as they adhere to the input and output specifications
+defined by the tasks.
+
+### 8.4 Current Tools Integrations
+
+#### 8.4.1 Reduce
+
+The Reduce software is a widely used tool for adding hydrogen atoms to protein 
+structures. It is used to prepare protein structures for molecular dynamics 
+simulations, docking studies, and other computational analyses.
+
+The Reduce software is not included in the Protkit package. It must be installed
+separately. You can download Reduce and follow installation instructions from the following website: 
+https://github.com/rlabduke/reduce
+
+The `ReduceAdaptor` class in the `protkit.tools.reduce_adaptor` module provides an
+interface to the Reduce software.  The following example illustrates how easy 
+it is to use the `ReduceAdaptor` class to protonate or deprotonate a protein structure.
+
+```python
+from protkit.tools.reduce_adaptor import ReduceAdaptor
+from protkit.file_io import ProtIO
+
+reduce_bin_path = "/usr/local/bin/reduce"
+reduce = ReduceAdaptor(reduce_bin_path)
+
+protein = ProtIO.load("1ahw.prot")[0]
+protein_protonated = reduce.protonate(protein)
+protein_deprotonated = reduce.deprotonate(protein)
+```
+
+The `RecuceAdaptor` implements the `Protonation` task, specified in the `protkit.tasks.protonation`
+module. The `Protonation` task specifies that the input is a `Protein` object and the output is a `Protein`
+object. The `ReduceAdaptor` class adheres to these specifications.
+
+Note that a protonated or deprotonated `Protein` object is returned by the `protonate()` and `deprotonate()`
+methods. The advantage for researchers is that they do not need to worry about the details of how the
+protonation or deprotonation is performed.
+
+#### 8.4.2 FreeSASA
+
+FreeSASA is a widely used tool for calculating the solvent accessible surface area (SASA) of proteins.
+It is used to calculate the surface area of proteins, which is useful for understanding protein-protein
+interactions, protein-ligand interactions, protein folding, etc.
+
+FreeSASA is available as a Python library. By default, Protkit will install FreeSASA as a dependency
+when it is installed. 
+
+The `FreeSASAAdaptor` class in the `protkit.tools.freesasa_adaptor` module provides 
+an interface to the FreeSASA software. The following example illustrates how the surface
+area for each atom in a protein can be calculated using the `FreeSASAAdaptor` class.
+
+```python
+from protkit.tools.freesasa_adaptor import FreeSASAAdaptor
+from protkit.file_io import ProtIO
+
+freesasa = FreeSASAAdaptor()
+protein = ProtIO.load("1ahw.prot")[0]
+
+atoms = list(protein.atoms)
+atom_areas = freesasa.calculate_surface_area(atoms)
+protein_area = sum(atom_areas)
+```
+
+The `FreeSASAAdaptor` can be initialised with a number of parameters, such as the probe radius (default 1.4A),
+the algorithm used to calculate the surface area (default Lee-Richards, but Shrake-Rupley can also be specified)
+and various other parameters that control the calculation of the surface area.
+
+Internally, Protkit also uses FreeSASA to calculate the surface area of proteins. The
+`SurfaceArea` class in the `protkit.properties.surface_area` is build on top of the `FreeSASAAdaptor`
+class and provides a different interface for assigning the surface area to the protein, chain, residue
+or atom objects.
+
 ***This guide is in active development. More sections will be added soon.***
