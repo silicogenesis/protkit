@@ -53,6 +53,12 @@ Protkit is designed to be intuitive and easy to use.  This Quick Start Guide wil
     15. [Torsion / Dihedral Angles](#715-torsion-dihedral-angles)
     16. [Circular Variance](#716-circular-variance)
     17. [Interfaces](#717-interfaces)
+8. [Tasks, Tools and Pipelines](#8-tasks-tools-and-pipelines)
+    1. [Tasks](#81-tasks)
+    2. [Tools](#82-tools)
+    3. [Pipelines](#83-pipelines)
+    4. [Current Tool Integrations](#84-current-tool-integrations)
+    
 ---
 
 ## 1. Installation
@@ -1816,7 +1822,7 @@ command, and the output of one task is automatically fed to the input of the nex
 used in the pipeline are interchangeable, as long as they adhere to the input and output specifications
 defined by the tasks.
 
-### 8.4 Current Tools Integrations
+### 8.4 Current Tool Integrations
 
 #### 8.4.1 Reduce
 
