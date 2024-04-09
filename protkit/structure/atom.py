@@ -82,7 +82,7 @@ class Atom:
 
         # If alt_loc is specified, the atom is disordered
         # Keep track of all disordered states.
-        if self.get_attribute("alt_loc") is not None:
+        if self.get_attribute("alt_loc") is not None and self.get_attribute("occupancy") is not None:
             self._is_disordered = True
             self._disordered_states = [{
                 "alt_loc": self.get_attribute("alt_loc"),
