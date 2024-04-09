@@ -73,7 +73,7 @@ class Atom:
         # Optional attributes
         if alt_loc is not None and alt_loc != "":
             self.set_attribute("alt_loc", alt_loc)
-        if occupancy is not None and occupancy != 1.0:
+        if occupancy is not None:
             self.set_attribute("occupancy", occupancy)
         if temp_factor is not None:
             self.set_attribute("temp_factor", temp_factor)
@@ -82,7 +82,7 @@ class Atom:
 
         # If alt_loc is specified, the atom is disordered
         # Keep track of all disordered states.
-        if self.get_attribute("alt_loc") is not None:
+        if self.get_attribute("alt_loc") is not None and self.get_attribute("occupancy") is not None:
             self._is_disordered = True
             self._disordered_states = [{
                 "alt_loc": self.get_attribute("alt_loc"),
