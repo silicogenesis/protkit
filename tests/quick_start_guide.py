@@ -411,10 +411,6 @@ def quality_removing_hydrogen_atoms():
     print(f"{protein.num_hydrogen_atoms} hydrogen atoms after removal")
 
 
-# prep_data()
-quality_removing_hydrogen_atoms()
-
-
 def properties_hydrophobicity():
     from protkit.file_io import ProtIO
     from protkit.properties import Hydrophobicity
@@ -666,29 +662,56 @@ def properties_interface_residues():
         if residue.get_attribute("ca_in_interface"):
             print(residue.id)
 
+def tools_reduce():
+    from protkit.tools.reduce_adaptor import ReduceAdaptor
+    from protkit.file_io import ProtIO
+
+    reduce_bin_path = "/usr/local/bin/reduce"
+    reduce = ReduceAdaptor(reduce_bin_path)
+
+    protein = ProtIO.load("1ahw.prot")[0]
+    protein_protonated = reduce.protonate(protein)
+    protein_deprotonated = reduce.deprotonate(protein)
+
+def tools_freesasa():
+    from protkit.tools.freesasa_adaptor import FreeSASAAdaptor
+    from protkit.file_io import ProtIO
+
+    freesasa = FreeSASAAdaptor()
+    protein = ProtIO.load("1ahw.prot")[0]
+
+    atoms = list(protein.atoms)
+    atom_areas = freesasa.calculate_surface_area(atoms)
+    protein_area = sum(atom_areas)
+    print(protein_area)
+
+
 # prep_data()
 
-# quick_start_example()
+quick_start_example()
 
-# download_pdb_example()
-# download_fasta_example()
-# download_cif_example()
+download_pdb_example()
+download_fasta_example()
+download_cif_example()
 
-# properties_hydrophobicity()
-# properties_hydrophobicity_class()
-# properties_mass()
-# properties_chemical_class()
-# properties_charge()
-# properties_polarity()
-# properties_donors_acceptors()
-# properties_surface_area()
-# properties_volume()
-# properties_volume_class()
-# properties_bounds_and_center()
-# properties_bond_lengths()
-# properties_peptide_lengths()
-# properties_bond_angles()
-# properties_dihedral_angles()
-# properties_circular_variance() -> double check first residue
+properties_hydrophobicity()
+properties_hydrophobicity_class()
+properties_mass()
+properties_chemical_class()
+properties_charge()
+properties_polarity()
+properties_donors_acceptors()
+properties_surface_area()
+properties_volume()
+properties_volume_class()
+properties_bounds_and_center()
+properties_bond_lengths()
+properties_peptide_lengths()
+properties_bond_angles()
+properties_dihedral_angles()
+properties_circular_variance()  # -> double check first residue
 # properties_interface_atoms()
 # properties_interface_residues()
+
+tools_reduce()
+tools_freesasa()

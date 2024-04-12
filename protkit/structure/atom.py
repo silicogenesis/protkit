@@ -37,6 +37,10 @@ class Atom:
                  temp_factor: Optional[float] = None,
                  assigned_charge: Optional[str] = None,
 
+                 # Optional PQR attributes
+                 calculated_charge: Optional[float] = None,
+                 radius: Optional[float] = None,
+
                  residue: Optional[Residue] = None):
         """
         Constructor for the Atom class.
@@ -53,6 +57,8 @@ class Atom:
             occupancy (Optional[float], optional): The occupancy. Defaults to None.
             temp_factor (Optional[float], optional): The temperature factor. Defaults to None.
             assigned_charge (Optional[str], optional): The assigned charge. Defaults to None.
+            calculated_charge (Optional[float], optional): The calculated charge (PQR). Defaults to None.
+            radius (Optional[float], optional): The radius (PQR). Defaults to None.
             residue (Optional[Residue], optional): The residue the atom forms part of. Defaults to None.
 
         Returns:
@@ -65,6 +71,18 @@ class Atom:
         self._z: float = z
         self._element: str = element
         self._atom_type: str = atom_type
+
+        # It could happen that the element is not set. For example, PQR files
+        # do not have an element field.
+        # In this case, the element is set to the first character of the atom type.
+        # This should generally work, although some programs use naming conventions for
+        # atom types that are not standard, for example starting a hydrogen with
+        # a numerical value rather than H. There may also be complications for
+        # two-letter element names. For example "CA" could be Calcium or Alpha Carbon.
+        # Further improvements should be made to handle these cases.
+        if self._element is None or self._element == "":
+            if self._atom_type is not None and self._atom_type != "":
+                self._element = self._atom_type[0]
 
         # Derived properties
         self._is_hetero: bool = is_hetero
@@ -79,6 +97,10 @@ class Atom:
             self.set_attribute("temp_factor", temp_factor)
         if assigned_charge is not None and assigned_charge != "":
             self.set_attribute("assigned_charge", assigned_charge)
+        if calculated_charge is not None:
+            self.set_attribute("calculated_charge", calculated_charge)
+        if radius is not None:
+            self.set_attribute("radius", radius)
 
         # If alt_loc is specified, the atom is disordered
         # Keep track of all disordered states.

@@ -10,8 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for PDB2PQR tool.
 - HETATM support in PDB files.
-- TER support in PDB files.
 - Atom class supports initialization with data from PQR files.
+
+### Changed
+- TER lines terminate chains in PDB and PQR files.
 
 ### Fixes
 - PQRIO correctly reads and writes PQR files.

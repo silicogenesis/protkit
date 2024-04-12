@@ -33,7 +33,7 @@ The main functions exposed by the class are:
 
 """
 
-from typing import List, Optional
+from typing import List, Dict, Optional
 from protkit.structure.protein import Protein
 from protkit.structure.chain import Chain
 from protkit.structure.residue import Residue
@@ -333,14 +333,18 @@ class PDBIO():
         return pdb_atom_dict
 
     @staticmethod
-    def create_pdb_atom_line(atom, serial: int, record_name="ATOM"):
+    def create_pdb_atom_line(atom: Dict, serial: int, record_name="ATOM") -> str:
         """
-        Creates a ATOM line for a PDB file.
+        Creates a ATOM or HETATM line for a PDB file.
 
-        The record_name is expected to be ATOM or HETATM
+        Args:
+            atom (Dict): The atom information.
+            serial (int): The serial number of the atom.
+            record_name (str): The record name, should be ATOM or HETATM.
+
+        Returns:
+            str: The ATOM or HETATM line.
         """
-        # text = "ATOM".ljust(6)
-        # text += atom["serial"].rjust(5) + " "
         text = record_name.ljust(6)
         text += str(serial).rjust(5) + " "
 
@@ -365,7 +369,59 @@ class PDBIO():
         text += f'{0.0 if atom["temp_factor"] is None else atom["temp_factor"]:6.2f}'
         text += "".ljust(10)
         text += atom["element"].rjust(2)
-        text += ("" if atom["charge"] is None else atom["charge"]).rjust(2)
+        text += ("" if atom["assigned_charge"] is None else atom["assigned_charge"]).rjust(2)
+        return text
+
+    @staticmethod
+    def create_pqr_atom_line(atom: Dict, serial: int, record_name="ATOM") -> str:
+        """
+        Creates a ATOM or HETATM line for a PQR file.
+
+        The PQR line is similar to the PDB ATOM line, but with additional fields
+        for atomic charge and radius. The occupancy, temperature factor,
+        charge and element fields from the PDB file are not used in the PQR file.
+
+        See: https://pdb2pqr.readthedocs.io/en/latest/formats/pqr.html
+        The order of fields in a PQR file is as follows:
+        Field_name Atom_number Atom_name Residue_name Chain_ID Residue_number
+        X Y Z Charge Radius
+
+        Args:
+            atom (Dict): The atom information.
+            serial (int): The serial number of the atom.
+            record_name (str): The record name, should be ATOM or HETATM.
+
+        Returns:
+            str: The PQR ATOM or HETATM line.
+        """
+        text = record_name.ljust(6)
+        text += str(serial).rjust(5) + " "
+
+        # The PDB spec says that if the element has two characters, e.g. Fe (iron)
+        # it should start at the position 13, otherwise it should start at position 14.
+        # This seems a little problematic, as some atoms could use 4 characters
+        # for example, HG11. The implementation here is consistent with observed PDBs
+        # from the RCSB.
+        if len(atom["element"]) == 2 or len(atom["atom_name"]) == 4:
+            text += atom["atom_name"].ljust(4)
+        else:
+            text += " " + atom["atom_name"].ljust(3)
+        text += ("" if atom["alt_loc"] is None else atom["alt_loc"]).ljust(1)
+        text += atom["res_name"].rjust(3) + " "
+        text += atom["chain_id"]
+        text += atom["res_seq"].rjust(4)
+        text += atom["icode"].ljust(1) + "   "
+        text += f'{atom["x"]:8.3f}'
+        text += f'{atom["y"]:8.3f}'
+        text += f'{atom["z"]:8.3f}'
+        text += f'{0.0 if atom["calculated_charge"] is None else atom["calculated_charge"]:8.4f}'
+        text += f'{0.0 if atom["radius"] is None else atom["radius"]:7.4f}'
+        # text += f'{1.0 if atom["occupancy"] is None else atom["occupancy"]:6.2f}'
+        # text += f'{0.0 if atom["temp_factor"] is None else atom["temp_factor"]:6.2f}'
+        # text += "".ljust(10)
+        # text += atom["element"].rjust(2)
+        # text += ("" if atom["charge"] is None else atom["charge"]).rjust(2)
+
         return text
 
     # --------------------------------------------------------------------------------
@@ -393,7 +449,7 @@ class PDBIO():
         for line in lines:
             record_name = line[0:6].strip().upper()
             if record_name == "ATOM":
-                pdb_atom_dict = PDBIO.parse_pdb_atom_line(line)
+                pdb_atom_dict = PDBIO.parse_pdb_atom_line(line, is_pqr_format=is_pqr_format)
                 entries.append(pdb_atom_dict)
             elif record_name == "HETATM":
                 pdb_atom_dict = PDBIO.parse_pdb_atom_line(line, is_pqr_format=is_pqr_format)
@@ -530,9 +586,8 @@ class PDBIO():
                     occupancy=entry["occupancy"],
                     temp_factor=entry["temp_factor"],
                     assigned_charge=entry["assigned_charge"],
-                    # pqr_calculated_charge=entry["calculated_charge"],
-                    # pqr_radius=entry["radius"],
-                    #
+                    calculated_charge=entry["calculated_charge"],
+                    radius=entry["radius"],
                     is_hetero=(record_name == "HETATM"),
 
                     residue=current_residue
@@ -583,6 +638,7 @@ class PDBIO():
         num_hetatoms = 0
         num_ter = 0
         serial = 1
+        atom_entry = None
 
         for chain in protein.chains:
             for residue in chain.residues:
@@ -602,11 +658,57 @@ class PDBIO():
                             "occupancy": atom.get_attribute("occupancy"),
                             # "temp_factor": atom._pdb_temp_factor if atom._pdb_temp_factor is not None else 0.0,
                             "temp_factor": atom.get_attribute("temp_factor"),
-                            "charge": atom.get_attribute("assigned_charge")
+                            "assigned_charge": atom.get_attribute("assigned_charge"),
+                            "calculated_charge": atom.get_attribute("calculated_charge"),
+                            "radius": atom.get_attribute("radius")
                         }
-                        text_entries.append(PDBIO.create_pdb_atom_line(atom_entry, serial))
+                        if not is_pqr_format:
+                            text_entries.append(PDBIO.create_pdb_atom_line(atom_entry, serial))
+                        else:
+                            text_entries.append(PDBIO.create_pqr_atom_line(atom_entry, serial))
+
                         serial += 1
                         num_atoms += 1
+
+            # TER entry
+            if atom_entry is not None:
+                text_entries.append(PDBIO.create_pdb_ter_line(serial,
+                                                              atom_entry["res_name"],
+                                                              atom_entry["chain_id"],
+                                                              atom_entry["res_seq"],
+                                                              atom_entry["icode"]))
+                serial = serial + 1
+                num_ter += 1
+
+        for chain in protein.chains:
+            for residue in chain.residues:
+                # HETATM entries
+                for atom in residue.atoms:
+                    if atom.is_hetero:
+                        atom_entry = {
+                            "element": atom.element,
+                            "atom_name": atom.atom_type,
+                            "alt_loc": atom.get_attribute("pdb_alt_loc"),
+                            "res_name": residue.residue_type,
+                            "chain_id": chain.chain_id,
+                            "res_seq": str(residue.sequence_no),
+                            "icode": residue.insertion_code,
+                            "x": atom.x,
+                            "y": atom.y,
+                            "z": atom.z,
+                            "occupancy": atom.get_attribute("occupancy"),
+                            # "temp_factor": atom._pdb_temp_factor if atom._pdb_temp_factor is not None else 0.0,
+                            "temp_factor": atom.get_attribute("temp_factor"),
+                            "charge": atom.get_attribute("assigned_charge")
+                        }
+                        if not is_pqr_format:
+                            text_entries.append(PDBIO.create_pdb_atom_line(atom_entry, serial, record_name="HETATM"))
+                        else:
+                            text_entries.append(PDBIO.create_pqr_atom_line(atom_entry, serial, record_name="HETATM"))
+
+                        serial += 1
+                        num_hetatoms += 1
+            # Hetero residues have no TER records, so no need to write a termination code.
 
         # Bookkeeping records
         text_entries.append(PDBIO.create_pdb_master_line(num_atoms, num_hetatoms, num_ter, num_seqres=num_seqres))

@@ -1892,5 +1892,39 @@ Internally, Protkit also uses FreeSASA to calculate the surface area of proteins
 class and provides a different interface for assigning the surface area to the protein, chain, residue
 or atom objects.
 
+### 8.4.3 PDB2PQR
+
+The pdb2pqr software is a widely used tool for adding charges and radii to protein
+structures. It is used to prepare protein structures for molecular dynamics
+simulations, docking studies, and other computational analyses.  pdb2pqr can add a
+limited number of missing heavy atoms to structures, as well as
+hydrogen atoms. It may change the coordinates of some atoms in the structure.
+
+pdb2pqr is available as a Python library. By default, Protkit will install pdb2pqr 
+as a dependency when it is installed.
+
+The `PDB2PQRAdaptor` class in the `protkit.tools.pdb2pqr_adaptor` module provides an
+interface to the pdb2pqr software. The use of the `PDB2PQRAdaptor` class is similar
+to the `ReduceAdaptor` class. The following example illustrates how to use the
+`PDB2PQRAdaptor` class to add charges and radii to a protein structure.
+
+```python
+from protkit.tools.pdb2pqr_adaptor import PDB2PQRAdaptor
+from protkit.file_io import ProtIO
+
+pdb2pqr = PDB2PQRAdaptor(force_field=PDB2PQRAdaptor.AMBER)
+
+protein = ProtIO.load("1ahw.prot")[0]
+protein_out = pdb2pqr.run(protein)
+```
+
+The `PDB2PQRAdaptor` can be initialised with a number of parameters, such as the force field.
+The pdb2pqr software implements a number of force fields, such as AMBER, CHARMM, PARSE, etc.
+If no force field is specified, PARSE is used.
+
+The `run` command is used to run the pdb2pqr software on a `Protein` object. It 
+returns a new `Protein` object with charges and radii added to the atoms. The run
+command takes additional parameters, such the paths for storing pdb or pqr files
+that are used as input and output for the pdb2pqr software.
 
 ***This guide is in active development. More sections will be added soon.***

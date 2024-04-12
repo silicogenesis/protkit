@@ -60,8 +60,6 @@ with implementation hooks for Python.
 
 from typing import TYPE_CHECKING
 from protkit.structure import Protein
-from protkit.tools.freesasa_adaptor import FreeSASAAdaptor
-
 
 class SurfaceArea:
     MAX_ASA_MILLER = {
@@ -104,6 +102,8 @@ class SurfaceArea:
         """
 
         # Calculate the solvent accessible surface area using Lee Richards
+        # Note the import of the adaptor is done here to avoid circular imports.
+        from protkit.tools.freesasa_adaptor import FreeSASAAdaptor
         freesasa_adaptor = FreeSASAAdaptor(algorithm=FreeSASAAdaptor.LEE_RICHARDS)
         sasa = freesasa_adaptor.calculate_surface_area(list(protein.atoms))
 
