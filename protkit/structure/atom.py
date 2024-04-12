@@ -91,6 +91,11 @@ class Atom:
         # Optional attributes
         if alt_loc is not None and alt_loc != "":
             self.set_attribute("alt_loc", alt_loc)
+            # If alt_loc is set, occupancy is also set
+            # There are examples where alt_loc is set, even though occupancy is 1.0.
+            # In these cases, the if statement below will not set the occupancy
+            # to 1.0, which is why it needs to be set here.
+            self.set_attribute("occupancy", occupancy)
         if occupancy is not None and occupancy != 1.0:
             self.set_attribute("occupancy", occupancy)
         if temp_factor is not None:
