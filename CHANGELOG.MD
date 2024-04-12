@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixes
 - PQRIO correctly reads and writes PQR files.
 - Fixed an error that can occur when fixing disordered atoms in PDB files contain alt_loc information with occupancy set to 1.00.
+- Fixes a circulat import issue that can occur when calculating surface properties.
 
 ## [0.2.2] - 2024-04-01
 
