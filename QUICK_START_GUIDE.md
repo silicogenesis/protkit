@@ -1892,7 +1892,7 @@ Internally, Protkit also uses FreeSASA to calculate the surface area of proteins
 class and provides a different interface for assigning the surface area to the protein, chain, residue
 or atom objects.
 
-### 8.4.3 PDB2PQR
+#### 8.4.3 PDB2PQR
 
 The pdb2pqr software is a widely used tool for adding charges and radii to protein
 structures. It is used to prepare protein structures for molecular dynamics
@@ -1926,5 +1926,32 @@ The `run` command is used to run the pdb2pqr software on a `Protein` object. It
 returns a new `Protein` object with charges and radii added to the atoms. The run
 command takes additional parameters, such the paths for storing pdb or pqr files
 that are used as input and output for the pdb2pqr software.
+
+#### 8.4.4 Propka
+
+The propka software is a widely used tool for predicting the pKa values of ionisable
+residues and protin-ligand complexes based on the 3D structure.
+
+propka is available as a Python library. By default, Protkit will install propka 
+as a dependency when it is installed.
+
+The `PropkaAdaptor` class in the `protkit.tools.propka_adaptor` module provides an
+interface to the propka software.
+
+```python
+from protkit.tools.propka_adaptor import PropkaAdaptor
+from protkit.file_io import ProtIO
+
+propka = PropkaAdaptor(ph=7.0)
+
+protein = ProtIO.load("1ahw.prot")[0]
+protein_out = propka.calculate_pka(protein)
+```
+
+The `PropkaAdaptor` can be initialised with a pH value at which the pKa values are
+calculated. The `calculate_pka` method is used to calculate the pKa values of the
+ionisable residues in a `Protein`. The pKa values are stored as attributes of the
+residues in the protein. It can be accessed through the `get_attribute("pka")` 
+method of the residue.
 
 ***This guide is in active development. More sections will be added soon.***

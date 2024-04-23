@@ -160,6 +160,7 @@ class Chain:
     # - num_disordered_residues (property)
     # - num_residues_by_type (property)
     # - get_residue
+    # - get_residue_by_sequence_code
     # - filter_residues (iterator)
     # - seqres_analysis
     # - assign_segments
@@ -273,6 +274,27 @@ class Chain:
             raise IndexError("Residue index out of range.")
 
         return self._residues[index]
+
+    def get_residue_by_sequence_code(self, sequence_code: str) -> [Residue, None]:
+        """
+        Returns the residue with the specified key.
+
+        Args:
+            sequence_code (str): The key of the residue.
+
+        Returns:
+            Residue: The residue with the specified sequence_code, or None
+                if the residue is not found.
+
+        TODO:
+            It would be efficient to compute a dictionary of residues
+            that maps the key to an index when the residues are added.
+            Lookups like this would be much more efficient.
+        """
+        for residue in self._residues:
+            if residue.sequence_code == sequence_code:
+                return residue
+        return None
 
     def filter_residues(self, residue_criteria: Optional[List] = None) -> List[Residue]:
         """

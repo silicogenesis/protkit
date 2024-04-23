@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>protkit.tools API documentation</title>
-<meta name="description" content="`tools` is a package that contains classes that perform specific tasks on proteins.
-These include tasks such as docking, folding, affinity prediction, …" />
+<title>protkit.metrics API documentation</title>
+<meta name="description" content="Package `metrics` contains classes to perform various evaluations on biological data …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -20,48 +19,68 @@ These include tasks such as docking, folding, affinity prediction, …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>protkit.tools</code></h1>
+<h1 class="title">Module <code>protkit.metrics</code></h1>
 </header>
 <section id="section-intro">
-<p><code>tools</code> is a package that contains classes that perform specific tasks on proteins.
-These include tasks such as docking, folding, affinity prediction, and more.</p>
+<p>Package <code>metrics</code> contains classes to perform various evaluations on biological data.</p>
+<ul>
+<li><code>StructureEval</code> class in <code><a title="protkit.metrics.structure_eval" href="structure_eval.html">protkit.metrics.structure_eval</a></code>: Various metrics such as RMSD, TMScore, GDT TS and Fnat scores to evaluate protein structures.</li>
+<li><code>SequenceEval</code> class in <code><a title="protkit.metrics.sequence_eval" href="sequence_eval.html">protkit.metrics.sequence_eval</a></code>: Various metrics to such as sequence identity, similarity, and coverage to evaluate protein sequences.</li>
+<li><code>ClassificationEval</code> class in <code><a title="protkit.metrics.classification_eval" href="classification_eval.html">protkit.metrics.classification_eval</a></code>: Various metrics such as accuracy, precision, recall, and F1 score to the results of protein classification problems.</li>
+<li><code>RegressionEval</code> class in <code><a title="protkit.metrics.regression_eval" href="regression_eval.html">protkit.metrics.regression_eval</a></code>: Various metrics such as mean squared error, mean absolute error, and R2 score to evaluate the results of protein regression problems.</li>
+<li><code>UtilityEval</code> class in <code><a title="protkit.metrics.utility_eval" href="utility_eval.html">protkit.metrics.utility_eval</a></code>: Various metrics such as memory usage, execution time, and disk usage to evaluate metrics related to the execution of a program.</li>
+</ul>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;
-`tools` is a package that contains classes that perform specific tasks on proteins.
-These include tasks such as docking, folding, affinity prediction, and more.
+Package `metrics` contains classes to perform various evaluations on biological data.
+
+- `StructureEval` class in `structure_eval`: Various metrics such as RMSD, TMScore, GDT TS and Fnat scores to evaluate protein structures.
+- `SequenceEval` class in `sequence_eval`: Various metrics to such as sequence identity, similarity, and coverage to evaluate protein sequences.
+- `ClassificationEval` class in `classification_eval`: Various metrics such as accuracy, precision, recall, and F1 score to the results of protein classification problems.
+- `RegressionEval` class in `regression_eval`: Various metrics such as mean squared error, mean absolute error, and R2 score to evaluate the results of protein regression problems.
+- `UtilityEval` class in `utility_eval`: Various metrics such as memory usage, execution time, and disk usage to evaluate metrics related to the execution of a program.
 &#34;&#34;&#34;
 
-from .freesasa_adaptor import FreeSASAAdaptor
-from .pdb2pqr_adaptor import PDB2PQRAdaptor
-from .reduce_adaptor import ReduceAdaptor
-from .propka_adaptor import PropkaAdaptor</code></pre>
+from .structure_eval import StructureEval
+from .sequence_eval import SequenceEval
+from .regression_eval import RegressionEval
+from .classification_eval import ClassificationEval
+from .utility_eval import UtilityEval
+
+from .scoring_matrix import ScoringMatrix</code></pre>
 </details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="protkit.tools.freesasa_adaptor" href="freesasa_adaptor.html">protkit.tools.freesasa_adaptor</a></code></dt>
+<dt><code class="name"><a title="protkit.metrics.classification_eval" href="classification_eval.html">protkit.metrics.classification_eval</a></code></dt>
 <dd>
-<div class="desc"><p>Implements class <code>FreeSASAAdaptor</code> to calculate the accessible surface area (ASA)
-of proteins using the FreeSASA library.</p></div>
+<div class="desc"><p>Implements class <code>ClassificationEval</code> for evaluating results of protein classification problems.</p></div>
 </dd>
-<dt><code class="name"><a title="protkit.tools.pdb2pqr_adaptor" href="pdb2pqr_adaptor.html">protkit.tools.pdb2pqr_adaptor</a></code></dt>
+<dt><code class="name"><a title="protkit.metrics.regression_eval" href="regression_eval.html">protkit.metrics.regression_eval</a></code></dt>
 <dd>
-<div class="desc"><p>Implements class <code>PDB2PQRAdaptor</code>. The PDB2PQRAdaptor class provides an interface
-to the pdb2pqr software, which is used to convert PDB files to PQR …</p></div>
+<div class="desc"><p>Implements class <code>RegressionEval</code> for evaluating results of protein regression problems.</p></div>
 </dd>
-<dt><code class="name"><a title="protkit.tools.propka_adaptor" href="propka_adaptor.html">protkit.tools.propka_adaptor</a></code></dt>
+<dt><code class="name"><a title="protkit.metrics.scoring_matrix" href="scoring_matrix.html">protkit.metrics.scoring_matrix</a></code></dt>
 <dd>
-<div class="desc"><p>Implements class <code>PropkaAdaptor</code>. The PropkaAdaptor class provides an interface
-to the propka software, which is used to calculate pKa values of …</p></div>
+<div class="desc"><p>Implements class <code>ScoringMatrix</code> for scoring residue pairs …</p></div>
 </dd>
-<dt><code class="name"><a title="protkit.tools.reduce_adaptor" href="reduce_adaptor.html">protkit.tools.reduce_adaptor</a></code></dt>
+<dt><code class="name"><a title="protkit.metrics.sequence_eval" href="sequence_eval.html">protkit.metrics.sequence_eval</a></code></dt>
 <dd>
-<div class="desc"><p>Implements class ReduceAdaptor. The ReduceAdaptor class provides an interface
-to the Reduce software, which is used to add hydrogens to protein …</p></div>
+<div class="desc"><p>Implements class <code>SequenceEval</code> for evaluating protein sequences …</p></div>
+</dd>
+<dt><code class="name"><a title="protkit.metrics.structure_eval" href="structure_eval.html">protkit.metrics.structure_eval</a></code></dt>
+<dd>
+<div class="desc"><p>Implements class <code>StructureEval</code> for evaluating protein structures …</p></div>
+</dd>
+<dt><code class="name"><a title="protkit.metrics.utility_eval" href="utility_eval.html">protkit.metrics.utility_eval</a></code></dt>
+<dd>
+<div class="desc"><p>Implements class <code>UtilityEval</code> for evaluating monitoring resources such as
+execution time, memory usage, disk usage, network usage, etc. during the
+…</p></div>
 </dd>
 </dl>
 </section>
@@ -85,10 +104,12 @@ to the Reduce software, which is used to add hydrogens to protein …</p></div>
 </li>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="protkit.tools.freesasa_adaptor" href="freesasa_adaptor.html">protkit.tools.freesasa_adaptor</a></code></li>
-<li><code><a title="protkit.tools.pdb2pqr_adaptor" href="pdb2pqr_adaptor.html">protkit.tools.pdb2pqr_adaptor</a></code></li>
-<li><code><a title="protkit.tools.propka_adaptor" href="propka_adaptor.html">protkit.tools.propka_adaptor</a></code></li>
-<li><code><a title="protkit.tools.reduce_adaptor" href="reduce_adaptor.html">protkit.tools.reduce_adaptor</a></code></li>
+<li><code><a title="protkit.metrics.classification_eval" href="classification_eval.html">protkit.metrics.classification_eval</a></code></li>
+<li><code><a title="protkit.metrics.regression_eval" href="regression_eval.html">protkit.metrics.regression_eval</a></code></li>
+<li><code><a title="protkit.metrics.scoring_matrix" href="scoring_matrix.html">protkit.metrics.scoring_matrix</a></code></li>
+<li><code><a title="protkit.metrics.sequence_eval" href="sequence_eval.html">protkit.metrics.sequence_eval</a></code></li>
+<li><code><a title="protkit.metrics.structure_eval" href="structure_eval.html">protkit.metrics.structure_eval</a></code></li>
+<li><code><a title="protkit.metrics.utility_eval" href="utility_eval.html">protkit.metrics.utility_eval</a></code></li>
 </ul>
 </li>
 </ul>

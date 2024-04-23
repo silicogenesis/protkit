@@ -699,7 +699,10 @@ class PDBIO():
                             "occupancy": atom.get_attribute("occupancy"),
                             # "temp_factor": atom._pdb_temp_factor if atom._pdb_temp_factor is not None else 0.0,
                             "temp_factor": atom.get_attribute("temp_factor"),
-                            "charge": atom.get_attribute("assigned_charge")
+                            "charge": atom.get_attribute("assigned_charge"),
+                            "assigned_charge": atom.get_attribute("assigned_charge"),
+                            "calculated_charge": atom.get_attribute("calculated_charge"),
+                            "radius": atom.get_attribute("radius")
                         }
                         if not is_pqr_format:
                             text_entries.append(PDBIO.create_pdb_atom_line(atom_entry, serial, record_name="HETATM"))
