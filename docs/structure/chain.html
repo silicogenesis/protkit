@@ -152,6 +152,7 @@ class Chain:
     # Methods for managing the chain&#39;s protein.
     # - protein (property)
     # - protein (setter)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -176,6 +177,17 @@ class Chain:
             None
         &#34;&#34;&#34;
         self._protein = protein
+
+    @property
+    def pdb_id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the chain&#39;s PDB ID.
+
+        Returns:
+            str: The chain&#39;s PDB ID.
+        &#34;&#34;&#34;
+        if self._protein is not None:
+            return self._protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the chain&#39;s residues.
@@ -859,6 +871,7 @@ class Chain:
     # Methods for managing the chain&#39;s protein.
     # - protein (property)
     # - protein (setter)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -883,6 +896,17 @@ class Chain:
             None
         &#34;&#34;&#34;
         self._protein = protein
+
+    @property
+    def pdb_id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the chain&#39;s PDB ID.
+
+        Returns:
+            str: The chain&#39;s PDB ID.
+        &#34;&#34;&#34;
+        if self._protein is not None:
+            return self._protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the chain&#39;s residues.
@@ -1775,6 +1799,30 @@ def num_water_residues(self) -&gt; int:
         if residue.residue_type == &#34;HOH&#34;:
             count += 1
     return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.chain.Chain.pdb_id"><code class="name">var <span class="ident">pdb_id</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the chain's PDB ID.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The chain's PDB ID.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pdb_id(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the chain&#39;s PDB ID.
+
+    Returns:
+        str: The chain&#39;s PDB ID.
+    &#34;&#34;&#34;
+    if self._protein is not None:
+        return self._protein.pdb_id</code></pre>
 </details>
 </dd>
 <dt id="protkit.structure.chain.Chain.protein"><code class="name">var <span class="ident">protein</span> : Protein</code></dt>
@@ -2672,6 +2720,7 @@ starting at 1.</dd>
 <li><code><a title="protkit.structure.chain.Chain.num_residues" href="#protkit.structure.chain.Chain.num_residues">num_residues</a></code></li>
 <li><code><a title="protkit.structure.chain.Chain.num_residues_by_type" href="#protkit.structure.chain.Chain.num_residues_by_type">num_residues_by_type</a></code></li>
 <li><code><a title="protkit.structure.chain.Chain.num_water_residues" href="#protkit.structure.chain.Chain.num_water_residues">num_water_residues</a></code></li>
+<li><code><a title="protkit.structure.chain.Chain.pdb_id" href="#protkit.structure.chain.Chain.pdb_id">pdb_id</a></code></li>
 <li><code><a title="protkit.structure.chain.Chain.protein" href="#protkit.structure.chain.Chain.protein">protein</a></code></li>
 <li><code><a title="protkit.structure.chain.Chain.remove_atoms" href="#protkit.structure.chain.Chain.remove_atoms">remove_atoms</a></code></li>
 <li><code><a title="protkit.structure.chain.Chain.remove_hetero_residues" href="#protkit.structure.chain.Chain.remove_hetero_residues">remove_hetero_residues</a></code></li>

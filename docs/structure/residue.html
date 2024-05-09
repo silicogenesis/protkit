@@ -45,6 +45,7 @@ from protkit.structure.atom import Atom
 
 if TYPE_CHECKING:
     from protkit.structure.chain import Chain
+    from protkit.structure.protein import Protein
 
 
 class Residue:
@@ -326,9 +327,12 @@ class Residue:
         return Residue.SHORT_CODE[self._residue_type]
 
     # ------------------------------------------------------------
-    # Methods for managing the residue&#39;s chain.
+    # Methods for managing the residue&#39;s chain and protein
     # - chain (property)
     # - chain (setter)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -353,6 +357,39 @@ class Residue:
             None
         &#34;&#34;&#34;
         self._chain = chain
+
+    @property
+    def chain_id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the chain ID.
+
+        Returns:
+            str: The chain ID.
+        &#34;&#34;&#34;
+        if self._chain is not None:
+            return self._chain.chain_id
+
+    @property
+    def protein(self) -&gt; Protein:
+        &#34;&#34;&#34;
+        Returns the protein.
+
+        Returns:
+            Protein: The protein.
+        &#34;&#34;&#34;
+        if self._chain is not None:
+            return self._chain.protein
+
+    @property
+    def pdb_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the PDB ID.
+
+        Returns:
+            str: The PDB ID.
+        &#34;&#34;&#34;
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the residue&#39;s atoms.
@@ -1046,9 +1083,12 @@ class Residue:
         return Residue.SHORT_CODE[self._residue_type]
 
     # ------------------------------------------------------------
-    # Methods for managing the residue&#39;s chain.
+    # Methods for managing the residue&#39;s chain and protein
     # - chain (property)
     # - chain (setter)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -1073,6 +1113,39 @@ class Residue:
             None
         &#34;&#34;&#34;
         self._chain = chain
+
+    @property
+    def chain_id(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns the chain ID.
+
+        Returns:
+            str: The chain ID.
+        &#34;&#34;&#34;
+        if self._chain is not None:
+            return self._chain.chain_id
+
+    @property
+    def protein(self) -&gt; Protein:
+        &#34;&#34;&#34;
+        Returns the protein.
+
+        Returns:
+            Protein: The protein.
+        &#34;&#34;&#34;
+        if self._chain is not None:
+            return self._chain.protein
+
+    @property
+    def pdb_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the PDB ID.
+
+        Returns:
+            str: The PDB ID.
+        &#34;&#34;&#34;
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the residue&#39;s atoms.
@@ -1518,6 +1591,30 @@ def chain(self) -&gt; Chain:
     return self._chain</code></pre>
 </details>
 </dd>
+<dt id="protkit.structure.residue.Residue.chain_id"><code class="name">var <span class="ident">chain_id</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Returns the chain ID.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The chain ID.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def chain_id(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns the chain ID.
+
+    Returns:
+        str: The chain ID.
+    &#34;&#34;&#34;
+    if self._chain is not None:
+        return self._chain.chain_id</code></pre>
+</details>
+</dd>
 <dt id="protkit.structure.residue.Residue.id"><code class="name">var <span class="ident">id</span> : str</code></dt>
 <dd>
 <div class="desc"><p>Returns the residue's ID, which is the chain ID + sequence number.</p>
@@ -1748,6 +1845,54 @@ def num_hydrogen_atoms(self) -&gt; int:
         if atom.element == &#34;H&#34;:
             count += 1
     return count</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.pdb_id"><code class="name">var <span class="ident">pdb_id</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Returns the PDB ID.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The PDB ID.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pdb_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Returns the PDB ID.
+
+    Returns:
+        str: The PDB ID.
+    &#34;&#34;&#34;
+    if self.protein is not None:
+        return self.protein.pdb_id</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.residue.Residue.protein"><code class="name">var <span class="ident">protein</span> : Protein</code></dt>
+<dd>
+<div class="desc"><p>Returns the protein.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Protein</code></dt>
+<dd>The protein.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def protein(self) -&gt; Protein:
+    &#34;&#34;&#34;
+    Returns the protein.
+
+    Returns:
+        Protein: The protein.
+    &#34;&#34;&#34;
+    if self._chain is not None:
+        return self._chain.protein</code></pre>
 </details>
 </dd>
 <dt id="protkit.structure.residue.Residue.residue_code"><code class="name">var <span class="ident">residue_code</span> : str</code></dt>
@@ -2515,6 +2660,7 @@ The backbone atoms are N, CA, C, and O.</p>
 <li><code><a title="protkit.structure.residue.Residue.add_atom" href="#protkit.structure.residue.Residue.add_atom">add_atom</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.atoms" href="#protkit.structure.residue.Residue.atoms">atoms</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.chain" href="#protkit.structure.residue.Residue.chain">chain</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.chain_id" href="#protkit.structure.residue.Residue.chain_id">chain_id</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.copy" href="#protkit.structure.residue.Residue.copy">copy</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.delete_attribute" href="#protkit.structure.residue.Residue.delete_attribute">delete_attribute</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.extra_heavy_atom_types" href="#protkit.structure.residue.Residue.extra_heavy_atom_types">extra_heavy_atom_types</a></code></li>
@@ -2539,6 +2685,8 @@ The backbone atoms are N, CA, C, and O.</p>
 <li><code><a title="protkit.structure.residue.Residue.num_heavy_atoms" href="#protkit.structure.residue.Residue.num_heavy_atoms">num_heavy_atoms</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.num_hetero_atoms" href="#protkit.structure.residue.Residue.num_hetero_atoms">num_hetero_atoms</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.num_hydrogen_atoms" href="#protkit.structure.residue.Residue.num_hydrogen_atoms">num_hydrogen_atoms</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.pdb_id" href="#protkit.structure.residue.Residue.pdb_id">pdb_id</a></code></li>
+<li><code><a title="protkit.structure.residue.Residue.protein" href="#protkit.structure.residue.Residue.protein">protein</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.remove_atoms" href="#protkit.structure.residue.Residue.remove_atoms">remove_atoms</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.remove_hydrogen_atoms" href="#protkit.structure.residue.Residue.remove_hydrogen_atoms">remove_hydrogen_atoms</a></code></li>
 <li><code><a title="protkit.structure.residue.Residue.residue_code" href="#protkit.structure.residue.Residue.residue_code">residue_code</a></code></li>

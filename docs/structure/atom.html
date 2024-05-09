@@ -43,6 +43,8 @@ from copy import deepcopy
 
 if TYPE_CHECKING:
     from protkit.structure.residue import Residue
+    from protkit.structure.chain import Chain
+    from protkit.structure.protein import Protein
 
 
 class Atom:
@@ -332,9 +334,13 @@ class Atom:
         return self._is_disordered
 
     # ------------------------------------------------------------
-    # Methods for managing the atom&#39;s residue
+    # Methods for managing the atom&#39;s residue, chain or protein
     # - residue (property)
     # - residue (setter)
+    # - chain (property)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -359,6 +365,50 @@ class Atom:
             None
         &#34;&#34;&#34;
         self._residue = residue
+
+    @property
+    def chain(self) -&gt; Optional[Chain]:
+        &#34;&#34;&#34;
+        Returns the chain the atom forms part of.
+
+        Returns:
+            Optional[Chain]: The chain the atom forms part of.
+        &#34;&#34;&#34;
+        if self._residue is not None:
+            return self._residue.chain
+
+    @property
+    def chain_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the chain ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The chain ID the atom forms part of.
+        &#34;&#34;&#34;
+        if self.chain is not None:
+            return self.chain.chain_id
+
+    @property
+    def protein(self) -&gt; Optional[Protein]:
+        &#34;&#34;&#34;
+        Returns the protein the atom forms part of.
+
+        Returns:
+            Optional[Protein]: The protein the atom forms part of.
+        &#34;&#34;&#34;
+        if self.chain is not None:
+            return self.chain.protein
+
+    @property
+    def pdb_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the PDB ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The PDB ID the atom forms part of.
+        &#34;&#34;&#34;
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Disordered state
@@ -818,9 +868,13 @@ class Atom:
         return self._is_disordered
 
     # ------------------------------------------------------------
-    # Methods for managing the atom&#39;s residue
+    # Methods for managing the atom&#39;s residue, chain or protein
     # - residue (property)
     # - residue (setter)
+    # - chain (property)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -845,6 +899,50 @@ class Atom:
             None
         &#34;&#34;&#34;
         self._residue = residue
+
+    @property
+    def chain(self) -&gt; Optional[Chain]:
+        &#34;&#34;&#34;
+        Returns the chain the atom forms part of.
+
+        Returns:
+            Optional[Chain]: The chain the atom forms part of.
+        &#34;&#34;&#34;
+        if self._residue is not None:
+            return self._residue.chain
+
+    @property
+    def chain_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the chain ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The chain ID the atom forms part of.
+        &#34;&#34;&#34;
+        if self.chain is not None:
+            return self.chain.chain_id
+
+    @property
+    def protein(self) -&gt; Optional[Protein]:
+        &#34;&#34;&#34;
+        Returns the protein the atom forms part of.
+
+        Returns:
+            Optional[Protein]: The protein the atom forms part of.
+        &#34;&#34;&#34;
+        if self.chain is not None:
+            return self.chain.protein
+
+    @property
+    def pdb_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;
+        Returns the PDB ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The PDB ID the atom forms part of.
+        &#34;&#34;&#34;
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Disordered state
@@ -989,6 +1087,54 @@ def atom_type(self) -&gt; str:
     return self._atom_type</code></pre>
 </details>
 </dd>
+<dt id="protkit.structure.atom.Atom.chain"><code class="name">var <span class="ident">chain</span> : Optional[Chain]</code></dt>
+<dd>
+<div class="desc"><p>Returns the chain the atom forms part of.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[Chain]</code></dt>
+<dd>The chain the atom forms part of.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def chain(self) -&gt; Optional[Chain]:
+    &#34;&#34;&#34;
+    Returns the chain the atom forms part of.
+
+    Returns:
+        Optional[Chain]: The chain the atom forms part of.
+    &#34;&#34;&#34;
+    if self._residue is not None:
+        return self._residue.chain</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.atom.Atom.chain_id"><code class="name">var <span class="ident">chain_id</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Returns the chain ID the atom forms part of.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[str]</code></dt>
+<dd>The chain ID the atom forms part of.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def chain_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Returns the chain ID the atom forms part of.
+
+    Returns:
+        Optional[str]: The chain ID the atom forms part of.
+    &#34;&#34;&#34;
+    if self.chain is not None:
+        return self.chain.chain_id</code></pre>
+</details>
+</dd>
 <dt id="protkit.structure.atom.Atom.element"><code class="name">var <span class="ident">element</span> : str</code></dt>
 <dd>
 <div class="desc"><p>Returns the element associated with the atom.</p>
@@ -1085,6 +1231,54 @@ def is_hetero(self) -&gt; bool:
         bool: The hetero flag.
     &#34;&#34;&#34;
     return self._is_hetero</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.atom.Atom.pdb_id"><code class="name">var <span class="ident">pdb_id</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"><p>Returns the PDB ID the atom forms part of.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[str]</code></dt>
+<dd>The PDB ID the atom forms part of.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pdb_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;
+    Returns the PDB ID the atom forms part of.
+
+    Returns:
+        Optional[str]: The PDB ID the atom forms part of.
+    &#34;&#34;&#34;
+    if self.protein is not None:
+        return self.protein.pdb_id</code></pre>
+</details>
+</dd>
+<dt id="protkit.structure.atom.Atom.protein"><code class="name">var <span class="ident">protein</span> : Optional[Protein]</code></dt>
+<dd>
+<div class="desc"><p>Returns the protein the atom forms part of.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[Protein]</code></dt>
+<dd>The protein the atom forms part of.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def protein(self) -&gt; Optional[Protein]:
+    &#34;&#34;&#34;
+    Returns the protein the atom forms part of.
+
+    Returns:
+        Optional[Protein]: The protein the atom forms part of.
+    &#34;&#34;&#34;
+    if self.chain is not None:
+        return self.chain.protein</code></pre>
 </details>
 </dd>
 <dt id="protkit.structure.atom.Atom.residue"><code class="name">var <span class="ident">residue</span> : Optional[Residue]</code></dt>
@@ -1450,6 +1644,8 @@ Sets the value of the specified attribute.</p>
 <h4><code><a title="protkit.structure.atom.Atom" href="#protkit.structure.atom.Atom">Atom</a></code></h4>
 <ul class="">
 <li><code><a title="protkit.structure.atom.Atom.atom_type" href="#protkit.structure.atom.Atom.atom_type">atom_type</a></code></li>
+<li><code><a title="protkit.structure.atom.Atom.chain" href="#protkit.structure.atom.Atom.chain">chain</a></code></li>
+<li><code><a title="protkit.structure.atom.Atom.chain_id" href="#protkit.structure.atom.Atom.chain_id">chain_id</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.copy" href="#protkit.structure.atom.Atom.copy">copy</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.delete_attribute" href="#protkit.structure.atom.Atom.delete_attribute">delete_attribute</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.element" href="#protkit.structure.atom.Atom.element">element</a></code></li>
@@ -1460,6 +1656,8 @@ Sets the value of the specified attribute.</p>
 <li><code><a title="protkit.structure.atom.Atom.is_disordered" href="#protkit.structure.atom.Atom.is_disordered">is_disordered</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.is_hetero" href="#protkit.structure.atom.Atom.is_hetero">is_hetero</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.merge_disordered_atom" href="#protkit.structure.atom.Atom.merge_disordered_atom">merge_disordered_atom</a></code></li>
+<li><code><a title="protkit.structure.atom.Atom.pdb_id" href="#protkit.structure.atom.Atom.pdb_id">pdb_id</a></code></li>
+<li><code><a title="protkit.structure.atom.Atom.protein" href="#protkit.structure.atom.Atom.protein">protein</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.residue" href="#protkit.structure.atom.Atom.residue">residue</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.set_attribute" href="#protkit.structure.atom.Atom.set_attribute">set_attribute</a></code></li>
 <li><code><a title="protkit.structure.atom.Atom.x" href="#protkit.structure.atom.Atom.x">x</a></code></li>
