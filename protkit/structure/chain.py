@@ -123,6 +123,7 @@ class Chain:
     # Methods for managing the chain's protein.
     # - protein (property)
     # - protein (setter)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -147,6 +148,17 @@ class Chain:
             None
         """
         self._protein = protein
+
+    @property
+    def pdb_id(self) -> str:
+        """
+        Returns the chain's PDB ID.
+
+        Returns:
+            str: The chain's PDB ID.
+        """
+        if self._protein is not None:
+            return self._protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the chain's residues.

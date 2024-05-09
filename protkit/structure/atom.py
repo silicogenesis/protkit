@@ -14,6 +14,8 @@ from copy import deepcopy
 
 if TYPE_CHECKING:
     from protkit.structure.residue import Residue
+    from protkit.structure.chain import Chain
+    from protkit.structure.protein import Protein
 
 
 class Atom:
@@ -303,9 +305,13 @@ class Atom:
         return self._is_disordered
 
     # ------------------------------------------------------------
-    # Methods for managing the atom's residue
+    # Methods for managing the atom's residue, chain or protein
     # - residue (property)
     # - residue (setter)
+    # - chain (property)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -330,6 +336,50 @@ class Atom:
             None
         """
         self._residue = residue
+
+    @property
+    def chain(self) -> Optional[Chain]:
+        """
+        Returns the chain the atom forms part of.
+
+        Returns:
+            Optional[Chain]: The chain the atom forms part of.
+        """
+        if self._residue is not None:
+            return self._residue.chain
+
+    @property
+    def chain_id(self) -> Optional[str]:
+        """
+        Returns the chain ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The chain ID the atom forms part of.
+        """
+        if self.chain is not None:
+            return self.chain.chain_id
+
+    @property
+    def protein(self) -> Optional[Protein]:
+        """
+        Returns the protein the atom forms part of.
+
+        Returns:
+            Optional[Protein]: The protein the atom forms part of.
+        """
+        if self.chain is not None:
+            return self.chain.protein
+
+    @property
+    def pdb_id(self) -> Optional[str]:
+        """
+        Returns the PDB ID the atom forms part of.
+
+        Returns:
+            Optional[str]: The PDB ID the atom forms part of.
+        """
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Disordered state

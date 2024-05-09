@@ -11,5 +11,6 @@ pdb2pqr>=3.6.2
 propka>=3.5.1       # If using protkit.tasks.propka_adaptor
 numpy>=1.20.3
 scikit-learn>=1.4.1.post1
+pandas>=2.2.2
 
 build>=1.0.3

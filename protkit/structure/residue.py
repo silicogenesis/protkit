@@ -16,6 +16,7 @@ from protkit.structure.atom import Atom
 
 if TYPE_CHECKING:
     from protkit.structure.chain import Chain
+    from protkit.structure.protein import Protein
 
 
 class Residue:
@@ -297,9 +298,12 @@ class Residue:
         return Residue.SHORT_CODE[self._residue_type]
 
     # ------------------------------------------------------------
-    # Methods for managing the residue's chain.
+    # Methods for managing the residue's chain and protein
     # - chain (property)
     # - chain (setter)
+    # - chain_id (property)
+    # - protein (property)
+    # - pdb_id (property)
     # ------------------------------------------------------------
 
     @property
@@ -324,6 +328,39 @@ class Residue:
             None
         """
         self._chain = chain
+
+    @property
+    def chain_id(self) -> str:
+        """
+        Returns the chain ID.
+
+        Returns:
+            str: The chain ID.
+        """
+        if self._chain is not None:
+            return self._chain.chain_id
+
+    @property
+    def protein(self) -> Protein:
+        """
+        Returns the protein.
+
+        Returns:
+            Protein: The protein.
+        """
+        if self._chain is not None:
+            return self._chain.protein
+
+    @property
+    def pdb_id(self) -> Optional[str]:
+        """
+        Returns the PDB ID.
+
+        Returns:
+            str: The PDB ID.
+        """
+        if self.protein is not None:
+            return self.protein.pdb_id
 
     # ------------------------------------------------------------
     # Methods for managing the residue's atoms.

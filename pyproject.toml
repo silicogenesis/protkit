@@ -10,7 +10,7 @@ find = {}
 
 [project]
 name = "protkit"
-version = "0.2.4"
+version = "0.3.0"
 requires-python = ">=3.6"
 authors = [
     { name="Fred Senekal", email="fred@silicogenesis.com"},
@@ -35,6 +35,7 @@ dependencies = [
     "freesasa>=2.2.1",
     "pdb2pqr>=3.6.2",
     "propka>=3.5.1",
+    "pandas>=2.2.2",
 ]
 keywords = ["protein", "protein engineering", "structural biology", "computational biology", "biology", "bioinformatics", "sequence", "amino acid", "residue", "dataset", "PDB", "antibody", "antibody engineering", "cdr"]
 

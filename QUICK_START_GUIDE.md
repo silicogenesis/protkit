@@ -1948,10 +1948,104 @@ protein = ProtIO.load("1ahw.prot")[0]
 protein_out = propka.calculate_pka(protein)
 ```
 
-The `PropkaAdaptor` can be initialised with a pH value at which the pKa values are
+The `PropkaAdaptor` can be initialised with a pH value at which the pKa values are 
 calculated. The `calculate_pka` method is used to calculate the pKa values of the
 ionisable residues in a `Protein`. The pKa values are stored as attributes of the
 residues in the protein. It can be accessed through the `get_attribute("pka")` 
 method of the residue.
+
+## 9. Machine Learning
+
+### 9.1 Exporting Protein Data as DataFrames
+
+Protkit provides the ability to export protein data as Pandas DataFrames. This is useful
+for machine learning applications, where the data can be used to train models, make predictions,
+etc.
+
+Since version 0.3 of Protkit, Pandas (https://pandas.pydata.org/) is installed by default when Protkit is installed. Pandas DataFrames are often used to represent tabular data in Python. These dataframes can be exported to a variety of formats suitable for machine learning, from simple CSV files to more complex formats such as Parquet or Feather.
+
+In Protkit, Pandas DataFrames can be created at different levels. For example, a DataFrame can be created for proteins, chains, residues, atoms or sequences. The data in the DataFrame can be customised by selecting the columns to include in the DataFrame.
+
+To work with DataFrames in Protkit, the `DataFrame` class in the `protkit.ml` module is used. The `DataFrame` class provides a number of methods to create DataFrames at different levels of the hierarchy.
+
+Here is an example to show how to create a DataFrame for a protein at the chain, residue and atom level:
+
+```python
+from protkit.file_io import ProtIO
+from protkit.ml import ProteinToDataframe
+
+featurizer = ProteinToDataframe()
+protein = ProtIO.load("1ahw.prot")[0]
+protein.pdb_id = "1ahw"
+
+df_chains = featurizer.chains_dataframe(protein)
+df_residues = featurizer.residues_dataframe(protein)
+df_atoms = featurizer.atoms_dataframe(protein)
+
+print(df_atoms.head().to_string())
+```
+
+In the example above, a single `Protein` object was passed in to the dataframe creation methods. The `ProteinToDataframe` class can also be used to create DataFrames for a list of `Protein` objects.  For example, the code below will load two proteins and create a DataFrame at the protein level for both these proteins.
+
+```Python
+from protkit.file_io import ProtIO
+from protkit.ml import ProteinToDataframe
+
+featurizer = ProteinToDataframe()
+protein1 = ProtIO.load("1ahw.prot")[0]
+protein1.pdb_id = "1ahw"
+protein2 = ProtIO.load("3i40.prot")[0]
+protein2.pdb_id = "3i40"
+
+df_proteins = featurizer.proteins_dataframe([protein1, protein2])
+
+print(df_proteins.head())
+```
+
+To work with sequences, use the `SequenceToDataframe` class in the `protkit.ml` module. The `SequenceToDataframe` class provides a number of methods to create DataFrames at the sequence level.
+
+Here is an example to show how to create a DataFrame for a sequence:
+
+```python
+from protkit.file_io import FastaIO
+from protkit.ml import ProteinToDataframe
+
+featurizer = ProteinToDataframe()
+sequences = FastaIO.load("1ahw.fasta")
+
+df_sequences = featurizer.sequences_dataframe(sequences)
+print(df_sequences.head())
+```
+
+### 9.2 Handling Additional Attributes when Exporting DataFrames
+
+By default, the `ProteinToDataframe` class exports a set of default attributes for each object in the DataFrame.  These default attributes are based on the data found in the source structure or sequence data.
+
+Suppose we want to add additional properties to the protein and export them to the DataFrame.  This is illustrated in the following example:
+
+```python
+from protkit.file_io import ProtIO
+from protkit.ml import ProteinToDataframe
+from protkit.properties import SurfaceArea, Hydrophobicity, Mass
+
+featurizer = ProteinToDataframe()
+protein = ProtIO.load("1ahw.prot")[0]
+
+# Assign additional properties to the protein
+SurfaceArea.surface_area_of_protein(protein, assign_attribute=True)
+Hydrophobicity.hydrophobicity_of_protein(protein, assign_attribute=True)
+Mass.residue_mass_of_protein(protein, assign_attribute=True)
+
+# Create a DataFrame for the residues of the protein
+df_residues_all = featurizer.residues_dataframe(protein)
+df_residues_none = featurizer.residues_dataframe(protein, additional_fields=[])
+df_residues_specific = featurizer.residues_dataframe(protein, additional_fields=["surface_area", "hydrophobicity"])
+
+print(df_residues_all.head())
+print(df_residues_none.head())
+print(df_residues_specific.head())
+```
+
+The example illustrates how easily additional properties such as surface area, hydrophobicity and mass can be added to the protein and exported to the DataFrame. The `additional_fields` parameter of the `residues_dataframe()` method is used to specify the additional properties to include in the DataFrame. If the `additional_fields` parameter is not specified, all properties are included in the DataFrame. If an empty list is specified, only the default properties are included in the DataFrame. In the case where specific properties are specified, only those properties (in addition to default properties) are included in the DataFrame.
 
 ***This guide is in active development. More sections will be added soon.***

@@ -685,33 +685,87 @@ def tools_freesasa():
     protein_area = sum(atom_areas)
     print(protein_area)
 
+def ml_dataframe():
+    from protkit.file_io import ProtIO
+    from protkit.ml import ProteinToDataframe
 
-# prep_data()
+    featurizer = ProteinToDataframe()
+    protein = ProtIO.load("1ahw.prot")[0]
+    protein.pdb_id = "1ahw"
 
-quick_start_example()
+    df_chains = featurizer.chains_dataframe(protein)
+    df_residues = featurizer.residues_dataframe(protein)
+    df_atoms = featurizer.atoms_dataframe(protein)
 
-download_pdb_example()
-download_fasta_example()
-download_cif_example()
+    print(df_atoms.head())
 
-properties_hydrophobicity()
-properties_hydrophobicity_class()
-properties_mass()
-properties_chemical_class()
-properties_charge()
-properties_polarity()
-properties_donors_acceptors()
-properties_surface_area()
-properties_volume()
-properties_volume_class()
-properties_bounds_and_center()
-properties_bond_lengths()
-properties_peptide_lengths()
-properties_bond_angles()
-properties_dihedral_angles()
-properties_circular_variance()  # -> double check first residue
-# properties_interface_atoms()
-# properties_interface_residues()
+def ml_dataframe2():
+    from protkit.file_io import ProtIO
+    from protkit.ml import ProteinToDataframe
 
-tools_reduce()
-tools_freesasa()
+    featurizer = ProteinToDataframe()
+    protein1 = ProtIO.load("1ahw.prot")[0]
+    protein1.pdb_id = "1ahw"
+    protein2 = ProtIO.load("3i40.prot")[0]
+    protein2.pdb_id = "3i40"
+
+    df_proteins = featurizer.proteins_dataframe([protein1, protein2])
+
+    print(df_proteins.head())
+
+def ml_dataframe3():
+    from protkit.file_io import ProtIO
+    from protkit.ml import ProteinToDataframe
+    from protkit.properties import SurfaceArea, Hydrophobicity, Mass
+
+    featurizer = ProteinToDataframe()
+    protein = ProtIO.load("1ahw.prot")[0]
+    protein.pdb_id = "1ahw"
+
+    # Assign additional properties to the protein
+    SurfaceArea.surface_area_of_protein(protein, assign_attribute=True)
+    Hydrophobicity.hydrophobicity_of_protein(protein, assign_attribute=True)
+    Mass.residue_mass_of_protein(protein, assign_attribute=True)
+
+    # Create a DataFrame for the residues of the protein
+    df_residues_all = featurizer.residues_dataframe(protein)
+    df_residues_none = featurizer.residues_dataframe(protein, additional_fields=[])
+    df_residues_specific = featurizer.residues_dataframe(protein, additional_fields=["surface_area", "hydrophobicity"])
+
+    print(df_residues_all.head())
+    print(df_residues_none.head())
+    print(df_residues_specific.head())
+
+# # prep_data()
+#
+# quick_start_example()
+#
+# download_pdb_example()
+# download_fasta_example()
+# download_cif_example()
+#
+# properties_hydrophobicity()
+# properties_hydrophobicity_class()
+# properties_mass()
+# properties_chemical_class()
+# properties_charge()
+# properties_polarity()
+# properties_donors_acceptors()
+# properties_surface_area()
+# properties_volume()
+# properties_volume_class()
+# properties_bounds_and_center()
+# properties_bond_lengths()
+# properties_peptide_lengths()
+# properties_bond_angles()
+# properties_dihedral_angles()
+# properties_circular_variance()  # -> double check first residue
+# # properties_interface_atoms()
+# # properties_interface_residues()
+#
+# tools_reduce()
+# tools_freesasa()
+
+# ml_dataframe()
+# ml_dataframe2()
+ml_dataframe3()
