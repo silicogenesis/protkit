@@ -343,7 +343,7 @@ class Download:
             directory: str,
             n_jobs: int = -1) -> None:
         """
-        Downloads multiple Bianry CIF files from the RCSB.
+        Downloads multiple Binary CIF files from the RCSB.
 
         Args:
             pdb_ids (List[str]): The IDs of the Binary CIF files.

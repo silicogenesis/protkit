@@ -618,7 +618,7 @@ for residue in protein.residues:
 
 #### Accessing Atoms in a Protein
 
-Similary, the atoms that are part of the protein can be accesses through the `atoms` attribute.
+Similarly, the atoms that are part of the protein can be accesses through the `atoms` attribute.
 For example, to access the coordinates of all the atoms in the protein, you can use the following code:
 
 ```python

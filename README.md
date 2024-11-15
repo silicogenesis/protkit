@@ -299,7 +299,7 @@ such infrastructure.
 
 ## Contributing to Protkit
 
-Protkit is an open source project and we welcome contributions from the community.  If you would like to contribute, please see the [Contibuting](CONTRIBUTING.md) file for details. Please also adhere to the [Code of Conduct](CODE_OF_CONDUCT.md).
+Protkit is an open source project and we welcome contributions from the community.  If you would like to contribute, please see the [Contributing](CONTRIBUTING.md) file for details. Please also adhere to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 

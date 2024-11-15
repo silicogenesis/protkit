@@ -43,7 +43,7 @@ class Sequence(ExtendedAttributes):
             The sequence can be provided as a string or a list of strings.
             If provided as a string, the string will be converted to a list of strings.
 
-            A sequence can be respresented by a string of single letters, such as "AGILE",
+            A sequence can be represented by a string of single letters, such as "AGILE",
             or a list of three-letter codes such as ["ALA", "GLY", "ILE", "LEU", "GLU"]. For
             consistency, the sequence is always represented as a list of codes.
         """
