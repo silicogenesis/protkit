@@ -662,6 +662,33 @@ def properties_interface_residues():
         if residue.get_attribute("ca_in_interface"):
             print(residue.id)
 
+def properties_interface_atom_pairs():
+    from protkit.file_io import PDBIO
+    from protkit.properties import Interface
+
+    protein = PDBIO.load("1ahw.pdb")[0]
+    atoms1 = list(protein.filter_atoms(chain_criteria=[("chain_id", ["A", "B"])]))
+    atoms2 = list(protein.filter_atoms(chain_criteria=[("chain_id", ["C"])]))
+
+    pairs = Interface.interface_atom_pairs(atoms1, atoms2, cutoff=5.0, assign_attribute=True)
+
+    # pairs is now a list of (atom_from_A, atom_from_B) that interact.
+    for aA, aB in pairs:
+        print(f"{aA.id} interacts with {aB.id}")
+
+def properties_interface_residue_pairs():
+    from protkit.file_io import PDBIO
+    from protkit.properties import Interface
+
+    protein = PDBIO.load("1ahw.pdb")[0]
+    residues1 = list(protein.filter_residues(chain_criteria=[("chain_id", ["A", "B"])]))
+    residues2 = list(protein.filter_residues(chain_criteria=[("chain_id", ["C"])]))
+
+    pairs = Interface.interface_residue_pairs(residues1, residues2, cutoff=5.0, assign_attribute=True)
+
+    for rA, rB in pairs:
+        print(f"{rA.id} interacts with {rB.id}")
+
 def tools_reduce():
     from protkit.tools.reduce_adaptor import ReduceAdaptor
     from protkit.file_io import ProtIO
@@ -762,10 +789,12 @@ def ml_dataframe3():
 # properties_circular_variance()  # -> double check first residue
 # # properties_interface_atoms()
 # # properties_interface_residues()
-#
+properties_interface_atom_pairs()
+properties_interface_residue_pairs()
+
 # tools_reduce()
 # tools_freesasa()
 
 # ml_dataframe()
 # ml_dataframe2()
-ml_dataframe3()
+# ml_dataframe3()
